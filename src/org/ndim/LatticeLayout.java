@@ -38,16 +38,18 @@ import org.ndim.math.Vec;
 
 /**
  * This class is a describes how entities which are stored in an arbitrary linear
- * storage can be accessed as a n-dimensonal array.
+ * storage can be accessed as a n-dimensonal array, i.e. lattice.
  * 
  * {@stickyInfo "Definition:"
  * 
  * <ul>
- *    <li> We call the integer which denotes the position of an entity in its
+ *      <li> We call the integer which denotes the position of an entity in its
  *      storage its <em>address a</em>.
- *    <li> The <em>index</em> of an entity is defined as its position in the
- *	    lexicographic enumeration of all entities described by a GridLayout
+ *      <li> The <em>index</em> of an entity is defined as its position in the
+ *      lexicographic enumeration of all entities described by a LatticeLayout
  *      which starts with the lowest dimension ("x").
+ *      <li> An entity can be any kind of structured data, e.g. simple real or integer
+ *      numbers as well as n-dimensional vectors or the like.
  * </ul>
  * 
  * }
@@ -57,7 +59,7 @@ import org.ndim.math.Vec;
  * 
  * @author Alexander Heusel
  */
-public final class GridLayout extends Grid
+public final class LatticeLayout extends Lattice
 {
 
     public final class Descriptor
@@ -101,51 +103,51 @@ public final class GridLayout extends Grid
         }
 
         /**
-         * Returns the physical coordinates of a grid-node.
+         * Returns the physical coordinates of a lattice-node.
          *
-         * @param gridIdx The discrete coordinate of the grid-node
+         * @param latticeIdx The discrete coordinate of the lattice-node
          * @param pos Contains the physical coordinate of the node after the call.
          */
-        public final void physCoordinate(final int[] gridIdx, final float[] pos)
+        public final void physCoordinate(final int[] latticeIdx, final float[] pos)
         {
-            for (int i = 0; i < gridIdx.length; i++)
+            for (int i = 0; i < latticeIdx.length; i++)
             {
-                pos[i] = (float)(gridIdx[i] * spacing[i]);
+                pos[i] = (float)(latticeIdx[i] * spacing[i]);
             }
         }
 
         /**
-         * Returns the physical coordinates of a grid-node.
+         * Returns the physical coordinates of a lattice-node.
          *
-         * @param gridIdx The discrete coordinate of the grid-node
+         * @param latticeIdx The discrete coordinate of the lattice-node
          * @param pos Contains the physical coordinate of the node after the call.
          */
-        public final void physCoordinate(final int[] gridIdx, final double[] pos)
+        public final void physCoordinate(final int[] latticeIdx, final double[] pos)
         {
-            for (int i = 0; i < gridIdx.length; i++)
+            for (int i = 0; i < latticeIdx.length; i++)
             {
-                pos[i] = gridIdx[i] * spacing[i];
+                pos[i] = latticeIdx[i] * spacing[i];
             }
         }
 
         /**
-         * Returns the physical coordinates of a grid-node.
+         * Returns the physical coordinates of a lattice-node.
          *
-         * @param gridIdx The discrete coordinate of the grid-node
+         * @param latticeIdx The discrete coordinate of the lattice-node
          * @return The physical coordinate of the node.
          */
-        public final double[] physCoordinate(final int[] gridIdx)
+        public final double[] physCoordinate(final int[] latticeIdx)
         {
             double[] coor = new double[spacing.length];
-            physCoordinate(gridIdx, coor);
+            physCoordinate(latticeIdx, coor);
             return coor;
         }
 
         /**
-         * Returns the physical extent of a grid.
+         * Returns the physical extent of a lattice.
          *
-         * @param gridLayout The layout of the grid.
-         * @param physExtent The discreet extent of the grid.
+         * @param latticeLayout The layout of the lattice.
+         * @param physExtent The discreet extent of the lattice.
          */
         public final void physExtent(final double[] physExtent)
         {
@@ -156,9 +158,9 @@ public final class GridLayout extends Grid
         }
 
         /**
-         * Returns the physical extent of the given dimension of a grid.
+         * Returns the physical extent of the given dimension of a lattice.
          *
-         * @param gridLayout The layout of the grid.
+         * @param latticeLayout The layout of the lattice.
          * @param dimIdx The index of the dimension to query
          * @return The extent of the dimension.
          */
@@ -174,7 +176,7 @@ public final class GridLayout extends Grid
          */
         public final int nrDims()
         {
-            return GridLayout.this.nrDims();
+            return LatticeLayout.this.nrDims();
         }
 
     }
@@ -208,7 +210,7 @@ public final class GridLayout extends Grid
      *
      * @param args The extent of the layout.
      */
-    public GridLayout(final int... extent)
+    public LatticeLayout(final int... extent)
     {
         super(extent);
         descriptor = new Descriptor(Arr.fillCreateDouble(extent.length, 1.0));
@@ -220,7 +222,7 @@ public final class GridLayout extends Grid
         }
     }
 
-    public GridLayout(final int[] extent, final double[] spacing)
+    public LatticeLayout(final int[] extent, final double[] spacing)
     {
         super(extent);
         descriptor = new Descriptor(spacing);
@@ -232,7 +234,7 @@ public final class GridLayout extends Grid
         }
     }
 
-    private GridLayout(final int[] extent, final double[] spacing, final int[] pageSize, final int[] incr, final int offset)
+    private LatticeLayout(final int[] extent, final double[] spacing, final int[] pageSize, final int[] incr, final int offset)
     {
         super(extent);
         this.descriptor = new Descriptor(spacing);
@@ -241,7 +243,7 @@ public final class GridLayout extends Grid
         this.incr = incr;
     }
 
-    private final boolean checkIntegrity()
+    private boolean checkIntegrity()
     {
         if (extent.length != descriptor.spacing.length)
         {
@@ -264,9 +266,9 @@ public final class GridLayout extends Grid
 
 
     /**
-     * Returns the descriptor or the GridLayout.
+     * Returns the descriptor or the LatticeLayout.
      *
-     * @return The descriptor of the grid.
+     * @return The descriptor of the lattice.
      */
     public final Descriptor descriptor()
     {
@@ -320,7 +322,7 @@ public final class GridLayout extends Grid
      * @param layout The layout to be used
      * @param dimIdx The dimensions to select
      */
-    public final GridLayout subspace(final int... dimIdx)
+    public final LatticeLayout subspace(final int... dimIdx)
     {
 
         int[] newExtent = new int[dimIdx.length];
@@ -334,7 +336,7 @@ public final class GridLayout extends Grid
         double[] newSpacing = new double[dimIdx.length];
         Arr.coalesce(newSpacing, descriptor.spacing, dimIdx);
 
-        return new GridLayout(newExtent, newSpacing, newPageSize, newIncr, offset);
+        return new LatticeLayout(newExtent, newSpacing, newPageSize, newIncr, offset);
     }
 
     /**
@@ -343,9 +345,9 @@ public final class GridLayout extends Grid
      * @param start The start position of the resampled entities. This position is forced
      * into the boundaries of the layout.
      * @param strides The strides to take in the resampling procedure
-     * @return Reference to the new GridLayout.
+     * @return Reference to the new LatticeLayout.
      */
-    public final GridLayout resample(int[] start, int[] strides)
+    public final LatticeLayout resample(int[] start, int[] strides)
     {
         int[] newExtent = extent.clone();
         int[] newIncr = incr.clone();
@@ -362,16 +364,16 @@ public final class GridLayout extends Grid
         }
 
         int[] newPageSize = Arr.calcVolumes(newExtent);
-        return new GridLayout(newExtent, newSpacing, newPageSize, newIncr, newOffset);
+        return new LatticeLayout(newExtent, newSpacing, newPageSize, newIncr, newOffset);
     }
 
     /**
      * Inverts the denoted dimensions.
      * 
      * @param args The dimensions which shall be inverted.
-     * @return Reference to this GridLayout.
+     * @return Reference to this LatticeLayout.
      */
-    public final GridLayout invert(final int... args)
+    public final LatticeLayout invert(final int... args)
     {
         final int[] endPos = new int[extent.length];
         final int[] newIncr = new int[extent.length];
@@ -390,29 +392,29 @@ public final class GridLayout extends Grid
             }
         }
 
-        return new GridLayout(extent.clone(), descriptor.spacing.clone(), pageSize.clone(), newIncr, addr(endPos));
+        return new LatticeLayout(extent.clone(), descriptor.spacing.clone(), pageSize.clone(), newIncr, addr(endPos));
     }
 
-    public final GridLayout invert(final int[] args, final GridLayout gridLayout)
+    public final LatticeLayout invert(final int[] args, final LatticeLayout latticeLayout)
     {
         final int[] endPos = new int[extent.length];
         for (int i = 0; i < endPos.length; i++)
         {
-            gridLayout.extent[i] = extent[i];
-            gridLayout.descriptor.spacing[i] = descriptor.spacing[i];
-            gridLayout.pageSize[i] = pageSize[i];
+            latticeLayout.extent[i] = extent[i];
+            latticeLayout.descriptor.spacing[i] = descriptor.spacing[i];
+            latticeLayout.pageSize[i] = pageSize[i];
             if (Arr.has(args, i) > 0)
             {
                 endPos[i] = extent[i] - 1;
-                gridLayout.incr[i] = -incr[i];
+                latticeLayout.incr[i] = -incr[i];
             }
             else
             {
                 endPos[i] = 0;
-                gridLayout.incr[i] = incr[i];
+                latticeLayout.incr[i] = incr[i];
             }
         }
-        return gridLayout;
+        return latticeLayout;
     }
 
     /**
@@ -420,9 +422,9 @@ public final class GridLayout extends Grid
      * 
      * @param start The start-position of the crop-area
      * @param extent The extent of the field after cropping.
-     * @return Reference to this GridLayout.
+     * @return Reference to this LatticeLayout.
      */
-    public final GridLayout crop(int[] start, int[] extent)
+    public final LatticeLayout crop(int[] start, int[] extent)
     {
         final int[] newExtent = extent.clone();
         for (int i = 0; i < extent.length; i++)
@@ -430,16 +432,16 @@ public final class GridLayout extends Grid
             newExtent[i] = ((start[i] + extent[i] - 1) < newExtent[i]) ? extent[i] : newExtent[i] - start[i];
         }
 
-        return new GridLayout(newExtent, descriptor.spacing.clone(), Arr.calcVolumes(extent), incr.clone(), addr(start));
+        return new LatticeLayout(newExtent, descriptor.spacing.clone(), Arr.calcVolumes(extent), incr.clone(), addr(start));
     }
 
     /**
-     * Crops the borders of a GridLayout
+     * Crops the borders of a LatticeLayout
      * 
      * @param borders The sizes of the borders.
-     * @return Reference to this GridLayout.
+     * @return Reference to this LatticeLayout.
      */
-    public final GridLayout cropBorders(final int... borders)
+    public final LatticeLayout cropBorders(final int... borders)
     {
         if (!Vec.greaterThan(borders, -1))
         {
@@ -456,7 +458,7 @@ public final class GridLayout extends Grid
     }
 
 
-    public final GridLayout cropBorders(int size)
+    public final LatticeLayout cropBorders(int size)
     {
         return cropBorders(Arr.fillCreateInt(extent.length, size));
     }
@@ -464,10 +466,10 @@ public final class GridLayout extends Grid
     /**
      * Removes the first elements of each dimension.
      * 
-     * @param borders The number of elements to be removed from the GridLayout
-     * @return Reference to this GridLayout.
+     * @param borders The number of elements to be removed from the LatticeLayout
+     * @return Reference to this LatticeLayout.
      */
-    public final GridLayout trimBegin(final int... borders)
+    public final LatticeLayout trimBegin(final int... borders)
     {
         if (!Vec.greaterThan(borders, -1))
         {
@@ -483,7 +485,7 @@ public final class GridLayout extends Grid
         return crop(borders, nExtent);
     }
 
-    public final GridLayout trimBegin(int size)
+    public final LatticeLayout trimBegin(int size)
     {
         return trimBegin(Arr.fillCreateInt(extent.length, size));
     }
@@ -491,10 +493,10 @@ public final class GridLayout extends Grid
     /**
      * Removes the last elements of each dimension.
      * 
-     * @param borders The number of elements to be removed from the GridLayout
-     * @return Reference to this GridLayout.
+     * @param borders The number of elements to be removed from the LatticeLayout
+     * @return Reference to this LatticeLayout.
      */
-    public final GridLayout trimEnd(final int... borders)
+    public final LatticeLayout trimEnd(final int... borders)
     {
         if (!Vec.greaterThan(borders, -1))
         {
@@ -512,18 +514,18 @@ public final class GridLayout extends Grid
     }
 
 
-    public final GridLayout trimEnd(int size)
+    public final LatticeLayout trimEnd(int size)
     {
         return trimEnd(Arr.fillCreateInt(extent.length, size));
     }
 
     /**
-     * Shrinks the GridLayout by the given number of elements in all directions.
+     * Shrinks the LatticeLayout by the given number of elements in all directions.
      * 
      * @param size The number of elements to crop from each side.
-     * @return Reference to this GridLayout.
+     * @return Reference to this LatticeLayout.
      */
-    public final GridLayout shrink(int size)
+    public final LatticeLayout shrink(int size)
     {
         return cropBorders(Arr.fillCreateInt(extent.length, size));
     }
@@ -534,7 +536,7 @@ public final class GridLayout extends Grid
      * @param pos The coordinate.
      * @return The address of the entitiy at the position.
      */
-    private final int addr(final int... pos)
+    private int addr(final int... pos)
     {
         int res = offset;
         for (int i = 0; i < incr.length; i++)

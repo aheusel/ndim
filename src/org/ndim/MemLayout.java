@@ -52,7 +52,7 @@ import org.ndim.util.Arr;
  * <ul>
  *    <li>  We call the integer which locates an element of a tuple in a linear storage its
  *	    <em>element-address</em> {@latex$ e_a}.
- *    <li>  The address of the <em>first</em> element of a tuple is
+ *    <li>  The element-address of the <em>first</em> element of a tuple is
  *	    called the <em>tuple-address</em> {@latex$ t_a}.
  *    <li>  The address-distance between two succeeding tuples is called the
  *	    <em>tuple-increment</em> {@latex$ d_t}.
@@ -72,24 +72,105 @@ import org.ndim.util.Arr;
  * 
  * @author Alexander Heusel
  */
-public abstract class MemLayout
+public final class MemLayout
 {
 
-    protected final int dataType;
+    private final int tupleIncr;
+    private final int[] elementIncr;
 
-    protected MemLayout(final int dataType)
+
+    /**
+     * Creates a <em>MemLayout</em>.
+     * 
+     * @param size The number of tuples in the linear storage.
+     * @param nrElements The number of elements per tuple.
+     * @param interleaved The storage-format of the elements.
+     */
+    public MemLayout(final int size, final int nrElements, final boolean interleaved)
     {
-        this.dataType = dataType;
+        if(interleaved)
+        {
+            tupleIncr = nrElements;
+            elementIncr = Arr.createAscendingIndexSet(nrElements);
+        }
+        else
+        {
+            tupleIncr = 1;
+            elementIncr = Arr.createAscendingIndexSet(nrElements, size);
+        }
     }
 
-    public final int dataType()
+    private MemLayout(final int tupleIncr, final int[] elementIncr)
     {
-        return dataType;
+        this.tupleIncr = tupleIncr;
+        this.elementIncr = elementIncr;
     }
 
-    public final boolean isSigned()
+
+    /**
+     * Returns the tuple-increment {@latex$ d_t} for this MemLayout.
+     * 
+     * @return The tuple-increment.
+     */
+    public final int tupleIncr()
     {
-        return Arr.isSigned(dataType);
+        return tupleIncr;
     }
+
+    /**
+     * Returns the element-increment {@latex$ d_{e_j}}.
+     * 
+     * @param idx The index of the element.
+     * @return The element-increment.
+     */
+    public final int elementIncr(int idx)
+    {
+        return elementIncr[idx];
+    }
+
+    /**
+     * Returns all element-increments {@latex$ d_{e_j}}.
+     * 
+     * @return The element-increments.
+     */    
+    public final int[] elementIncr()
+    {
+        return elementIncr.clone();
+    }
+
+    /**
+     * Returns all element-increments {@latex$ d_{e_j}} in the argument.
+     * 
+     * @param elementIncr Contains the element-increments after the call.
+     */    
+    public final void elementIncr(final int[] elementIncr)
+    {
+        System.arraycopy(this.elementIncr, 0, elementIncr, 0, this.elementIncr.length);
+    }
+    
+    /**
+     * Returns the number of elements per tuple
+     * 
+     * @return The number of elements per tuple
+     */
+    public final int nrElements()
+    {
+        return elementIncr.length;
+    }
+
+    /**
+     * Selects a subset of the elements of a MemLayout.
+     * 
+     * @param memLayout The MemLayout to be used.
+     * @param elemIdx The elements to select
+     */
+    public final MemLayout subset(final int... elemIdx)
+    {
+        final int[] newElementIncr = new int[elemIdx.length];
+        Arr.coalesce(newElementIncr, elementIncr, elemIdx);
+        return new MemLayout(tupleIncr, newElementIncr);
+    }
+
+
 
 }

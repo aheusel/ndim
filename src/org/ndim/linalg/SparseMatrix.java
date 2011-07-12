@@ -10,5 +10,5 @@ package org.ndim.linalg;
  */
 public interface SparseMatrix
 {
-    public int nrCoeff();
+    public int nrCoeffs();
 }

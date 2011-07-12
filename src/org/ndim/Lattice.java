@@ -40,24 +40,35 @@ import org.ndim.util.Arr;
  *
  * @author Alexander Heusel
  */
-public class Grid
+public class Lattice
 {
 
     protected final int[] extent;
     protected int size;
 
-    protected Grid(final int... extent)
+    /**
+     */
+    protected Lattice(final int... extent)
     {
         this.extent = extent.clone();
         size = Arr.calcTotalVolume(extent);
     }
 
-
+    /**
+     * Returns a copy of the extent of the lattice
+     * 
+     * @return A copy of the extent of the lattice.
+     */
     public final int[] extent()
     {
         return extent.clone();
     }
 
+    /**
+     * Copies the extent of the lattice to the given array
+     * 
+     * @param extent The array which contains the lattice-extent after the call.
+     */
     public final void extent(final int[] extent)
     {
         System.arraycopy(this.extent, 0, extent, 0, Math.min(extent.length, this.extent.length));
@@ -69,17 +80,16 @@ public class Grid
      * @param idx The index of the dimension
      * @return The extent of this dimension
      */
-    /**
-     * Returns the extent of the <code>idx</code>-th dimension.
-     *
-     * @param idx The index of the dimension
-     * @return The extent of this dimension
-     */
     public final int extent(int idx)
     {
         return extent[idx];
     }
 
+    /**
+     * Forces the given coordinate inside the range of the lattice.
+     * 
+     * @param pos The coordinate which will be forced to the range of the lattice.
+     */
     public final void forceToRange(final int[] pos)
     {
         for(int i = 0; i < nrDims(); i++)
@@ -88,6 +98,13 @@ public class Grid
         }
     }
 
+    /**
+     * Forces the given coordinate inside the range of the lattice
+     * 
+     * @param idx The dimension-index of the coordinate
+     * @param pos The coodinate.
+     * @return The new coordinate.
+     */
     public final int forceToRange(int idx, int pos)
     {
         if(pos < 0)
@@ -100,37 +117,7 @@ public class Grid
         }
         return pos;
     }
-
-    public final void forceToRangeStrict(final int[] pos)
-    {
-        for(int i = 0; i < nrDims(); i++)
-        {
-            pos[i] = forceToRangeStrict(i, pos[i]);
-        }
-    }
-
-    public final int forceToRangeStrict(int idx, int pos)
-    {
-        if(pos < 0)
-        {
-            return 0;
-        }
-        if(pos > extent[idx] - 1)
-        {
-            return extent[idx] - 1;
-        }
-        return pos;
-    }
-
-
-    /**
-     * Determines whether the given position is at the last valid element of the
-     * dimension denoted with idx or not.
-     *
-     * @param pos The coordinate.
-     * @return <code>true</code> if the coordinate is at the end,
-     * <code>false</code> if not.
-     */
+    
     /**
      * Determines whether the given position is at the last valid element of the
      * dimension denoted with idx or not.
@@ -144,12 +131,6 @@ public class Grid
         return pos == (extent[idx] - 1);
     }
 
-    /**
-     * Determines whether the given position is in the extent or not.
-     *
-     * @param pos The coordinate.
-     * @return <code>true</code> if the coordinate is inside, <code>false</code> if it is outside the extent.
-     */
     /**
      * Determines whether the given position is in the extent or not.
      *
@@ -175,24 +156,11 @@ public class Grid
      * @param pos The coordinate.
      * @return <code>true</code> if the coordinate is inside, <code>false</code> if it is outside the extent.
      */
-    /**
-     * Determines whether the given position is in the extent of the dimension
-     * denoted with idx or not.
-     *
-     * @param pos The coordinate.
-     * @return <code>true</code> if the coordinate is inside, <code>false</code> if it is outside the extent.
-     */
     public final boolean isIn(int idx, int pos)
     {
         return inRange(pos, extent[idx]);
     }
 
-    /**
-     * Determines whether the given position is on the border of a field or not.
-     *
-     * @param pos The coordinate.
-     * @return <code>true</code> if the coordinate is on the border, <code>false</code> if not.
-     */
     /**
      * Determines whether the given position is on the border of a field or not.
      *
@@ -218,21 +186,11 @@ public class Grid
      *
      * @return The number of dimensions
      */
-    /**
-     * Returns the number of dimensions of the layout.
-     *
-     * @return The number of dimensions
-     */
     public final int nrDims()
     {
         return extent.length;
     }
 
-    /**
-     * Returns the number of entities in a field.
-     *
-     * @return The number of entities in a field.
-     */
     /**
      * Returns the number of entities in a field.
      *
@@ -251,26 +209,11 @@ public class Grid
      * @param extent The extent of the coordinate-dimension.
      * @return <code>true</code> if <code>x > -1</code> and <code>x < extent</code>
      */
-    /**
-     * Determines if a coordinate is in range.
-     *
-     * @param x The coordinate-value to check.
-     * @param extent The extent of the coordinate-dimension.
-     * @return <code>true</code> if <code>x > -1</code> and <code>x < extent</code>
-     */
     protected static boolean inRange(int x, int extent)
     {
         return x > -1 && x < extent;
     }
 
-    /**
-     * Forces a coordinate-value to the given extent. If the extent
-     * is left the coordinate-value is mirrored back in.
-     *
-     * @param x The coordinate-value.
-     * @param extent The extent of the coordinate-dimension.
-     * @return The mirrored coordinate-value
-     */
     /**
      * Forces a coordinate-value to the given extent. If the extent
      * is left the coordinate-value is mirrored back in.
@@ -314,15 +257,6 @@ public class Grid
         return stride * (int) Math.ceil((double) (-start) / (double) (stride)) + start;
     }
 
-    /**
-     * Forces a coordinate-value to the given extent. If the extent
-     * is left on one border the coordinate-value reenters the extent
-     * on the opposite border.
-     *
-     * @param x The coordinate-value.
-     * @param extent The extent of the coordinate-dimension.
-     * @return The tiled coordinate-value
-     */
     /**
      * Forces a coordinate-value to the given extent. If the extent
      * is left on one border the coordinate-value reenters the extent

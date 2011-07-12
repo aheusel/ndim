@@ -5,26 +5,25 @@
 package org.ndim.linalg;
 
 import java.io.IOException;
-import java.nio.FloatBuffer;
-
-
+import java.nio.DoubleBuffer;
 
 /**
  *
  * @author Alexander Heusel
  */
-public class SparseMatrixFloatCRS implements MatrixFloat, SparseMatrix
+public class SparseMatrixDoubleCRS implements MatrixDouble, SparseMatrix
 {
     protected int m = 0;
     protected int n = 0;
     protected int nrCoeffs = 0;
     protected int[] col_ind = null;
-    protected float[] val = null;
+    protected double[] val = null;
     protected int[] row_ptr = null;
 
-    public SparseMatrixFloatCRS() {}
 
-    public SparseMatrixFloatCRS(final CRSInputStream s) throws IOException
+    public SparseMatrixDoubleCRS() {}
+
+    public SparseMatrixDoubleCRS(final CRSInputStream s) throws IOException
     {
         set(s);
     }
@@ -43,10 +42,9 @@ public class SparseMatrixFloatCRS implements MatrixFloat, SparseMatrix
         n = nrCols;
         this.nrCoeffs = nrCoeffs;
         col_ind = new int[nrCoeffs];
-        val = new float[nrCoeffs];
+        val = new double[nrCoeffs];
         row_ptr = new int[nrRows + 1];
     }
-
 
     /**
      * Sets the matrix to the contents of the CRSInputStream
@@ -58,7 +56,6 @@ public class SparseMatrixFloatCRS implements MatrixFloat, SparseMatrix
         set(s.nrRows(), s.nrColumns(), s.nrCoeffs());
         s.read(col_ind, val, row_ptr);        
     }
-    
     
     /**
      * Returns the number of rows stored in the matrix.
@@ -109,14 +106,14 @@ public class SparseMatrixFloatCRS implements MatrixFloat, SparseMatrix
      * @param b Target vector.
      */
     @Override
-    public final void mul(final float[] a, final float[] b)
+    public final void mul(final double[] a, final double[] b)
     {
-        float rowSum;
+        double rowSum;
         int bIter = 0;
 
         for(int i = 0; i < m; i++)
         {
-            rowSum = 0.0f;
+            rowSum = 0.0;
 
             for(int j = row_ptr[i]; j < row_ptr[i + 1]; j++)
             {
@@ -128,22 +125,22 @@ public class SparseMatrixFloatCRS implements MatrixFloat, SparseMatrix
     }
 
     @Override
-    public void mul(FloatBuffer a, FloatBuffer b)
+    public void mul(DoubleBuffer a, DoubleBuffer b)
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public final void calcResidual(float[] x, float[] b, float[] r)
+    public final void calcResidual(double[] x, double[] b, double[] r)
     {
         int bIter = 0;
         int xIter = 0;
 
-        float rowSum;
+        double rowSum;
 
         for(int i = 0; i < m; i++)
         {
-            rowSum = 0.0f;
+            rowSum = 0.0;
 
             for(int j = row_ptr[i]; j < row_ptr[i + 1]; j++)
             {
@@ -155,7 +152,7 @@ public class SparseMatrixFloatCRS implements MatrixFloat, SparseMatrix
     }
 
     @Override
-    public void calcResidual(FloatBuffer x, FloatBuffer b, FloatBuffer r)
+    public void calcResidual(DoubleBuffer x, DoubleBuffer b, DoubleBuffer r)
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }

@@ -33,20 +33,14 @@
  */
 package org.ndim;
 
-import org.ndim.util.Arr;
-
 /**
  * A class that performs a lexicographic iteration with given
- * start-coordinate, strides and the number of stops in each
- * spacial dimension.
+ * start-coordinate.
  * 
  * {@example "Sample Usage"
- * int[] extent = {2, 3, 4};
- * int[] stride = {1, 2, 1};
  * int[] pos = {0, 0, 0};
- * Stencil it = new Stencil(start, stride);
- * it.reset(pos);
- * while(it.hasNext())
+ * Stencil it = new Stencil(100, 200, 300);
+ * while(it.hasNext(pos))
  * {
  *    it.next(pos);
  *    doSomethingWith(pos);
@@ -54,7 +48,7 @@ import org.ndim.util.Arr;
  * }
  * @author Alexander Heusel
  */
-public class Stencil extends Grid
+public class Stencil extends Lattice
 {
     private final int last;
 
