@@ -6,7 +6,7 @@ package org.ndim.linalg;
 
 import java.io.IOException;
 import java.util.Arrays;
-import org.ndim.LatticeLayout;
+import org.ndim.GridTopo;
 import org.ndim.Stencil;
 
 /**
@@ -18,12 +18,12 @@ public class LaplacianCRSInputStream implements CRSInputStream
     private final int m;
     private final int n;
     private final int nrCoeffs;
-    private final LatticeLayout layout;
+    private final GridTopo layout;
     private final float[] op_f;
     private final double[] op_d;
     private final int offs[];
     
-    public LaplacianCRSInputStream(final LatticeLayout layout)
+    public LaplacianCRSInputStream(final GridTopo layout)
     {
        m = layout.nrEntities();
        n = layout.nrEntities();

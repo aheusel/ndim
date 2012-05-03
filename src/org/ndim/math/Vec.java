@@ -461,6 +461,118 @@ public class Vec
     }
 
     /**
+     * Adds a vector multiplied by a scalar to another vectors. The result of
+     * the operation is assigned to the left-hand side, i.e.
+     * 
+     * {@latex[ \vec{a} := \vec{b} + \alpha\cdot\vec{c}}
+     * 
+     * @param offa The offset for vector a.
+     * @param offb The offset for vector b.
+     * @param offc The offset for vector c.
+     * @param length The length of the vectors.
+     * @param a The first vector.
+     * @param b The second vector.
+     * @param c The third vector.
+     * @param alpha The scalar.
+     * @return The left-hand-side.
+     */
+    public static byte[] addMul(final int offa, final int offb, final int offc, final int length, final byte[] a, final byte[] b, final byte[] c, final byte alpha)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[offa + i] = (byte) (b[offb + i] + alpha * c[offc + i]);
+        }
+        return a;
+    }
+    
+    public static short[] addMul(final int offa, final int offb, final int offc, final int length, final short[] a, final short[] b, final short[] c, final short alpha)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[offa + i] = (short) (b[offb + i] + alpha * c[offc + i]);
+        }
+        return a;
+    }
+    
+    public static int[] addMul(final int offa, final int offb, final int offc, final int length, final int[] a, final int[] b, final int[] c, final int alpha)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[offa + i] = b[offb + i] + alpha * c[offc + i];
+        }
+        return a;
+    }
+
+    public static long[] addMul(final int offa, final int offb, final int offc, final int length, final long[] a, final long[] b, final long[] c, final long alpha)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[offa + i] = b[offb + i] + alpha * c[offc + i];
+        }
+        return a;
+    }
+
+    public static float[] addMul(final int offa, final int offb, final int offc, final int length, final float[] a, final float[] b, final float[] c, final float alpha)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[offa + i] = b[offb + i] + alpha * c[offc + i];
+        }
+        return a;
+    }
+    
+    public static double[] addMul(final int offa, final int offb, final int offc, final int length, final double[] a, final double[] b, final double[] c, final double alpha)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[offa + i] = b[offb + i] + alpha * c[offc + i];
+        }
+        return a;
+    }
+
+    /**
+     * Adds a vector multiplied by a scalar to another vectors. The result of
+     * the operation is assigned to the left-hand side, i.e.
+     * 
+     * {@latex[ \vec{a} := \vec{b} + \alpha\cdot\vec{c}}
+     * 
+     * @param a The first vector.
+     * @param b The second vector.
+     * @param c The third vector.
+     * @param alpha The scalar.
+     * @return The left-hand-side.
+     */
+    public static byte[] addMul(final byte[] a, final byte[] b, final byte[] c, final byte alpha)
+    {
+        return addMul(0, 0, 0, a.length, a, b, c, alpha);
+    }
+
+    public static short[] addMul(final short[] a, final short[] b, final short[] c, final short alpha)
+    {
+        return addMul(0, 0, 0, a.length, a, b, c, alpha);
+    }
+
+    public static int[] addMul(final int[] a, final int[] b, final int[] c, final int alpha)
+    {
+        return addMul(0, 0, 0, a.length, a, b, c, alpha);
+    }
+
+    public static long[] addMul(final long[] a, final long[] b, final long[] c, final long alpha)
+    {
+        return addMul(0, 0, 0, a.length, a, b, c, alpha);
+    }
+
+    public static float[] addMul(final float[] a, final float[] b, final float[] c, final float alpha)
+    {
+        return addMul(0, 0, 0, a.length, a, b, c, alpha);
+    }
+
+    public static double[] addMul(final double[] a, final double[] b, final double[] c, final double alpha)
+    {
+        return addMul(0, 0, 0, a.length, a, b, c, alpha);
+    }
+
+    /**
      * Subtracts two vectors. The result of the operation
      * is assigned to the left-hand side, i.e.
      * 
@@ -580,53 +692,60 @@ public class Vec
      * @param a The result vector.
      * @param b The first vector.
      * @param c The second vector.
+     * @return Returns the lhs
      */
-    public static void sub(final int offa, final int offb, final int offc, final int length, final byte[] a, final byte[] b, final byte[] c)
+    public static byte[] sub(final int offa, final int offb, final int offc, final int length, final byte[] a, final byte[] b, final byte[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = (byte) (b[offb + i] - c[offc + i]);
         }
+        return a;
     }
 
-    public static void sub(final int offa, final int offb, final int offc, final int length, final short[] a, final short[] b, final short[] c)
+    public static short[] sub(final int offa, final int offb, final int offc, final int length, final short[] a, final short[] b, final short[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = (short) (b[offb + i] - c[offc + i]);
         }
+        return a;
     }
 
-    public static void sub(final int offa, final int offb, final int offc, final int length, final int[] a, final int[] b, final int[] c)
+    public static int[] sub(final int offa, final int offb, final int offc, final int length, final int[] a, final int[] b, final int[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] - c[offc + i];
         }
+        return a;
     }
 
-    public static void sub(final int offa, final int offb, final int offc, final int length, final long[] a, final long[] b, final long[] c)
+    public static long[] sub(final int offa, final int offb, final int offc, final int length, final long[] a, final long[] b, final long[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] - c[offc + i];
         }
+        return a;
     }
 
-    public static void sub(final int offa, final int offb, final int offc, final int length, final float[] a, final float[] b, final float[] c)
+    public static float[] sub(final int offa, final int offb, final int offc, final int length, final float[] a, final float[] b, final float[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] - c[offc + i];
         }
+        return a;
     }
 
-    public static void sub(final int offa, final int offb, final int offc, final int length, final double[] a, final double[] b, final double[] c)
+    public static double[] sub(final int offa, final int offb, final int offc, final int length, final double[] a, final double[] b, final double[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] - c[offc + i];
         }
+        return a;
     }
 
     /**
@@ -639,34 +758,34 @@ public class Vec
      * @param b The first vector.
      * @param c The second vector.
      */
-    public static void sub(final byte[] a, final byte[] b, final byte[] c)
+    public static byte[] sub(final byte[] a, final byte[] b, final byte[] c)
     {
-        sub(0, 0, 0, a.length, a, b, c);
+        return sub(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void sub(final short[] a, final short[] b, final short[] c)
+    public static short[] sub(final short[] a, final short[] b, final short[] c)
     {
-        sub(0, 0, 0, a.length, a, b, c);
+        return sub(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void sub(final int[] a, final int[] b, final int[] c)
+    public static int[] sub(final int[] a, final int[] b, final int[] c)
     {
-        sub(0, 0, 0, a.length, a, b, c);
+        return sub(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void sub(final long[] a, final long[] b, final long[] c)
+    public static long[] sub(final long[] a, final long[] b, final long[] c)
     {
-        sub(0, 0, 0, a.length, a, b, c);
+        return sub(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void sub(final float[] a, final float[] b, final float[] c)
+    public static float[] sub(final float[] a, final float[] b, final float[] c)
     {
-        sub(0, 0, 0, a.length, a, b, c);
+        return sub(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void sub(final double[] a, final double[] b, final double[] c)
+    public static double[] sub(final double[] a, final double[] b, final double[] c)
     {
-        sub(0, 0, 0, a.length, a, b, c);
+        return sub(0, 0, 0, a.length, a, b, c);
     }
 
     /**
@@ -768,7 +887,115 @@ public class Vec
     {
         return mul(0, a.length, a, alpha);
     }
+    
+    /**
+     * Calculates the dot-product of the two vectors.
+     * 
+     * @param offa The offset for vector a.
+     * @param offb The offset for vector b.
+     * @param length The length of the vectors.
+     * @param a The first vector.
+     * @param b The second vector.
+     * @return The dot-product of the two vectors
+     */
+    public static long dot(final int offa, final int offb, final int length, final byte[] a, final byte[] b)
+    {
+        long res = 0;
+        for(int i = 0; i < length; i++)
+        {
+            res += (long)a[offa + i]*(long)b[offb + i];
+        }
+        return res;
+    }
 
+    public static long dot(final int offa, final int offb, final int length, final short[] a, final short[] b)
+    {
+        long res = 0;
+        for(int i = 0; i < length; i++)
+        {
+            res += (long)a[offa + i]*(long)b[offb + i];
+        }
+        return res;
+    }
+
+    public static long dot(final int offa, final int offb, final int length, final int[] a, final int[] b)
+    {
+        long res = 0;
+        for(int i = 0; i < length; i++)
+        {
+            res += (long)a[offa + i]*(long)b[offb + i];
+        }
+        return res;
+    }
+
+    public static double dot(final int offa, final int offb, final int length, final long[] a, final long[] b)
+    {
+        double res = 0;
+        for(int i = 0; i < length; i++)
+        {
+            res += (double)a[offa + i]*(double)b[offb + i];
+        }
+        return res;
+    }    
+    
+    public static double dot(final int offa, final int offb, final int length, final float[] a, final float[] b)
+    {
+        double res = 0;
+        for(int i = 0; i < length; i++)
+        {
+            res += (double)a[offa + i]*(double)b[offb + i];
+        }
+        return res;
+    }
+    
+    public static double dot(final int offa, final int offb, final int length, final double[] a, final double[] b)
+    {
+        double res = 0;
+        for(int i = 0; i < length; i++)
+        {
+            res += a[offa + i]*b[offb + i];
+        }
+        return res;
+    }
+    
+    /**
+     * Calculates the dot-product of the two vectors.
+     * 
+     * @param a The first vector.
+     * @param b The second vector.
+     * @return The dot-product of the two vectors
+     */
+    public static long dot(final byte[] a, final byte[] b)
+    {
+        return dot(0, 0, a.length, a, b);
+    }
+
+    public static long dot(final short[] a, final short[] b)
+    {
+        return dot(0, 0, a.length, a, b);
+    }
+
+    public static long dot(final int[] a, final int[] b)
+    {
+        return dot(0, 0, a.length, a, b);
+    }
+
+    public static double dot(final long[] a, final long[] b)
+    {
+        return dot(0, 0, a.length, a, b);
+    }    
+    
+    public static double dot(final float[] a, final float[] b)
+    {
+        return dot(0, 0, a.length, a, b);
+    }    
+    
+    public static double dot(final double[] a, final double[] b)
+    {
+        return dot(0, 0, a.length, a, b);
+    }    
+
+    
     /**
      * Calculates {@latex$ \lVert\vec{a}\rVert^2} of a vector.
      * 

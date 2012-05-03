@@ -48,7 +48,7 @@ package org.ndim;
  * }
  * @author Alexander Heusel
  */
-public class Stencil extends Lattice
+public class Stencil extends Grid
 {
     private final int last;
 

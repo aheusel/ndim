@@ -73,54 +73,60 @@ public class Arr
      * @param a The target array.
      * @param b The source array.
      * @param idx The indices of the elements to be copied into the target-array.
+     * @return Returns the target array.
      */
-    public static void coalesce(final int offset, final byte[] a, final byte[] b, final int[] idx)
+    public static byte[] coalesce(final int offset, final byte[] a, final byte[] b, final int[] idx)
     {
-
         for(int i = 0; i < idx.length; i++)
         {
             a[offset + i] = b[idx[i]];
         }
+        return a;
     }
 
-    public static void coalesce(final int offset, final short[] a, final short[] b, final int[] idx)
+    public static short[] coalesce(final int offset, final short[] a, final short[] b, final int[] idx)
     {
         for(int i = 0; i < idx.length; i++)
         {
             a[offset + i] = b[idx[i]];
         }
+        return a;
     }
 
-    public static void coalesce(final int offset, final int[] a, final int[] b, final int[] idx)
+    public static int[] coalesce(final int offset, final int[] a, final int[] b, final int[] idx)
     {
         for(int i = 0; i < idx.length; i++)
         {
             a[offset + i] = b[idx[i]];
         }
+        return a;
     }
 
-    public static void coalesce(final int offset, final long[] a, final long[] b, final int[] idx)
+    public static long[] coalesce(final int offset, final long[] a, final long[] b, final int[] idx)
     {
         for(int i = 0; i < idx.length; i++)
         {
             a[offset + i] = b[idx[i]];
         }
+        return a;
     }
 
-    public static void coalesce(final int offset, final float[] a, final float[] b, final int[] idx)
+    public static float[] coalesce(final int offset, final float[] a, final float[] b, final int[] idx)
     {
         for(int i = 0; i < idx.length; i++)
         {
             a[offset + i] = b[idx[i]];
         }
+        return a;
     }
 
-    public static void coalesce(final int offset, final double[] a, final double[] b, final int[] idx)
+    public static double[] coalesce(final int offset, final double[] a, final double[] b, final int[] idx)
     {
         for(int i = 0; i < idx.length; i++)
         {
             a[offset + i] = b[idx[i]];
         }
+        return a;
     }
 
     /**
@@ -129,37 +135,76 @@ public class Arr
      * @param a The target array.
      * @param b The source array.
      * @param idx The indices of the elements to be copied into the target-array.
+     * @return Returns the target array.
      */
-    public static void coalesce(final byte[] a, final byte[] b, final int[] idx)
+    public static byte[] coalesce(final byte[] a, final byte[] b, final int[] idx)
     {
-        coalesce(0, a, b, idx);
+        return coalesce(0, a, b, idx);
     }
 
-    public static void coalesce(final short[] a, final short[] b, final int[] idx)
+    public static short[] coalesce(final short[] a, final short[] b, final int[] idx)
     {
-        coalesce(0, a, b, idx);
+        return coalesce(0, a, b, idx);
     }
 
-    public static void coalesce(final int[] a, final int[] b, final int[] idx)
+    public static int[] coalesce(final int[] a, final int[] b, final int[] idx)
     {
-        coalesce(0, a, b, idx);
+        return coalesce(0, a, b, idx);
     }
 
-    public static void coalesce(final long[] a, final long[] b, final int[] idx)
+    public static long[] coalesce(final long[] a, final long[] b, final int[] idx)
     {
-        coalesce(0, a, b, idx);
+        return coalesce(0, a, b, idx);
     }
 
-    public static void coalesce(final float[] a, final float[] b, final int[] idx)
+    public static float[] coalesce(final float[] a, final float[] b, final int[] idx)
     {
-        coalesce(0, a, b, idx);
+        return coalesce(0, a, b, idx);
     }
 
-    public static void coalesce(final double[] a, final double[] b, final int[] idx)
+    public static double[] coalesce(final double[] a, final double[] b, final int[] idx)
     {
-        coalesce(0, a, b, idx);
+        return coalesce(0, a, b, idx);
     }
 
+    /**
+     * Collects specified elements from an array.
+     * 
+     * @param b The source array.
+     * @param idx The indices of the elements to be copied into the target-array.
+     * @return Returns A new array containing the elements.
+     */    
+    public static byte[] coalesce(final byte[] b, final int[] idx)
+    {   
+        return coalesce(0, new byte[idx.length], b, idx);
+    }
+
+    public static short[] coalesce(final short[] b, final int[] idx)
+    {   
+        return coalesce(0, new short[idx.length], b, idx);
+    }
+    
+    public static int[] coalesce(final int[] b, final int[] idx)
+    {   
+        return coalesce(0, new int[idx.length], b, idx);
+    }
+    
+    public static long[] coalesce(final long[] b, final int[] idx)
+    {   
+        return coalesce(0, new long[idx.length], b, idx);
+    }
+    
+    public static float[] coalesce(final float[] b, final int[] idx)
+    {   
+        return coalesce(0, new float[idx.length], b, idx);
+    }
+    
+    public static double[] coalesce(final double[] b, final int[] idx)
+    {   
+        return coalesce(0, new double[idx.length], b, idx);
+    }
+    
+    
     /**
      * Distributes the elements of the source array to the specified positions
      * in the target array.
@@ -735,7 +780,7 @@ public class Arr
     }
 
     /**
-     * Creates a java integer-array in which each elements has its index as its value.<br>
+     * Creates a java integer-array in which each element has its index as its value.<br>
      * 
      * 
      * 
@@ -753,7 +798,7 @@ public class Arr
     }
 
     /**
-     * Creates a java integer-array in which each elements has its index scaled
+     * Creates a java integer-array in which each element has its index scaled
      * by a factor as its value.
      * 
      * @param length The size of the array.
