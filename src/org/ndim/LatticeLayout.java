@@ -202,7 +202,7 @@ public final class LatticeLayout extends Lattice
     // Pointer-like variables
     private int offset;
     private final int[] incr;
-
+        
     /**
      * This constructor takes an arbitrary number of Integer objects. These
      * integers are interpreted as the extent of the layout. The number of
@@ -316,6 +316,18 @@ public final class LatticeLayout extends Lattice
         System.arraycopy(this.incr, 0, incr, 0, this.incr.length);
     }
 
+    
+    /**
+     * Clones this LatticeLayout
+     * 
+     * @return The clone of this LatticeLayout
+     */
+    @Override
+    public LatticeLayout clone()
+    {
+        return new LatticeLayout(extent.clone(), descriptor.spacing.clone(), pageSize.clone(), incr.clone(), offset);
+    }
+    
     /**
      * Selects a subspace of a layout.
      * 

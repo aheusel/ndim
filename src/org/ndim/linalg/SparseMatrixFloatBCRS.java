@@ -120,7 +120,7 @@ public class SparseMatrixFloatBCRS implements MatrixFloat, SparseMatrix
     }
 
     @Override
-    public void calcResidual(float[] x, float[] b, float[] r)
+    public void calcResidual(float[] a, float[] b, float[] r)
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }

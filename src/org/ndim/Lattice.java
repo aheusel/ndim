@@ -44,14 +44,14 @@ public class Lattice
 {
 
     protected final int[] extent;
-    protected int size;
+    protected int nrEntities;
 
     /**
      */
     protected Lattice(final int... extent)
     {
         this.extent = extent.clone();
-        size = Arr.calcTotalVolume(extent);
+        nrEntities = Arr.calcTotalVolume(extent);
     }
 
     /**
@@ -196,9 +196,9 @@ public class Lattice
      *
      * @return The number of entities in a field.
      */
-    public final int size()
+    public final int nrEntities()
     {
-        return size;
+        return nrEntities;
     }
 
 

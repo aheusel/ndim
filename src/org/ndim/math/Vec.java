@@ -2056,6 +2056,101 @@ public class Vec
         return lessOrEqual(0, a.length, a, value);
     }
 
+
+    /**
+     * Returns the maximum of all elements in a.
+     *
+     * @param offset The offset to the first element of a
+     * @param length The number of elements in a. 
+     * @param a The array containing the values to check.
+     * @return the maximum element of a
+     */    
+    public static byte max(final int offset, final int length, final byte[] a)
+    {
+        byte res = a[offset];
+        byte buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff > res)
+            {
+                res = buff;
+            }
+        }
+        return res;
+    }
+    
+    public static short max(final int offset, final int length, final short[] a)
+    {
+        short res = a[offset];
+        short buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff > res)
+            {
+                res = buff;
+            }
+        }
+        return res;
+    }
+    public static int max(final int offset, final int length, final int[] a)
+    {
+        int res = a[offset];
+        int buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff > res)
+            {
+                res = buff;
+            }
+        }
+        return res;
+    }
+    public static long max(final int offset, final int length, final long[] a)
+    {
+        long res = a[offset];
+        long buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff > res)
+            {
+                res = buff;
+            }
+        }
+        return res;
+    }
+    public static float max(final int offset, final int length, final float[] a)
+    {
+        float res = a[offset];
+        float buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff > res)
+            {
+                res = buff;
+            }
+        }
+        return res;
+    }
+    public static double max(final int offset, final int length, final double[] a)
+    {
+        double res = a[offset];
+        double buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff > res)
+            {
+                res = buff;
+            }
+        }
+        return res;
+    }
+    
     /**
      * Returns the maximum of all elements in a.
      *
@@ -2064,91 +2159,321 @@ public class Vec
      */
     public static byte max(final byte[] a)
     {
-        byte res = a[0];
-        byte buff;
-        for(int i = 1; i < a.length; i++)
-        {
-            buff = a[i];
-            if(buff > res)
-            {
-                res = buff;
-            }
-        }
-        return res;
+        return max(0, a.length, a);
     }
 
     public static short max(final short[] a)
     {
-        short res = a[0];
-        short buff;
-        for(int i = 1; i < a.length; i++)
-        {
-            buff = a[i];
-            if(buff > res)
-            {
-                res = buff;
-            }
-        }
-        return res;
+        return max(0, a.length, a);
     }
 
     public static int max(final int[] a)
     {
-        int res = a[0];
-        int buff;
-        for(int i = 1; i < a.length; i++)
-        {
-            buff = a[i];
-            if(buff > res)
-            {
-                res = buff;
-            }
-        }
-        return res;
+        return max(0, a.length, a);
     }
 
     public static long max(final long[] a)
     {
-        long res = a[0];
-        long buff;
-        for(int i = 1; i < a.length; i++)
-        {
-            buff = a[i];
-            if(buff > res)
-            {
-                res = buff;
-            }
-        }
-        return res;
+        return max(0, a.length, a);
     }
 
     public static float max(final float[] a)
     {
-        float res = a[0];
-        float buff;
-        for(int i = 1; i < a.length; i++)
-        {
-            buff = a[i];
-            if(buff > res)
-            {
-                res = buff;
-            }
-        }
-        return res;
+        return max(0, a.length, a);
     }
 
     public static double max(final double[] a)
     {
-        double res = a[0];
-        double buff;
-        for(int i = 1; i < a.length; i++)
+        return max(0, a.length, a);
+    }
+    
+    /**
+     * Returns the minimum of all elements in a.
+     *
+     * @param offset The offset to the first element of a
+     * @param length The number of elements in a. 
+     * @param a The array containing the values to check.
+     * @return the minimum element of a
+     */    
+    public static byte min(final int offset, final int length, final byte[] a)
+    {
+        byte res = a[offset];
+        byte buff;
+        for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff > res)
+            if(buff < res)
             {
                 res = buff;
             }
         }
         return res;
     }
+    public static short min(final int offset, final int length, final short[] a)
+    {
+        short res = a[offset];
+        short buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff < res)
+            {
+                res = buff;
+            }
+        }
+        return res;
+    }
+    public static int min(final int offset, final int length, final int[] a)
+    {
+        int res = a[offset];
+        int buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff < res)
+            {
+                res = buff;
+            }
+        }
+        return res;
+    }
+    public static long min(final int offset, final int length, final long[] a)
+    {
+        long res = a[offset];
+        long buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff < res)
+            {
+                res = buff;
+            }
+        }
+        return res;
+    }
+    public static float min(final int offset, final int length, final float[] a)
+    {
+        float res = a[offset];
+        float buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff < res)
+            {
+                res = buff;
+            }
+        }
+        return res;
+    }
+    public static double min(final int offset, final int length, final double[] a)
+    {
+        double res = a[offset];
+        double buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff < res)
+            {
+                res = buff;
+            }
+        }
+        return res;
+    }
+    
+    /**
+     * Returns the minimum of all elements in a.
+     *
+     * @param a The array containing the values to check.
+     * @return the minimum element of the array
+     */
+    public static byte min(final byte[] a)
+    {
+        return min(0, a.length, a);
+    }
+    public static short min(final short[] a)
+    {
+        return min(0, a.length, a);
+    }
+    public static int min(final int[] a)
+    {
+        return min(0, a.length, a);
+    }
+    public static long min(final long[] a)
+    {
+        return min(0, a.length, a);
+    }
+    public static float min(final float[] a)
+    {
+        return min(0, a.length, a);
+    }
+    public static double min(final double[] a)
+    {
+        return min(0, a.length, a);
+    }
+
+    /**
+     * Returns the minimum and maximum of all elements in a.
+     *
+     * @param offset The offset to the first element of a
+     * @param length The number of elements in a. 
+     * @param a The array containing the values to check.
+     * @param offmin The index of the minimum in the result-array
+     * @param offmax The index of the maximum in the result-array
+     * @param res Contains the minimum and maximum values after the call
+     */
+    public static void minmax(final int offset, final int length, final byte[] a, final int offmin, final int offmax, final byte[] res)
+    {
+        byte rmax = a[offset];
+        byte rmin = rmax;
+        byte buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff < rmin)
+            {
+                rmin = buff;
+            }
+            if(buff > rmax)
+            {
+                rmax = buff;
+            }
+        }
+        res[offmax] = rmax;
+        res[offmin] = rmin;
+    }    
+    
+    public static void minmax(final int offset, final int length, final short[] a, final int offmin, final int offmax, final short[] res)
+    {
+        short rmax = a[offset];
+        short rmin = rmax;
+        short buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff < rmin)
+            {
+                rmin = buff;
+            }
+            if(buff > rmax)
+            {
+                rmax = buff;
+            }
+        }
+        res[offmax] = rmax;
+        res[offmin] = rmin;
+    }    
+    public static void minmax(final int offset, final int length, final int[] a, final int offmin, final int offmax, final int[] res)
+    {
+        int rmax = a[offset];
+        int rmin = rmax;
+        int buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff < rmin)
+            {
+                rmin = buff;
+            }
+            if(buff > rmax)
+            {
+                rmax = buff;
+            }
+        }
+        res[offmax] = rmax;
+        res[offmin] = rmin;
+    }    
+    public static void minmax(final int offset, final int length, final long[] a, final int offmin, final int offmax, final long[] res)
+    {
+        long rmax = a[offset];
+        long rmin = rmax;
+        long buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff < rmin)
+            {
+                rmin = buff;
+            }
+            if(buff > rmax)
+            {
+                rmax = buff;
+            }
+        }
+        res[offmax] = rmax;
+        res[offmin] = rmin;
+    }    
+    public static void minmax(final int offset, final int length, final float[] a, final int offmin, final int offmax, final float[] res)
+    {
+        float rmax = a[offset];
+        float rmin = rmax;
+        float buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff < rmin)
+            {
+                rmin = buff;
+            }
+            if(buff > rmax)
+            {
+                rmax = buff;
+            }
+        }
+        res[offmax] = rmax;
+        res[offmin] = rmin;
+    }    
+    public static void minmax(final int offset, final int length, final double[] a, final int offmin, final int offmax, final double[] res)
+    {
+        double rmax = a[offset];
+        double rmin = rmax;
+        double buff;
+        for(int i = offset + 1; i < offset + length; i++)
+        {
+            buff = a[i];
+            if(buff < rmin)
+            {
+                rmin = buff;
+            }
+            if(buff > rmax)
+            {
+                rmax = buff;
+            }
+        }
+        res[offmax] = rmax;
+        res[offmin] = rmin;
+    }    
+
+    /**
+     * Returns the minimum and maximum of all elements in a.
+     *
+     * @param offmin The index of the minimum in the result-array
+     * @param offmax The index of the maximum in the result-array
+     * @param res Contains the minimum and maximum values after the call
+     */
+    public static void minmax(final byte[] a, final int offmin, final int offmax, final byte[] res)
+    {
+        minmax(0, a.length, a, offmin, offmax, res);
+    }        
+    public static void minmax(final short[] a, final int offmin, final int offmax, final short[] res)
+    {
+        minmax(0, a.length, a, offmin, offmax, res);
+    }    
+    public static void minmax(final int[] a, final int offmin, final int offmax, final int[] res)
+    {
+        minmax(0, a.length, a, offmin, offmax, res);
+    }    
+    public static void minmax(final long[] a, final int offmin, final int offmax, final long[] res)
+    {
+        minmax(0, a.length, a, offmin, offmax, res);
+    }    
+    public static void minmax(final float[] a, final int offmin, final int offmax, final float[] res)
+    {
+        minmax(0, a.length, a, offmin, offmax, res);
+    }    
+    public static void minmax(final double[] a, final int offmin, final int offmax, final double[] res)
+    {
+        minmax(0, a.length, a, offmin, offmax, res);
+    }    
+    
+    
 }
