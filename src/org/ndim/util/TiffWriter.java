@@ -129,27 +129,27 @@ public final class TiffWriter
         
         
 
-        int nrImages = gridTopo.extent(GridTopo.Z);
-        int incrZ = gridTopo.incr(GridTopo.Z);
-        GridTopo slice = gridTopo.subspace(0, 1);
-
-        //memTopo.writeToRaster(gridTopo, wr);
-        storage.writeToRaster(gridTopo, memTopo, wr);
-        writer.write(null, iio, null);
-        gridTopo.setOffset(gridTopo.offset() + incrZ);
-        for(int i = 1; i < nrImages; i++)
-        {
-            //memTopo.writeToRaster(gridTopo, wr);
-            storage.writeToRaster(gridTopo, memTopo, wr);
-            if(writer.canInsertImage(-1))
-            {
-                writer.writeInsert(-1, iio, null);
-            }
-            else
-            {
-                throw new java.io.IOException("Writer can't append a second image!");
-            }
-            gridTopo.setOffset(gridTopo.offset() + incrZ);
-        }
+//        int nrImages = gridTopo.extent(GridTopo.Z);
+//        int incrZ = gridTopo.incr(GridTopo.Z);
+//        GridTopo slice = gridTopo.subspace(0, 1);
+//
+//        //memTopo.writeToRaster(gridTopo, wr);
+//        storage.writeToRaster(gridTopo, memTopo, wr);
+//        writer.write(null, iio, null);
+//        gridTopo.setOffset(gridTopo.offset() + incrZ);
+//        for(int i = 1; i < nrImages; i++)
+//        {
+//            //memTopo.writeToRaster(gridTopo, wr);
+//            storage.writeToRaster(gridTopo, memTopo, wr);
+//            if(writer.canInsertImage(-1))
+//            {
+//                writer.writeInsert(-1, iio, null);
+//            }
+//            else
+//            {
+//                throw new java.io.IOException("Writer can't append a second image!");
+//            }
+//            gridTopo.setOffset(gridTopo.offset() + incrZ);
+//        }
     }
 }

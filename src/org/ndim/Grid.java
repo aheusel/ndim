@@ -48,7 +48,7 @@ public class Grid
 
     /**
      */
-    protected Grid(final int... extent)
+    protected Grid(final int[] extent)
     {
         this.extent = extent.clone();
         nrEntities = Arr.calcTotalVolume(extent);

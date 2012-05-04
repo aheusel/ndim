@@ -164,12 +164,12 @@ public final class MemTopo
      * Selects a subset of the elements of a MemTopo.
      * 
      * @param MemTopo The MemTopo to be used.
-     * @param elemIdx The elements to select
+     * @param tupleIdx The elements to select
      */
-    public final MemTopo subset(final int... elemIdx)
+    public final MemTopo subset(final int... tupleIdx)
     {
-        final int[] newElementIncr = new int[elemIdx.length];
-        Arr.coalesce(newElementIncr, elementIncr, elemIdx);
+        final int[] newElementIncr = new int[tupleIdx.length];
+        Arr.coalesce(newElementIncr, elementIncr, tupleIdx);
         return new MemTopo(tupleIncr, newElementIncr);
     }
 

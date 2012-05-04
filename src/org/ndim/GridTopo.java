@@ -156,7 +156,7 @@ public final class GridTopo extends Grid
      */
     private int addr(final int... pos)
     {
-        return (int)Vec.dot(incr, pos);
+        return offset + (int)Vec.dot(incr, pos);
     }
     
     /**
@@ -168,6 +168,17 @@ public final class GridTopo extends Grid
     public GridTopo clone()
     {
         return new GridTopo(extent.clone(), pageSize.clone(), incr.clone(), offset);
+    }
+    
+    /**
+     * Adds to the offset of a GridTopo
+     * 
+     * @param offs The offs to add
+     * @return The new GridTopo
+     */
+    public final GridTopo shift(final int offs)
+    {
+        return new GridTopo(extent.clone(), pageSize.clone(), incr.clone(), offset + offs);
     }
     
     /**
