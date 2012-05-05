@@ -105,6 +105,16 @@ public class DataContainer extends Observable
         allocator = new DataContainer.StdAllocator();
     }
     
+    public DataContainer(final GridTopo gridTopo)
+    {
+        this.gridTopo = gridTopo.clone();
+        allocator = new DataContainer.StdAllocator();
+    }
+    
+    public GridTopo gridTopo()
+    {
+        return gridTopo;
+    }
     
     public Pair<MemTopo, Object> createLayer(Class cls, MemTopo memTopo)
     {

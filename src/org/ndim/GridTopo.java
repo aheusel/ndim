@@ -33,6 +33,7 @@
  */
 package org.ndim;
 
+import java.util.Arrays;
 import org.ndim.math.Vec;
 import org.ndim.util.Arr;
 
@@ -154,7 +155,7 @@ public final class GridTopo extends Grid
      * @param pos The coordinate.
      * @return The address of the entitiy at the position.
      */
-    private int addr(final int... pos)
+    public final int addr(final int... pos)
     {
         return offset + (int)Vec.dot(incr, pos);
     }
@@ -178,7 +179,7 @@ public final class GridTopo extends Grid
      */
     public final GridTopo shift(final int offs)
     {
-        return new GridTopo(extent.clone(), pageSize.clone(), incr.clone(), offset + offs);
+        return new GridTopo(extent, pageSize, incr, offset + offs);
     }
     
     /**
@@ -319,14 +320,8 @@ public final class GridTopo extends Grid
         {
             throw new java.lang.ArithmeticException("Negative border-values given!");
         }
-
-        int[] nExtent = new int[extent.length];
-        for(int i = 0; i < nExtent.length; i++)
-        {
-            nExtent[i] = extent[i] - borders[i];
-            borders[i] = 0;
-        }
-
+        int[] nExtent = Vec.sub(new int[extent.length], extent, borders);
+        Arrays.fill(borders, 0);
         return crop(borders, nExtent);
     }
 
