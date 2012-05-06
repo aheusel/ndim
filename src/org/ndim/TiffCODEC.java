@@ -114,11 +114,11 @@ public class TiffCODEC implements CODEC
             TIFFEncodeParam params = new TIFFEncodeParam();
             ImageEncoder encoder = ImageCodec.createImageEncoder("tiff", out, params);
             List<RenderedImage> imageList = new ArrayList<RenderedImage>();
-            final TiledImage cover = writeImage(gridTopo, memTopo, data);
+            final TiledImage cover = writeImage(gridTopo, memTopo, buffer);
             for(int i = 1; i < depth; i++)
             {
                 gridTopo = gridTopo.shift(zIncr);
-                imageList.add(writeImage(gridTopo, memTopo, data)); 
+                imageList.add(writeImage(gridTopo, memTopo, buffer)); 
             }
             params.setExtraImages(imageList.iterator()); 
             encoder.encode(cover);
