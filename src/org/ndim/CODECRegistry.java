@@ -45,6 +45,8 @@ public class CODECRegistry extends HashMap<String, CODEC>
     static
     {
         instance = new CODECRegistry();
+        
+        TiffCODEC.init();
     }
     
     public static CODEC getCODEC(final String key)
