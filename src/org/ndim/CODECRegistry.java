@@ -40,34 +40,28 @@ import java.util.HashMap;
  */
 public class CODECRegistry extends HashMap<String, CODEC>
 {    
-    private static CODECRegistry instance = null;
- 
+    private static final CODECRegistry instance;
+    
+    static
+    {
+        instance = new CODECRegistry();
+    }
+    
     public static CODEC getCODEC(final String key)
     {
-        checkInstance();
         return instance.get(key);
     }
     
     public static void registerCODEC(final String key, final CODEC codec)
     {
-        checkInstance();
         instance.put(key, codec);
     }
     
     public static void removeCODEC(final String key)
     {
-        checkInstance();
         instance.remove(key);
     }
-    
-    private static void checkInstance()
-    {
-        if (instance == null)
-        {
-            instance = new CODECRegistry();
-        }        
-    }
-    
+        
     private CODECRegistry()
     {
         super();

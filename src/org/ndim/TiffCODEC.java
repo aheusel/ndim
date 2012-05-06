@@ -348,22 +348,20 @@ public class TiffCODEC implements CODEC
     }
     
     
-    private static boolean registered = register();
-            
-    private static boolean register()
-    {
-        TiffCODEC codec = new TiffCODEC();
-        CODECRegistry.registerCODEC("tif", codec);
-        CODECRegistry.registerCODEC("tiff", codec);
-        CODECRegistry.registerCODEC("TIF", codec);
-        CODECRegistry.registerCODEC("TIFF", codec);
-        return true;
-    }
     
     private TiffCODEC()
     {
     }
 
+    public static void init()
+    {
+        TiffCODEC codec = new TiffCODEC();
+        CODECRegistry.registerCODEC("tif", codec);
+        CODECRegistry.registerCODEC("tiff", codec);
+        CODECRegistry.registerCODEC("TIF", codec);
+        CODECRegistry.registerCODEC("TIFF", codec);        
+    }
+    
     @Override
     public CODEC.Reader getReader(String fname) throws java.io.IOException
     {
