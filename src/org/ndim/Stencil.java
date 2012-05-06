@@ -92,8 +92,7 @@ public class Stencil extends Grid
     public final void next(final int[] pos)
     {
         // Go to the next element.
-        int i = 0;
-        while(i < last)
+        for(int i = 0; i < last; i++)
         {
             pos[i]++;
             if(pos[i] < extent[i])
@@ -104,23 +103,8 @@ public class Stencil extends Grid
             {
                 pos[i] = 0;
             }
-            i++;
         }
-        pos[pos.length - 1]++;
-        
-//        for(int i = 0; i < pos.length - 1; i++)
-//        {
-//            pos[i]++;
-//            if(pos[i] < extent[i])
-//            {
-//                return;
-//            }
-//            else
-//            {
-//                pos[i] = 0;
-//            }
-//        }
-//        pos[pos.length - 1]++;
+        pos[last]++;
         
     }
     
