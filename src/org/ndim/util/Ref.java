@@ -30,30 +30,42 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.ndim;
-
-import java.util.ArrayList;
-import org.ndim.util.Pair;
+package org.ndim.util;
 
 /**
  *
- * @author Alexander Heusel
+ * @author Alexande rHeusel
  */
-public interface CODEC
+public final class Ref
 {
-    public interface Reader
+    private Ref() {}
+    public final static class Byte
     {
-        public Pair<GridTopo, ArrayList<MemTopo>> readHeader() throws java.io.IOException;
-        public void readTo(DataContainer data) throws java.io.IOException;
-        public DataContainer read() throws java.io.IOException;
-        public DataContainer read(DataContainer.Allocator alloc) throws java.io.IOException;   
+        public byte ref;
+    }
+
+    public final static class Short
+    {
+        public short ref;
     }
     
-    public interface Writer
+    public final static class Int
     {
-        public void write(DataContainer data) throws java.io.IOException;   
+        public int ref;
     }
     
-    public Reader getReader(final String fname) throws java.io.IOException;
-    public Writer getWriter(final String fname) throws java.io.IOException;
+    public final static class Long
+    {
+        public long ref;
+    }
+    
+    public final static class Float
+    {
+        public float ref;
+    }
+    
+    public final static class Double
+    {
+        public double ref;
+    }
 }

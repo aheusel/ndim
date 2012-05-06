@@ -33,6 +33,8 @@
  */
 package org.ndim.math;
 
+import org.ndim.util.IdxValPair;
+
 /**
  * This class contains methods for vector algebra.
  * 
@@ -2282,260 +2284,303 @@ public class Vec
     {
         return lessOrEqual(0, a.length, a, value);
     }
-
-
+    
     /**
-     * Returns the maximum of all elements in a.
+     * Finds the maximum of all elements in a.
      *
      * @param offset The offset to the first element of a
      * @param length The number of elements in a. 
      * @param a The array containing the values to check.
-     * @return the maximum element of a
+     * @param res The index-value pair containing the maximum and its position-index
+     * @return The array
      */    
-    public static byte max(final int offset, final int length, final byte[] a)
+    public static byte[] max(final int offset, final int length, final byte[] a, final IdxValPair.Byte res)
     {
-        byte res = a[offset];
+        res.idx = offset;
+        res.val = a[offset];
         byte buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff > res)
+            if(buff > res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        
+        return a;
     }
     
-    public static short max(final int offset, final int length, final short[] a)
+    public static short[] max(final int offset, final int length, final short[] a, final IdxValPair.Short res)
     {
-        short res = a[offset];
+        res.idx = offset;
+        res.val = a[offset];
         short buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff > res)
+            if(buff > res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        
+        return a;
     }
-    public static int max(final int offset, final int length, final int[] a)
+    
+    public static int[] max(final int offset, final int length, final int[] a, final IdxValPair.Int res)
     {
-        int res = a[offset];
+        res.idx = offset;
+        res.val = a[offset];
         int buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff > res)
+            if(buff > res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        
+        return a;
     }
-    public static long max(final int offset, final int length, final long[] a)
+    
+    public static long[] max(final int offset, final int length, final long[] a, final IdxValPair.Long res)
     {
-        long res = a[offset];
+        res.idx = offset;
+        res.val = a[offset];
         long buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff > res)
+            if(buff > res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        
+        return a;
     }
-    public static float max(final int offset, final int length, final float[] a)
+    
+    public static float[] max(final int offset, final int length, final float[] a, final IdxValPair.Float res)
     {
-        float res = a[offset];
+        res.idx = offset;
+        res.val = a[offset];
         float buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff > res)
+            if(buff > res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        
+        return a;
     }
-    public static double max(final int offset, final int length, final double[] a)
+    
+    public static double[] max(final int offset, final int length, final double[] a, final IdxValPair.Double res)
     {
-        double res = a[offset];
+        res.idx = offset;
+        res.val = a[offset];
         double buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff > res)
+            if(buff > res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        
+        return a;
     }
     
     /**
-     * Returns the maximum of all elements in a.
+     * Finds the maximum of all elements in a.
      *
      * @param a The array containing the values to check.
-     * @return the maximum element of the array
-     */
-    public static byte max(final byte[] a)
+     * @param res The index-value pair containing the maximum and its position-index
+     * @return The array
+     */    
+    public static byte[] max(final byte[] a, final IdxValPair.Byte res)
     {
-        return max(0, a.length, a);
+        return max(0, a.length, a, res);
     }
 
-    public static short max(final short[] a)
+    public static short[] max(final short[] a, final IdxValPair.Short res)
     {
-        return max(0, a.length, a);
+        return max(0, a.length, a, res);
     }
 
-    public static int max(final int[] a)
+    public static int[] max(final int[] a, final IdxValPair.Int res)
     {
-        return max(0, a.length, a);
+        return max(0, a.length, a, res);
     }
 
-    public static long max(final long[] a)
+    public static long[] max(final long[] a, final IdxValPair.Long res)
     {
-        return max(0, a.length, a);
+        return max(0, a.length, a, res);
     }
 
-    public static float max(final float[] a)
+    public static float[] max(final float[] a, final IdxValPair.Float res)
     {
-        return max(0, a.length, a);
+        return max(0, a.length, a, res);
     }
 
-    public static double max(final double[] a)
+    public static double[] max(final double[] a, final IdxValPair.Double res)
     {
-        return max(0, a.length, a);
+        return max(0, a.length, a, res);
     }
     
     /**
-     * Returns the minimum of all elements in a.
+     * Finds the minimum of all elements in a.
      *
      * @param offset The offset to the first element of a
      * @param length The number of elements in a. 
      * @param a The array containing the values to check.
-     * @return the minimum element of a
+     * @param res The index-value pair containing the minimum and its position-index
+     * @return The array
      */    
-    public static byte min(final int offset, final int length, final byte[] a)
+    public static byte[] min(final int offset, final int length, final byte[] a, final IdxValPair.Byte res)
     {
-        byte res = a[offset];
+        res.val = a[offset];
+        res.idx = offset;
         byte buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < res)
+            if(buff < res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        return a;
     }
-    public static short min(final int offset, final int length, final short[] a)
+
+    public static short[] min(final int offset, final int length, final short[] a, final IdxValPair.Short res)
     {
-        short res = a[offset];
+        res.val = a[offset];
+        res.idx = offset;
         short buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < res)
+            if(buff < res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        return a;
     }
-    public static int min(final int offset, final int length, final int[] a)
+
+    public static int[] min(final int offset, final int length, final int[] a, final IdxValPair.Int res)
     {
-        int res = a[offset];
+        res.val = a[offset];
+        res.idx = offset;
         int buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < res)
+            if(buff < res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        return a;
     }
-    public static long min(final int offset, final int length, final long[] a)
+
+    public static long[] min(final int offset, final int length, final long[] a, final IdxValPair.Long res)
     {
-        long res = a[offset];
+        res.val = a[offset];
+        res.idx = offset;
         long buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < res)
+            if(buff < res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        return a;
     }
-    public static float min(final int offset, final int length, final float[] a)
+
+    public static float[] min(final int offset, final int length, final float[] a, final IdxValPair.Float res)
     {
-        float res = a[offset];
+        res.val = a[offset];
+        res.idx = offset;
         float buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < res)
+            if(buff < res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        return a;
     }
-    public static double min(final int offset, final int length, final double[] a)
+
+    public static double[] min(final int offset, final int length, final double[] a, final IdxValPair.Double res)
     {
-        double res = a[offset];
+        res.val = a[offset];
+        res.idx = offset;
         double buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < res)
+            if(buff < res.val)
             {
-                res = buff;
+                res.val = buff;
+                res.idx = i;
             }
         }
-        return res;
+        return a;
     }
+
     
     /**
-     * Returns the minimum of all elements in a.
+     * Finds the minimum of all elements in a.
      *
      * @param a The array containing the values to check.
-     * @return the minimum element of the array
-     */
-    public static byte min(final byte[] a)
+     * @param res The index-value pair containing the minimum and its position-index
+     * @return The array
+     */    
+    public static byte[] min(final byte[] a, final IdxValPair.Byte res)
     {
-        return min(0, a.length, a);
+        return min(0, a.length, a, res);
     }
-    public static short min(final short[] a)
+    public static short[] min(final short[] a, final IdxValPair.Short res)
     {
-        return min(0, a.length, a);
+        return min(0, a.length, a, res);
     }
-    public static int min(final int[] a)
+    public static int[] min(final int[] a, final IdxValPair.Int res)
     {
-        return min(0, a.length, a);
+        return min(0, a.length, a, res);
     }
-    public static long min(final long[] a)
+    public static long[] min(final long[] a, final IdxValPair.Long res)
     {
-        return min(0, a.length, a);
+        return min(0, a.length, a, res);
     }
-    public static float min(final float[] a)
+    public static float[] min(final float[] a, final IdxValPair.Float res)
     {
-        return min(0, a.length, a);
+        return min(0, a.length, a, res);
     }
-    public static double min(final double[] a)
+    public static double[] min(final double[] a, final IdxValPair.Double res)
     {
-        return min(0, a.length, a);
+        return min(0, a.length, a, res);
     }
 
     /**
@@ -2544,162 +2589,186 @@ public class Vec
      * @param offset The offset to the first element of a
      * @param length The number of elements in a. 
      * @param a The array containing the values to check.
-     * @param offmin The index of the minimum in the result-array
-     * @param offmax The index of the maximum in the result-array
-     * @param res Contains the minimum and maximum values after the call
+     * @param max The index-value pair containing the minimum and its position-index
+     * @param min The index-value pair containing the minimum and its position-index
+     * @return The array
      */
-    public static void minmax(final int offset, final int length, final byte[] a, final int offmin, final int offmax, final byte[] res)
+    public static byte[] minmax(final int offset, final int length, final byte[] a, final IdxValPair.Byte min, final IdxValPair.Byte max)
     {
-        byte rmax = a[offset];
-        byte rmin = rmax;
+        max.val = a[offset];
+        max.idx = offset;
+        min.val = max.val;
+        min.idx = max.idx;
         byte buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < rmin)
+            if(buff < min.val)
             {
-                rmin = buff;
+                min.val = buff;
+                min.idx = i;
             }
-            if(buff > rmax)
+            if(buff > max.val)
             {
-                rmax = buff;
+                max.val = buff;
+                max.idx = i;
             }
         }
-        res[offmax] = rmax;
-        res[offmin] = rmin;
+        return a;
     }    
     
-    public static void minmax(final int offset, final int length, final short[] a, final int offmin, final int offmax, final short[] res)
+    public static short[] minmax(final int offset, final int length, final short[] a, final IdxValPair.Short min, final IdxValPair.Short max)
     {
-        short rmax = a[offset];
-        short rmin = rmax;
+        max.val = a[offset];
+        max.idx = offset;
+        min.val = max.val;
+        min.idx = max.idx;
         short buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < rmin)
+            if(buff < min.val)
             {
-                rmin = buff;
+                min.val = buff;
+                min.idx = i;
             }
-            if(buff > rmax)
+            if(buff > max.val)
             {
-                rmax = buff;
+                max.val = buff;
+                max.idx = i;
             }
         }
-        res[offmax] = rmax;
-        res[offmin] = rmin;
+        return a;
     }    
-    public static void minmax(final int offset, final int length, final int[] a, final int offmin, final int offmax, final int[] res)
+    
+    public static int[] minmax(final int offset, final int length, final int[] a, final IdxValPair.Int min, final IdxValPair.Int max)
     {
-        int rmax = a[offset];
-        int rmin = rmax;
+        max.val = a[offset];
+        max.idx = offset;
+        min.val = max.val;
+        min.idx = max.idx;
         int buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < rmin)
+            if(buff < min.val)
             {
-                rmin = buff;
+                min.val = buff;
+                min.idx = i;
             }
-            if(buff > rmax)
+            if(buff > max.val)
             {
-                rmax = buff;
+                max.val = buff;
+                max.idx = i;
             }
         }
-        res[offmax] = rmax;
-        res[offmin] = rmin;
+        return a;
     }    
-    public static void minmax(final int offset, final int length, final long[] a, final int offmin, final int offmax, final long[] res)
+    
+    public static long[] minmax(final int offset, final int length, final long[] a, final IdxValPair.Long min, final IdxValPair.Long max)
     {
-        long rmax = a[offset];
-        long rmin = rmax;
+        max.val = a[offset];
+        max.idx = offset;
+        min.val = max.val;
+        min.idx = max.idx;
         long buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < rmin)
+            if(buff < min.val)
             {
-                rmin = buff;
+                min.val = buff;
+                min.idx = i;
             }
-            if(buff > rmax)
+            if(buff > max.val)
             {
-                rmax = buff;
+                max.val = buff;
+                max.idx = i;
             }
         }
-        res[offmax] = rmax;
-        res[offmin] = rmin;
+        return a;
     }    
-    public static void minmax(final int offset, final int length, final float[] a, final int offmin, final int offmax, final float[] res)
+    
+    public static float[] minmax(final int offset, final int length, final float[] a, final IdxValPair.Float min, final IdxValPair.Float max)
     {
-        float rmax = a[offset];
-        float rmin = rmax;
+        max.val = a[offset];
+        max.idx = offset;
+        min.val = max.val;
+        min.idx = max.idx;
         float buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < rmin)
+            if(buff < min.val)
             {
-                rmin = buff;
+                min.val = buff;
+                min.idx = i;
             }
-            if(buff > rmax)
+            if(buff > max.val)
             {
-                rmax = buff;
+                max.val = buff;
+                max.idx = i;
             }
         }
-        res[offmax] = rmax;
-        res[offmin] = rmin;
+        return a;
     }    
-    public static void minmax(final int offset, final int length, final double[] a, final int offmin, final int offmax, final double[] res)
+    
+    public static double[] minmax(final int offset, final int length, final double[] a, final IdxValPair.Double min, final IdxValPair.Double max)
     {
-        double rmax = a[offset];
-        double rmin = rmax;
+        max.val = a[offset];
+        max.idx = offset;
+        min.val = max.val;
+        min.idx = max.idx;
         double buff;
         for(int i = offset + 1; i < offset + length; i++)
         {
             buff = a[i];
-            if(buff < rmin)
+            if(buff < min.val)
             {
-                rmin = buff;
+                min.val = buff;
+                min.idx = i;
             }
-            if(buff > rmax)
+            if(buff > max.val)
             {
-                rmax = buff;
+                max.val = buff;
+                max.idx = i;
             }
         }
-        res[offmax] = rmax;
-        res[offmin] = rmin;
+        return a;
     }    
+    
 
     /**
      * Returns the minimum and maximum of all elements in a.
      *
-     * @param offmin The index of the minimum in the result-array
-     * @param offmax The index of the maximum in the result-array
-     * @param res Contains the minimum and maximum values after the call
+     * @param a The array containing the values to check.
+     * @param max The index-value pair containing the minimum and its position-index
+     * @param min The index-value pair containing the minimum and its position-index
+     * @return The array
      */
-    public static void minmax(final byte[] a, final int offmin, final int offmax, final byte[] res)
+    public static byte[] minmax(final byte[] a, final IdxValPair.Byte min, final IdxValPair.Byte max)
     {
-        minmax(0, a.length, a, offmin, offmax, res);
+        return minmax(0, a.length, a, min, max);
     }        
-    public static void minmax(final short[] a, final int offmin, final int offmax, final short[] res)
+    public static short[] minmax(final short[] a, final IdxValPair.Short min, final IdxValPair.Short max)
     {
-        minmax(0, a.length, a, offmin, offmax, res);
+        return minmax(0, a.length, a, min, max);
     }    
-    public static void minmax(final int[] a, final int offmin, final int offmax, final int[] res)
+    public static int[] minmax(final int[] a, final IdxValPair.Int min, final IdxValPair.Int max)
     {
-        minmax(0, a.length, a, offmin, offmax, res);
+        return minmax(0, a.length, a, min, max);
     }    
-    public static void minmax(final long[] a, final int offmin, final int offmax, final long[] res)
+    public static long[] minmax(final long[] a, final IdxValPair.Long min, final IdxValPair.Long max)
     {
-        minmax(0, a.length, a, offmin, offmax, res);
+        return minmax(0, a.length, a, min, max);
     }    
-    public static void minmax(final float[] a, final int offmin, final int offmax, final float[] res)
+    public static float[] minmax(final float[] a, final IdxValPair.Float min, final IdxValPair.Float max)
     {
-        minmax(0, a.length, a, offmin, offmax, res);
+        return minmax(0, a.length, a, min, max);
     }    
-    public static void minmax(final double[] a, final int offmin, final int offmax, final double[] res)
+    public static double[] minmax(final double[] a, final IdxValPair.Double min, final IdxValPair.Double max)
     {
-        minmax(0, a.length, a, offmin, offmax, res);
+        return minmax(0, a.length, a, min, max);
     }    
     
     

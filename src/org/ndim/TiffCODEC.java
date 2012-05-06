@@ -353,10 +353,10 @@ public class TiffCODEC implements CODEC
     private static boolean register()
     {
         TiffCODEC codec = new TiffCODEC();
-        CODECRegistry.getInstance().put("tif", codec);
-        CODECRegistry.getInstance().put("tiff", codec);
-        CODECRegistry.getInstance().put("TIF", codec);
-        CODECRegistry.getInstance().put("TIFF", codec);
+        CODECRegistry.registerCODEC("tif", codec);
+        CODECRegistry.registerCODEC("tiff", codec);
+        CODECRegistry.registerCODEC("TIF", codec);
+        CODECRegistry.registerCODEC("TIFF", codec);
         return true;
     }
     
@@ -365,13 +365,13 @@ public class TiffCODEC implements CODEC
     }
 
     @Override
-    public CODEC.Reader read(String fname) throws java.io.IOException
+    public CODEC.Reader getReader(String fname) throws java.io.IOException
     {
         return new TiffReader(fname);
     }
 
     @Override
-    public CODEC.Writer write(String fname) throws java.io.IOException
+    public CODEC.Writer getWriter(String fname) throws java.io.IOException
     {
         return new TiffWriter(fname);
     }

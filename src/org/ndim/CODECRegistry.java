@@ -42,13 +42,30 @@ public class CODECRegistry extends HashMap<String, CODEC>
 {    
     private static CODECRegistry instance = null;
  
-    public static CODECRegistry getInstance()
+    public static CODEC getCODEC(final String key)
     {
-         if (instance == null)
-         {
+        checkInstance();
+        return instance.get(key);
+    }
+    
+    public static void registerCODEC(final String key, final CODEC codec)
+    {
+        checkInstance();
+        instance.put(key, codec);
+    }
+    
+    public static void removeCODEC(final String key)
+    {
+        checkInstance();
+        instance.remove(key);
+    }
+    
+    private static void checkInstance()
+    {
+        if (instance == null)
+        {
             instance = new CODECRegistry();
-         }
-        return instance;
+        }        
     }
     
     private CODECRegistry()
