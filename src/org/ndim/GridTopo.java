@@ -93,7 +93,7 @@ public final class GridTopo extends Grid
 
     public GridTopo(final int... extent)
     {
-        this(extent, Arr.calcVolumes(extent), Arr.calcVolumes(extent), 0);
+        this(extent, calcVolumes(extent), calcVolumes(extent), 0);
     }
 
     private GridTopo(final int[] extent, final int[] pageSize, final int[] incr, final int offset)
@@ -190,7 +190,7 @@ public final class GridTopo extends Grid
     public final GridTopo subspace(final int... dimIdx)
     {
         final int[] newExtent = Arr.coalesce(extent, dimIdx);
-        final int[] newPageSize = Arr.calcVolumes(newExtent);
+        final int[] newPageSize = calcVolumes(newExtent);
         final int[] newIncr = Arr.coalesce(incr, dimIdx);
         return new GridTopo(newExtent, newPageSize, newIncr, offset);
     }
@@ -217,7 +217,7 @@ public final class GridTopo extends Grid
             newIncr[i] *= strides[i];
         }
 
-        final int[] newPageSize = Arr.calcVolumes(newExtent);
+        final int[] newPageSize = calcVolumes(newExtent);
         return new GridTopo(newExtent, newPageSize, newIncr, newOffset);
     }
 
@@ -264,7 +264,7 @@ public final class GridTopo extends Grid
             newExtent[i] = ((start[i] + extent[i] - 1) < newExtent[i]) ? extent[i] : newExtent[i] - start[i];
         }
 
-        return new GridTopo(newExtent, Arr.calcVolumes(extent), incr.clone(), addr(start));
+        return new GridTopo(newExtent, calcVolumes(extent), incr.clone(), addr(start));
     }
 
     /**
