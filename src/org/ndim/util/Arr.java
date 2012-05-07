@@ -34,7 +34,6 @@
 package org.ndim.util;
 
 import java.util.Arrays;
-import org.ndim.math.Vec;
 
 /**
  * This class contains several static utility methods for plain java-arrays.
@@ -704,89 +703,298 @@ public class Arr
 
 
     /**
-     * Creates an array with given length. All elements are initialized with
-     * the given value.
-     *
-     * @param length The size of the array to create.
-     * @param value The value to initialize the elements with.
-     * @return The array.
+     * Fills a segment of an array with a given value
+     * 
+     * @param offset The index of the first array-element to fill
+     * @param length The length of the segment to fill
+     * @param a The array
+     * @param value The value to fill
+     * @return The array
      */
-    public static byte[] fillCreateByte(final int length, final byte value)
+    public static byte[] fill(final int offset, final int length, final byte[] a, final byte value)
     {
-        final byte[] res = new byte[length];
-        Arrays.fill(res, value);
-        return res;
+        Arrays.fill(a, offset, offset + length, value);
+        return a;
     }
 
-    public static short[] fillCreateShort(final int length, final short value)
+    public static short[] fill(final int offset, final int length, final short[] a, final short value)
     {
-        final short[] res = new short[length];
-        Arrays.fill(res, value);
-        return res;
+        Arrays.fill(a, offset, offset + length, value);
+        return a;
     }
 
-    public static int[] fillCreateInt(final int length, final int value)
+    public static int[] fill(final int offset, final int length, final int[] a, final int value)
     {
-        final int[] res = new int[length];
-        Arrays.fill(res, value);
-        return res;
+        Arrays.fill(a, offset, offset + length, value);
+        return a;
     }
 
-    public static long[] fillCreateLong(final int length, final long value)
+    public static long[] fill(final int offset, final int length, final long[] a, final long value)
     {
-        final long[] res = new long[length];
-        Arrays.fill(res, value);
-        return res;
+        Arrays.fill(a, offset, offset + length, value);
+        return a;
     }
 
-    public static float[] fillCreateFloat(final int length, final float value)
+    public static float[] fill(final int offset, final int length, final float[] a, final float value)
     {
-        final float[] res = new float[length];
-        Arrays.fill(res, value);
-        return res;
+        Arrays.fill(a, offset, offset + length, value);
+        return a;
     }
 
-    public static double[] fillCreateDouble(final int length, final double value)
+    public static double[] fill(final int offset, final int length, final double[] a, final double value)
     {
-        final double[] res = new double[length];
-        Arrays.fill(res, value);
-        return res;
+        Arrays.fill(a, offset, offset + length, value);
+        return a;
+    }
+
+    
+    /**
+     * Fills a segment of an array with a given value
+     * 
+     * @param a The array
+     * @param value The value to fill
+     * @return The array
+     */
+    public static byte[] fill(final byte[] a, final byte value)
+    {
+        Arrays.fill(a, value);
+        return a;
+    }
+    
+    public static short[] fill(final short[] a, final short value)
+    {
+        Arrays.fill(a, value);
+        return a;
+    }
+    
+    public static int[] fill(final int[] a, final int value)
+    {
+        Arrays.fill(a, value);
+        return a;
+    }
+    
+    public static long[] fill(final long[] a, final long value)
+    {
+        Arrays.fill(a, value);
+        return a;
+    }
+    
+    public static float[] fill(final float[] a, final float value)
+    {
+        Arrays.fill(a, value);
+        return a;
+    }
+    
+    public static double[] fill(final double[] a, final double value)
+    {
+        Arrays.fill(a, value);
+        return a;
+    }
+    
+    
+    
+    /**
+     * Assigns its index to each element of the denoted segment of a java-array.
+     * The index starts with zero even if offset is > 0. In the case of byte and
+     * short values the integer index is masked
+     * with 0xff and 0xfff.
+     * 
+     * @param offset The offset of the first element
+     * @param length The length of the array segment to fill
+     * @param  a The array to fill
+     * @return The array
+     */
+    public  static byte[] fillWithIndex(final int offset, final int length, final byte[] a)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = (byte)(0xff & i);
+        }
+        return a;
+    }
+    
+    public  static short[] fillWithIndex(final int offset, final int length, final short[] a)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = (short)(0xffff & i);
+        }
+        return a;
+    }
+    
+    public  static int[] fillWithIndex(final int offset, final int length, final int[] a)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = i;
+        }
+        return a;
+    }
+    
+    public  static long[] fillWithIndex(final int offset, final int length, final long[] a)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = i;
+        }
+        return a;
+    }
+    
+    public  static float[] fillWithIndex(final int offset, final int length, final float[] a)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = i;
+        }
+        return a;
+    }
+    
+    public  static double[] fillWithIndex(final int offset, final int length, final double[] a)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = i;
+        }
+        return a;
+    }
+    
+    /**
+     * Assigns its index to each element of a java-array. In the case of byte and
+     * short values the integer index is masked with 0xff and 0xfff.
+     * 
+     * @param  a The array to fill
+     * @return The array
+     */
+    public static byte[] fillWithIndex(final byte[] a)
+    {
+        return fillWithIndex(0, a.length, a);
+    }
+
+    public static short[] fillWithIndex(final short[] a)
+    {
+        return fillWithIndex(0, a.length, a);
+    }
+
+    public static int[] fillWithIndex(final int[] a)
+    {
+        return fillWithIndex(0, a.length, a);
+    }
+
+    public static long[] fillWithIndex(final long[] a)
+    {
+        return fillWithIndex(0, a.length, a);
+    }
+
+    public static float[] fillWithIndex(final float[] a)
+    {
+        return fillWithIndex(0, a.length, a);
+    }
+
+    public static double[] fillWithIndex(final double[] a)
+    {
+        return fillWithIndex(0, a.length, a);
     }
 
     /**
-     * Creates a java integer-array in which each element has its index as its value.<br>
+     * For each element of the denoted segment of a java-array its index is multiplied
+     * by alpha. The result is assigned to that very element.
+     * The index starts with zero even if offset is > 0. In the case of byte and
+     * short values the product is masked with 0xff and 0xfff.
      * 
-     * 
-     * 
-     * @param length The size of the array
-     * @return The index-array.
+     * @param offset The offset of the first element
+     * @param length The length of the array segment to fill
+     * @param  a The array to fill
+     * @param  alpha The factor which is multiplied with the index
+     * @return The array
      */
-    public static int[] createAscendingIndexSet(final int length)
+    public  static byte[] fillWithScaledIndex(final int offset, final int length, final byte[] a, final byte alpha)
     {
-        final int[] res = new int[length];
-        for(int i = 0; i < res.length; i++)
+        for(int i = 0; i < length; i++)
         {
-            res[i] = i;
+            a[i + offset] = (byte)(0xff & (i*(int)alpha));
         }
-        return res;
+        return a;
     }
-
+    
+    public  static short[] fillWithScaledIndex(final int offset, final int length, final short[] a, final short alpha)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = (short)(0xffff & (i*(short)alpha));
+        }
+        return a;
+    }
+    
+    public  static int[] fillWithScaledIndex(final int offset, final int length, final int[] a, final int alpha)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = i*alpha;
+        }
+        return a;
+    }
+    
+    public  static long[] fillWithScaledIndex(final int offset, final int length, final long[] a, final long alpha)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = (long)(i)*alpha;
+        }
+        return a;
+    }
+    
+    public  static float[] fillWithScaledIndex(final int offset, final int length, final float[] a, final float alpha)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = (float)(i)*alpha;
+        }
+        return a;
+    }
+    
+    public  static double[] fillWithScaledIndex(final int offset, final int length, final double[] a, final double alpha)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = (double)(i)*alpha;
+        }
+        return a;
+    }
+ 
+    
     /**
-     * Creates a java integer-array in which each element has its index scaled
-     * by a factor as its value.
+     * For each element of a java-array its index is multiplied by alpha and the result
+     * assigned to that very element. In the case of byte and
+     * short values the product is masked with 0xff and 0xfff.
      * 
-     * @param length The size of the array.
-     * @param factor A factor by which each index is scaled.
-     * @return The index-array.
-     */
-    public static int[] createAscendingIndexSet(final int length, final int factor)
+     * @param  a The array to fill
+     * @param  alpha The factor which is multiplied with the index
+     * @return The array
+     */    
+    public static byte[] fillWithScaledIndex(final byte[] a, final byte alpha)
     {
-        final int[] res = new int[length];
-        for(int i = 0; i < res.length; i++)
-        {
-            res[i] = i * factor;
-        }
-        return res;
+        return fillWithScaledIndex(0, a.length, a, alpha);
     }
 
+    public static short[] fillWithScaledIndex(final short[] a, final short alpha)
+    {
+        return fillWithScaledIndex(0, a.length, a, alpha);
+    }
+    public static int[] fillWithScaledIndex(final int[] a, final int alpha)
+    {
+        return fillWithScaledIndex(0, a.length, a, alpha);
+    }
+    public static long[] fillWithScaledIndex(final long[] a, final long alpha)
+    {
+        return fillWithScaledIndex(0, a.length, a, alpha);
+    }
+    public static float[] fillWithScaledIndex(final float[] a, final float alpha)
+    {
+        return fillWithScaledIndex(0, a.length, a, alpha);
+    }
+    public static double[] fillWithScaledIndex(final double[] a, final double alpha)
+    {
+        return fillWithScaledIndex(0, a.length, a, alpha);
+    }
+    
 }

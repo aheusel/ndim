@@ -285,7 +285,7 @@ public final class GridTopo extends Grid
 
     public final GridTopo cropBorders(int size)
     {
-        return cropBorders(Arr.fillCreateInt(extent.length, size));
+        return cropBorders(Arr.fill(new int[extent.length], size));
     }
 
     /**
@@ -305,7 +305,7 @@ public final class GridTopo extends Grid
 
     public final GridTopo trimBegin(int size)
     {
-        return trimBegin(Arr.fillCreateInt(extent.length, size));
+        return trimBegin(Arr.fill(new int[extent.length], size));
     }
 
     /**
@@ -328,7 +328,7 @@ public final class GridTopo extends Grid
 
     public final GridTopo trimEnd(int size)
     {
-        return trimEnd(Arr.fillCreateInt(extent.length, size));
+        return trimEnd(Arr.fill(new int[extent.length], size));
     }
 
     /**
@@ -339,7 +339,7 @@ public final class GridTopo extends Grid
      */
     public final GridTopo shrink(int size)
     {
-        return cropBorders(Arr.fillCreateInt(extent.length, size));
+        return cropBorders(Arr.fill(new int[extent.length], size));
     }
 
 
