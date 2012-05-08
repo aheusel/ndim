@@ -38,6 +38,7 @@ import com.sun.media.jai.codec.TIFFEncodeParam;
 import java.awt.image.DataBuffer;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.*;
@@ -58,7 +59,7 @@ class TiffCODEC implements CODEC
 {
     private static class TiffReader implements CODEC.Reader
     {
-        public TiffReader(final String fname)
+        public TiffReader(final File f)
         {
         }
         
@@ -91,9 +92,9 @@ class TiffCODEC implements CODEC
     private static class TiffWriter implements CODEC.Writer
     {
         private FileOutputStream out;
-        public TiffWriter(final String fname) throws IOException
+        public TiffWriter(final File f) throws IOException
         {
-            out = new FileOutputStream(fname); 
+            out = new FileOutputStream(f); 
         }
 
         @Override
@@ -137,7 +138,9 @@ class TiffCODEC implements CODEC
                     // shit happens. who cares?
                 }
                 
-                throw exception;
+                if (exception!=null) {
+                    throw exception;
+                }
             }
    
         }
@@ -379,15 +382,15 @@ class TiffCODEC implements CODEC
     }
     
     @Override
-    public CODEC.Reader getReader(String fname) throws java.io.IOException
+    public CODEC.Reader getReader(final File f) throws java.io.IOException
     {
-        return new TiffReader(fname);
+        return new TiffReader(f);
     }
 
     @Override
-    public CODEC.Writer getWriter(String fname) throws java.io.IOException
+    public CODEC.Writer getWriter(final File f) throws java.io.IOException
     {
-        return new TiffWriter(fname);
+        return new TiffWriter(f);
     }
     
 }

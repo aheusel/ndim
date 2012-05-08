@@ -32,6 +32,7 @@
 
 package org.ndim;
 
+import java.io.File;
 import java.util.ArrayList;
 import org.ndim.util.Pair;
 
@@ -54,6 +55,6 @@ public interface CODEC
         public void write(DataContainer data) throws java.io.IOException;   
     }
     
-    public Reader getReader(final String fname) throws java.io.IOException;
-    public Writer getWriter(final String fname) throws java.io.IOException;
+    public Reader getReader(final File f) throws java.io.IOException;
+    public Writer getWriter(final File f) throws java.io.IOException;
 }
