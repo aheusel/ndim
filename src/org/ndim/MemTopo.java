@@ -93,12 +93,12 @@ public final class MemTopo
         if(interleaved)
         {
             tupleIncr = nrElements;
-            elementIncr = Arr.createAscendingIndexSet(nrElements);
+            elementIncr = Arr.fillWithIndex(new int[nrElements]);
         }
         else
         {
             tupleIncr = 1;
-            elementIncr = Arr.createAscendingIndexSet(nrElements, size);
+            elementIncr = Arr.fillWithScaledIndex(new int[nrElements], size);
         }
     }
 
