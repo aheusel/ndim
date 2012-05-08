@@ -43,6 +43,8 @@ import java.io.IOException;
 import java.nio.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.media.jai.RasterFactory;
 import javax.media.jai.TiledImage;
 import org.ndim.DataContainer.Allocator;
@@ -95,7 +97,7 @@ class TiffCODEC implements CODEC
         }
 
         @Override
-        public void write(DataContainer data) throws java.io.IOException
+        public void write(DataContainer data) throws IOException
         {
             GridTopo gridTopo = data.gridTopo();
 
@@ -121,8 +123,23 @@ class TiffCODEC implements CODEC
                 imageList.add(writeImage(gridTopo, memTopo, buffer)); 
             }
             params.setExtraImages(imageList.iterator()); 
-            encoder.encode(cover);
-            out.close();
+            
+            IOException exception = null;
+            
+            try {
+                encoder.encode(cover);
+            } catch (IOException ex) {
+                exception = ex;
+            } finally {
+                try {
+                    out.close();
+                } catch (IOException ex) {
+                    // shit happens. who cares?
+                }
+                
+                throw exception;
+            }
+   
         }
         
         
