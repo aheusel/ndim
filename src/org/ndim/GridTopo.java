@@ -93,7 +93,7 @@ public final class GridTopo extends Grid
 
     public GridTopo(final int... extent)
     {
-        this(extent, calcVolumes(extent), calcVolumes(extent), 0);
+        this(extent, Vec.products(new int[extent.length], extent), Vec.products(new int[extent.length], extent), 0);
     }
 
     private GridTopo(final int[] extent, final int[] pageSize, final int[] incr, final int offset)
@@ -189,8 +189,13 @@ public final class GridTopo extends Grid
      */
     public final GridTopo subspace(final int... dimIdx)
     {
+        if(dimIdx.length > nrDims())
+        {
+            throw new java.lang.IllegalArgumentException("Number of selected subspace-dimensions exceeds current dimensions.");
+        }
+        
         final int[] newExtent = Arr.coalesce(extent, dimIdx);
-        final int[] newPageSize = calcVolumes(newExtent);
+        final int[] newPageSize = Vec.products(new int[newExtent.length], newExtent);
         final int[] newIncr = Arr.coalesce(incr, dimIdx);
         return new GridTopo(newExtent, newPageSize, newIncr, offset);
     }
@@ -217,7 +222,7 @@ public final class GridTopo extends Grid
             newIncr[i] *= strides[i];
         }
 
-        final int[] newPageSize = calcVolumes(newExtent);
+        final int[] newPageSize = Vec.products(new int[newExtent.length], newExtent);
         return new GridTopo(newExtent, newPageSize, newIncr, newOffset);
     }
 
@@ -231,6 +236,8 @@ public final class GridTopo extends Grid
     {
         final int[] endPos = new int[extent.length];
         final int[] newIncr = new int[extent.length];
+        final int[] cleanArgs = args.clone();
+        Arrays.sort(args);
         
         int argIter = 0;
         for(int i = 0; i < endPos.length; i++)
@@ -266,7 +273,7 @@ public final class GridTopo extends Grid
             newExtent[i] = ((start[i] + extent[i] - 1) < newExtent[i]) ? extent[i] : newExtent[i] - start[i];
         }
 
-        return new GridTopo(newExtent, calcVolumes(extent), incr.clone(), addr(start));
+        return new GridTopo(newExtent, Vec.products(new int[extent.length], extent), incr.clone(), addr(start));
     }
 
     /**

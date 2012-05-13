@@ -35,7 +35,6 @@
 package org.ndim;
 
 import org.ndim.math.Vec;
-import org.ndim.util.Arr;
 
 /**
  *
@@ -271,41 +270,6 @@ public class Grid
     {
         int nx = x % extent;
         return nx < 0 ? nx + extent : nx;
-    }
-
-    /**
-     * Calculates the v for each index of an array of coefficients, i.e.<br>
-     * 
-     * {@latex[ v_i = v_{i - 1} \cdot c_{i - 1} \quad with \quad v_0 = 1}
-     * 
-     * @param c The array of coefficients
-     * @param v The array containing the volumes after the call.
-     */
-    protected static void calcVolumes(final int[] c, final int[] v)
-    {
-        int size = 1;
-        for(int i = 0; i < c.length; i++)
-        {
-            v[i] = size;
-            size *= c[i];
-        }
-    }
-
-    /**
-     * Calculates the v for each index of an array of coefficients, i.e.<br>
-     * 
-     * {@latex[ v_i = v_{i - 1} \cdot c_{i - 1} \quad with \quad v_0 = 1}
-     * 
-     * @param c The array of coefficients
-     * @return The corresponding v.
-     */
-    protected static int[] calcVolumes(final int[] c)
-    {        
-        final int[] res = new int[c.length];
-        calcVolumes(c, res);
-        return res;
-    }
-
-    
+    }    
     
 }

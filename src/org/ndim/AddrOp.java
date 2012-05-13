@@ -40,19 +40,28 @@ import org.ndim.math.Vec;
 public class AddrOp
 {
 
-    private final int _offset;
+    private int _offset;
     private final int[] _incr;
     private final int[] _elementIncr;
     
     public AddrOp(final GridTopo gridTopo, final MemTopo memTopo)
     {
-        gridTopo.incr();
-        
         _offset = gridTopo.offset()*memTopo.tupleIncr();
 	_incr = Vec.mul(gridTopo.incr(), memTopo.tupleIncr());
 	_elementIncr = memTopo.elementIncr();
     }
     
+    public AddrOp(final GridTopo gridTopo)
+    {
+        _offset = gridTopo.offset();
+	_incr = gridTopo.incr();
+	_elementIncr = new int[]{0};
+    }
+    
+    final void shift(final int incr)
+    {
+        _offset += incr;
+    }
     
     final int addr(final int[] pos)
     {

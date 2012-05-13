@@ -42,8 +42,8 @@ package org.ndim;
  * Stencil it = new Stencil(100, 200, 300);
  * while(it.hasNext(pos))
  * {
- *    it.next(pos);
  *    doSomethingWith(pos);
+ *    it.next(pos);
  * }
  * }
  * @author Alexander Heusel

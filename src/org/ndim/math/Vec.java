@@ -255,7 +255,7 @@ public class Vec
      * Adds two vectors. The result of the operation
      * is assigned to the left-hand side, i.e.
      * 
-     * {@latex[ \vec{a} := \vec{a} + \vec{b}}
+     * {@latex[ \vec{a} := \vec{b} + \vec{c}}
      * 
      * @param offa The offset for vector a.
      * @param offb The offset for vector b.
@@ -264,93 +264,101 @@ public class Vec
      * @param a The result vector.
      * @param b The first vector.
      * @param c The second vector.
+     * @return The result-vector
      */
-    public static void add(final int offa, final int offb, final int offc, final int length, final byte[] c, final byte[] a, final byte[] b)
+    public static byte[] add(final int offa, final int offb, final int offc, final int length, final byte[] a, final byte[] b, final byte[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = (byte) (b[offb + i] + c[offc + i]);
         }
+        return a;
     }
 
-    public static void add(final int offa, final int offb, final int offc, final int length, final short[] c, final short[] a, final short[] b)
+    public static short[] add(final int offa, final int offb, final int offc, final int length, final short[] a, final short[] b, final short[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = (short) (b[offb + i] + c[offc + i]);
         }
+        return a;
     }
 
-    public static void add(final int offa, final int offb, final int offc, final int length, final int[] c, final int[] a, final int[] b)
+    public static int[] add(final int offa, final int offb, final int offc, final int length, final int[] a, final int[] b, final int[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] + c[offc + i];
         }
+        return a;
     }
 
-    public static void add(final int offa, final int offb, final int offc, final int length, final long[] c, final long[] a, final long[] b)
+    public static long[] add(final int offa, final int offb, final int offc, final int length, final long[] a, final long[] b, final long[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] + c[offc + i];
         }
+        return a;
     }
 
-    public static void add(final int offa, final int offb, final int offc, final int length, final float[] c, final float[] a, final float[] b)
+    public static float[] add(final int offa, final int offb, final int offc, final int length, final float[] a, final float[] b, final float[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] + c[offc + i];
         }
+        return a;
     }
 
-    public static void add(final int offa, final int offb, final int offc, final int length, final double[] c, final double[] a, final double[] b)
+    public static double[] add(final int offa, final int offb, final int offc, final int length, final double[] a, final double[] b, final double[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] + c[offc + i];
         }
+        return a;
     }
 
     /**
      * Adds two vectors. The result of the operation
      * is assigned to the left-hand side, i.e.
      * 
-     * {@latex[ \vec{a} := \vec{a} + \vec{b}}
+     * {@latex[ \vec{a} := \vec{b} + \vec{c}}
      * 
      * @param a The result vector.
      * @param b The first vector.
      * @param c The second vector.
+     * @return The result-vector
      */
-    public static void add(final byte[] c, final byte[] a, final byte[] b)
+    public static byte[] add(final byte[] a, final byte[] b, final byte[] c)
     {
-        add(0, 0, 0, a.length, a, b, c);
+        return add(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void add(final short[] c, final short[] a, final short[] b)
+    public static short[] add(final short[] a, final short[] b, final short[] c)
     {
-        add(0, 0, 0, a.length, a, b, c);
+        return add(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void add(final int[] c, final int[] a, final int[] b)
+    public static int[] add(final int[] a, final int[] b, final int[] c)
     {
-        add(0, 0, 0, a.length, a, b, c);
+        return add(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void add(final long[] c, final long[] a, final long[] b)
+    public static long[] add(final long[] a, final long[] b, final long[] c)
     {
-        add(0, 0, 0, a.length, a, b, c);
+        return add(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void add(final float[] c, final float[] a, final float[] b)
+    public static float[] add(final float[] a, final float[] b, final float[] c)
     {
-        add(0, 0, 0, a.length, a, b, c);
+        return add(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void add(final double[] c, final double[] a, final double[] b)
+    public static double[] add(final double[] a, final double[] b, final double[] c)
     {
-        add(0, 0, 0, a.length, a, b, c);
+        return add(0, 0, 0, a.length, a, b, c);
     }
 
     /**
@@ -790,8 +798,117 @@ public class Vec
         return sub(0, 0, 0, a.length, a, b, c);
     }
 
+    
     /**
-     * Multiplies a scalar with every element of an a.
+     * Scales every element of an a by a given factor, i.e.<br>
+     * 
+     * {@latex[ \vec{a} = \alpha \cdot \vec{b}}
+     * 
+     * @param offa The offset of the first element of the vector a.
+     * @param offb The offset of the first element of the vector b.
+     * @param length The length of the operand-vectors.
+     * @param a The target vector.
+     * @param b The source vector.
+     * @param alpha The mul factor.
+     * @return The target-vector
+     */
+    public static byte[] mul(final int offa, final int offb, final int length, final byte[] a, final byte[] b, final byte alpha)
+    {
+        for(int i = 0; i < a.length; i++)
+        {
+            a[offa + i] = (byte) (alpha * b[offb + i]);
+        }
+        return a;
+    }
+
+    public static short[] mul(final int offa, final int offb, final int length, final short[] a, final short[] b, final short alpha)
+    {
+        for(int i = 0; i < a.length; i++)
+        {
+            a[offa + i] = (short) (alpha * b[offb + i]);
+        }
+        return a;
+    }
+
+    public static int[] mul(final int offa, final int offb, final int length, final int[] a, final int[] b, final int alpha)
+    {
+        for(int i = 0; i < a.length; i++)
+        {
+            a[offa + i] = alpha * b[offb + i];
+        }
+        return a;
+    }
+
+    public static long[] mul(final int offa, final int offb, final int length, final long[] a, final long[] b, final long alpha)
+    {
+        for(int i = 0; i < a.length; i++)
+        {
+            a[offa + i] = alpha * b[offb + i];
+        }
+        return a;
+    }
+
+    public static float[] mul(final int offa, final int offb, final int length, final float[] a, final float[] b, final float alpha)
+    {
+        for(int i = 0; i < a.length; i++)
+        {
+            a[offa + i] = alpha * b[offb + i];
+        }
+        return a;
+    }
+
+    public static double[] mul(final int offa, final int offb, final int length, final double[] a, final double[] b, final double alpha)
+    {
+        for(int i = 0; i < a.length; i++)
+        {
+            a[offa + i] = alpha * b[offb + i];
+        }
+        return a;
+    }
+
+    /**
+     * Scales every element of an a by a given factor, i.e.<br>
+     * 
+     * {@latex[ \vec{a} = \alpha \cdot \vec{b}}
+     * 
+     * @param a The target vector.
+     * @param b The source vector.
+     * @param alpha The mul factor.
+     * @return The target-vector
+     */
+    public static byte[] mul(final byte[] a, final byte[] b, final byte alpha)
+    {
+        return mul(0, 0, a.length, a, b, alpha);
+    }
+
+    public static short[] mul(final short[] a, final short[] b, final short alpha)
+    {
+        return mul(0, 0, a.length, a, b, alpha);
+    }
+
+    public static int[] mul(final int[] a, final int[] b, final int alpha)
+    {
+        return mul(0, 0, a.length, a, b, alpha);
+    }
+
+    public static long[] mul(final long[] a, final long[] b, final long alpha)
+    {
+        return mul(0, 0, a.length, a, b, alpha);
+    }
+
+    public static float[] mul(final float[] a, final float[] b, final float alpha)
+    {
+        return mul(0, 0, a.length, a, b, alpha);
+    }
+
+    public static double[] mul(final double[] a, final double[] b, final double alpha)
+    {
+        return mul(0, 0, a.length, a, b, alpha);
+    }
+    
+    /**
+     * Multiplies the elements in a segment of a vector with a scalar. The multiplication
+     * is in-place.
      * 
      * @param offset The index offset to the first element.
      * @param length The number of element of the vector.
@@ -854,9 +971,10 @@ public class Vec
     }
 
     /**
-     * Multiplies a scalar with every element of an a.
+     * Multiplies every element of a vector with a scalar. The multiplication
+     * is in-place.
      * 
-     * @param a The a which will be multiplied.
+     * @param a The vector which will be multiplied.
      * @param alpha The scalar.
      * @return The parameter vector.
      */
@@ -1203,7 +1321,7 @@ public class Vec
     public static double euclDist(final int offa, final int offb, final int length, final byte[] a, final byte[] b)
     {
         double res = 0;
-        double buff = 0;
+        double buff;
         for(int i = 0; i < length; i++)
         {
             buff = (double) a[offa + i] - (double) b[offb + i];
@@ -1215,7 +1333,7 @@ public class Vec
     public static double euclDist(final int offa, final int offb, final int length, final short[] a, final short[] b)
     {
         double res = 0;
-        double buff = 0;
+        double buff;
         for(int i = 0; i < length; i++)
         {
             buff = (double) a[offa + i] - (double) b[offb + i];
@@ -1227,7 +1345,7 @@ public class Vec
     public static double euclDist(final int offa, final int offb, final int length, final int[] a, final int[] b)
     {
         double res = 0;
-        double buff = 0;
+        double buff;
         for(int i = 0; i < length; i++)
         {
             buff = (double) a[offa + i] - (double) b[offb + i];
@@ -1239,7 +1357,7 @@ public class Vec
     public static double euclDist(final int offa, final int offb, final int length, final long[] a, final long[] b)
     {
         double res = 0;
-        double buff = 0;
+        double buff;
         for(int i = 0; i < length; i++)
         {
             buff = (double) a[offa + i] - (double) b[offb + i];
@@ -1251,7 +1369,7 @@ public class Vec
     public static double euclDist(final int offa, final int offb, final int length, final float[] a, final float[] b)
     {
         double res = 0;
-        double buff = 0;
+        double buff;
         for(int i = 0; i < length; i++)
         {
             buff = (double) a[offa + i] - (double) b[offb + i];
@@ -1263,7 +1381,7 @@ public class Vec
     public static double euclDist(final int offa, final int offb, final int length, final double[] a, final double[] b)
     {
         double res = 0;
-        double buff = 0;
+        double buff;
         for(int i = 0; i < length; i++)
         {
             buff = a[offa + i] - b[offb + i];
@@ -1324,53 +1442,60 @@ public class Vec
      * @param a The target vector.
      * @param b The first source vector.
      * @param c The second source vector.
+     * @return The target-vector
      */
-    public static void elementwiseMul(final int offa, final int offb, final int offc, final int length, final byte[] a, final byte[] b, final byte[] c)
+    public static byte[] elementwiseMul(final int offa, final int offb, final int offc, final int length, final byte[] a, final byte[] b, final byte[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = (byte) (b[offb + i] * c[offc + i]);
         }
+        return a;
     }
 
-    public static void elementwiseMul(final int offa, final int offb, final int offc, final int length, final short[] a, final short[] b, final short[] c)
+    public static short[] elementwiseMul(final int offa, final int offb, final int offc, final int length, final short[] a, final short[] b, final short[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = (short) (b[offb + i] * c[offc + i]);
         }
+        return a;
     }
 
-    public static void elementwiseMul(final int offa, final int offb, final int offc, final int length, final int[] a, final int[] b, final int[] c)
+    public static int[] elementwiseMul(final int offa, final int offb, final int offc, final int length, final int[] a, final int[] b, final int[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] * c[offc + i];
         }
+        return a;
     }
 
-    public static void elementwiseMul(final int offa, final int offb, final int offc, final int length, final long[] a, final long[] b, final long[] c)
+    public static long[] elementwiseMul(final int offa, final int offb, final int offc, final int length, final long[] a, final long[] b, final long[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] * c[offc + i];
         }
+        return a;
     }
 
-    public static void elementwiseMul(final int offa, final int offb, final int offc, final int length, final float[] a, final float[] b, final float[] c)
+    public static float[] elementwiseMul(final int offa, final int offb, final int offc, final int length, final float[] a, final float[] b, final float[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] * c[offc + i];
         }
+        return a;
     }
 
-    public static void elementwiseMul(final int offa, final int offb, final int offc, final int length, final double[] a, final double[] b, final double[] c)
+    public static double[] elementwiseMul(final int offa, final int offb, final int offc, final int length, final double[] a, final double[] b, final double[] c)
     {
         for(int i = 0; i < length; i++)
         {
             a[offa + i] = b[offb + i] * c[offc + i];
         }
+        return a;
     }
 
     /**
@@ -1382,35 +1507,36 @@ public class Vec
      * @param a The target vector.
      * @param b The first source vector.
      * @param c The second source vector.
+     * @param The target-vector
      */
-    public static void elementwiseMul(final byte[] a, final byte[] b, final byte[] c)
+    public static byte[] elementwiseMul(final byte[] a, final byte[] b, final byte[] c)
     {
-        elementwiseMul(0, 0, 0, a.length, a, b, c);
+        return elementwiseMul(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void elementwiseMul(final short[] a, final short[] b, final short[] c)
+    public static short[] elementwiseMul(final short[] a, final short[] b, final short[] c)
     {
-        elementwiseMul(0, 0, 0, a.length, a, b, c);
+        return elementwiseMul(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void elementwiseMul(final int[] a, final int[] b, final int[] c)
+    public static int[] elementwiseMul(final int[] a, final int[] b, final int[] c)
     {
-        elementwiseMul(0, 0, 0, a.length, a, b, c);
+        return elementwiseMul(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void elementwiseMul(final long[] a, final long[] b, final long[] c)
+    public static long[] elementwiseMul(final long[] a, final long[] b, final long[] c)
     {
-        elementwiseMul(0, 0, 0, a.length, a, b, c);
+        return elementwiseMul(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void elementwiseMul(final float[] a, final float[] b, final float[] c)
+    public static float[] elementwiseMul(final float[] a, final float[] b, final float[] c)
     {
-        elementwiseMul(0, 0, 0, a.length, a, b, c);
+        return elementwiseMul(0, 0, 0, a.length, a, b, c);
     }
 
-    public static void elementwiseMul(final double[] a, final double[] b, final double[] c)
+    public static double[] elementwiseMul(final double[] a, final double[] b, final double[] c)
     {
-        elementwiseMul(0, 0, 0, a.length, a, b, c);
+        return elementwiseMul(0, 0, 0, a.length, a, b, c);
     }
 
     /**
@@ -1421,172 +1547,36 @@ public class Vec
      * 
      * @param a The first vector.
      * @param b The second vector.
+     * @return The first vector
      */
-    public static void elementwiseMul(final byte[] a, final byte[] b)
+    public static byte[] elementwiseMul(final byte[] a, final byte[] b)
     {
-        elementwiseMul(0, 0, 0, a.length, a, a, b);
+        return elementwiseMul(0, 0, 0, a.length, a, a, b);
     }
 
-    public static void elementwiseMul(final short[] a, final short[] b)
+    public static short[] elementwiseMul(final short[] a, final short[] b)
     {
-        elementwiseMul(0, 0, 0, a.length, a, a, b);
+        return elementwiseMul(0, 0, 0, a.length, a, a, b);
     }
 
-    public static void elementwiseMul(final int[] a, final int[] b)
+    public static int[] elementwiseMul(final int[] a, final int[] b)
     {
-        elementwiseMul(0, 0, 0, a.length, a, a, b);
+        return elementwiseMul(0, 0, 0, a.length, a, a, b);
     }
 
-    public static void elementwiseMul(final long[] a, final long[] b)
+    public static long[] elementwiseMul(final long[] a, final long[] b)
     {
-        elementwiseMul(0, 0, 0, a.length, a, a, b);
+        return elementwiseMul(0, 0, 0, a.length, a, a, b);
     }
 
-    public static void elementwiseMul(final float[] a, final float[] b)
+    public static float[] elementwiseMul(final float[] a, final float[] b)
     {
-        elementwiseMul(0, 0, 0, a.length, a, a, b);
+        return elementwiseMul(0, 0, 0, a.length, a, a, b);
     }
 
-    public static void elementwiseMul(final double[] a, final double[] b)
+    public static double[] elementwiseMul(final double[] a, final double[] b)
     {
-        elementwiseMul(0, 0, 0, a.length, a, a, b);
-    }
-
-    /**
-     * Scales every element of an a by a given factor, i.e.<br>
-     * 
-     * {@latex[ \vec{a} = \alpha \cdot \vec{b}}
-     * 
-     * @param offa The offset of the first element of the vector a.
-     * @param offb The offset of the first element of the vector b.
-     * @param length The length of the operand-vectors.
-     * @param a The target vector.
-     * @param b The source vector.
-     * @param alpha The scale factor.
-     */
-    public static void scale(final int offa, final int offb, final int length, final byte[] a, final byte[] b, final byte alpha)
-    {
-        for(int i = 0; i < a.length; i++)
-        {
-            a[offa + i] = (byte) (alpha * b[offb + i]);
-        }
-    }
-
-    public static void scale(final int offa, final int offb, final int length, final short[] a, final short[] b, final short alpha)
-    {
-        for(int i = 0; i < a.length; i++)
-        {
-            a[offa + i] = (short) (alpha * b[offb + i]);
-        }
-    }
-
-    public static void scale(final int offa, final int offb, final int length, final int[] a, final int[] b, final int alpha)
-    {
-        for(int i = 0; i < a.length; i++)
-        {
-            a[offa + i] = alpha * b[offb + i];
-        }
-    }
-
-    public static void scale(final int offa, final int offb, final int length, final long[] a, final long[] b, final long alpha)
-    {
-        for(int i = 0; i < a.length; i++)
-        {
-            a[offa + i] = alpha * b[offb + i];
-        }
-    }
-
-    public static void scale(final int offa, final int offb, final int length, final float[] a, final float[] b, final float alpha)
-    {
-        for(int i = 0; i < a.length; i++)
-        {
-            a[offa + i] = alpha * b[offb + i];
-        }
-    }
-
-    public static void scale(final int offa, final int offb, final int length, final double[] a, final double[] b, final double alpha)
-    {
-        for(int i = 0; i < a.length; i++)
-        {
-            a[offa + i] = alpha * b[offb + i];
-        }
-    }
-
-    /**
-     * Scales every element of an a by a given factor, i.e.<br>
-     * 
-     * {@latex[ \vec{a} = \alpha \cdot \vec{b}}
-     * 
-     * @param a The target vector.
-     * @param b The source vector.
-     * @param alpha The scale factor.
-     */
-    public static void scale(final byte[] a, final byte[] b, final byte alpha)
-    {
-        scale(0, 0, a.length, a, b, alpha);
-    }
-
-    public static void scale(final short[] a, final short[] b, final short alpha)
-    {
-        scale(0, 0, a.length, a, b, alpha);
-    }
-
-    public static void scale(final int[] a, final int[] b, final int alpha)
-    {
-        scale(0, 0, a.length, a, b, alpha);
-    }
-
-    public static void scale(final long[] a, final long[] b, final long alpha)
-    {
-        scale(0, 0, a.length, a, b, alpha);
-    }
-
-    public static void scale(final float[] a, final float[] b, final float alpha)
-    {
-        scale(0, 0, a.length, a, b, alpha);
-    }
-
-    public static void scale(final double[] a, final double[] b, final double alpha)
-    {
-        scale(0, 0, a.length, a, b, alpha);
-    }
-
-    /**
-     * Scales every element of an a by a given factor, i.e.<br>
-     * 
-     * {@latex[ \vec{a} \rightarrow \alpha \cdot \vec{a}}
-     * 
-     * @param a The a to be scaled
-     * @param alpha The scale-factor
-     */
-    public static void scale(final byte[] a, final byte alpha)
-    {
-        scale(0, 0, a.length, a, a, alpha);
-    }
-
-    public static void scale(final short[] a, final short alpha)
-    {
-        scale(0, 0, a.length, a, a, alpha);
-    }
-
-    public static void scale(final int[] a, final int alpha)
-    {
-        scale(0, 0, a.length, a, a, alpha);
-    }
-
-    public static void scale(final long[] a, final long alpha)
-    {
-        scale(0, 0, a.length, a, a, alpha);
-    }
-
-    public static void scale(final float[] a, final float alpha)
-    {
-        scale(0, 0, a.length, a, a, alpha);
-    }
-
-    public static void scale(final double[] a, final double alpha)
-    {
-        scale(0, 0, a.length, a, a, alpha);
+        return elementwiseMul(0, 0, 0, a.length, a, a, b);
     }
 
     /**
@@ -1697,6 +1687,124 @@ public class Vec
         return productOperator(0, a.length, a);
     }
 
+    
+    /**
+     * Executes the product-operator for each index of an array of coefficients, i.e.<br>
+     * 
+     * {@latex[ a_i = a_{i - 1} \cdot b_{i - 1} \quad with \quad a_0 = 1}
+     *
+     * @param offa The offset to the first element of the vector a.
+     * @param offb The offset to the first element of the vector b.
+     * @param length The length of the vectors.
+     * @param a The target vector.
+     * @param b The source vector.
+     * @return The target-vector
+     */
+    public static int[] products(final int offa, final int offb, final int length, final int[] a, final byte[] b)
+    {
+        int size = 1;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size *= (int)b[i + offb];
+        }
+        return a;
+    }
+    
+    public static int[] products(final int offa, final int offb, final int length, final int[] a, final short[] b)
+    {
+        int size = 1;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size *= (short)b[i + offb];
+        }
+        return a;
+    }
+
+    public static int[] products(final int offa, final int offb, final int length, final int[] a, final int[] b)
+    {
+        int size = 1;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size *= b[i + offb];
+        }
+        return a;
+    }
+    
+    public static long[] products(final int offa, final int offb, final int length, final long[] a, final long[] b)
+    {
+        int size = 1;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size *= b[i + offb];
+        }
+        return a;
+    }
+    
+    public static float[] products(final int offa, final int offb, final int length, final float[] a, final float[] b)
+    {
+        float size = 1.0f;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size *= b[i + offb];
+        }
+        return a;
+    }
+    
+    public static double[] products(final int offa, final int offb, final int length, final double[] a, final double[] b)
+    {
+        double size = 1.0;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size *= b[i + offb];
+        }
+        return a;
+    }
+    
+    /**
+     * Executes the product-operator for each index of an array of coefficients, i.e.<br>
+     * 
+     * {@latex[ a_i = a_{i - 1} \cdot b_{i - 1} \quad with \quad a_0 = 1}
+     *
+     * @param a The target vector.
+     * @param b The source vector.
+     * @return The target-vector
+     */
+    public static int[] products(final int[] a, final byte[] b)
+    {
+        return products(0, 0, a.length, a, b);
+    }
+    
+    public static int[] products(final int[] a, final short[] b)
+    {
+        return products(0, 0, a.length, a, b);
+    }
+
+    public static int[] products(final int[] a, final int[] b)
+    {
+        return products(0, 0, a.length, a, b);
+    }
+    
+    public static long[] products(final long[] a, final long[] b)
+    {
+        return products(0, 0, a.length, a, b);
+    }
+    
+    public static float[] products(final float[] a, final float[] b)
+    {
+        return products(0, 0, a.length, a, b);
+    }
+    
+    public static double[] products(final double[] a, final double[] b)
+    {
+        return products(0, 0, a.length, a, b);
+    }
+    
     /**
      * Calculates the sum-operator for the elements of the a, i.e.<br>
      * 
@@ -1805,6 +1913,124 @@ public class Vec
         return sumOperator(0, a.length, a);
     }
 
+    
+    /**
+     * Executes the sum-operator for each index of an array of coefficients, i.e.<br>
+     * 
+     * {@latex[ a_i = a_{i - 1} + b_{i - 1} \quad with \quad a_0 = 0}
+     *
+     * @param offa The offset to the first element of the vector a.
+     * @param offb The offset to the first element of the vector b.
+     * @param length The length of the vectors.
+     * @param a The target vector.
+     * @param b The source vector.
+     * @return The target-vector
+     */
+    public static int[] sums(final int offa, final int offb, final int length, final int[] a, final byte[] b)
+    {
+        int size = 0;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size += (int)b[i + offb];
+        }
+        return a;
+    }
+    
+    public static int[] sums(final int offa, final int offb, final int length, final int[] a, final short[] b)
+    {
+        int size = 0;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size += (int)b[i + offb];
+        }
+        return a;
+    }
+    
+    public static int[] sums(final int offa, final int offb, final int length, final int[] a, final int[] b)
+    {
+        int size = 0;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size += (int)b[i + offb];
+        }
+        return a;
+    }
+    
+    public static long[] sums(final int offa, final int offb, final int length, final long[] a, final long[] b)
+    {
+        long size = 0;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size += b[i + offb];
+        }
+        return a;
+    }
+    
+    public static float[] sums(final int offa, final int offb, final int length, final float[] a, final float[] b)
+    {
+        float size = 0;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size += (int)b[i + offb];
+        }
+        return a;
+    }
+    
+    public static double[] sums(final int offa, final int offb, final int length, final double[] a, final double[] b)
+    {
+        double size = 0;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offa] = size;
+            size += (int)b[i + offb];
+        }
+        return a;
+    }
+    
+    /**
+     * Executes the sum-operator for each index of an array of coefficients, i.e.<br>
+     * 
+     * {@latex[ a_i = a_{i - 1} + b_{i - 1} \quad with \quad a_0 = 0}
+     *
+     * @param a The target vector.
+     * @param b The source vector.
+     * @return The target-vector
+     */
+    public static int[] sums(final int[] a, final byte[] b)
+    {
+        return sums(0, 0, a.length, a, b);
+    }
+    
+    public static int[] sums(final int[] a, final short[] b)
+    {
+        return sums(0, 0, a.length, a, b);
+    }
+
+    public static int[] sums(final int[] a, final int[] b)
+    {
+        return sums(0, 0, a.length, a, b);
+    }
+    
+    public static long[] sums(final long[] a, final long[] b)
+    {
+        return sums(0, 0, a.length, a, b);
+    }
+    
+    public static float[] sums(final float[] a, final float[] b)
+    {
+        return sums(0, 0, a.length, a, b);
+    }
+    
+    public static double[] sums(final double[] a, final double[] b)
+    {
+        return sums(0, 0, a.length, a, b);
+    }
+    
     /**
      * Returns <code>true</code> if all elements of an a are
      * greater than the given value.
