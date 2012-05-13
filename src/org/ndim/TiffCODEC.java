@@ -44,8 +44,6 @@ import java.io.IOException;
 import java.nio.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.media.jai.RasterFactory;
 import javax.media.jai.TiledImage;
 import org.ndim.DataContainer.Allocator;
@@ -110,18 +108,19 @@ class TiffCODEC implements CODEC
             final MemTopo memTopo = data.layer(0).v1;
             final Object buffer = data.layer(0).v2;
             
-            final int zIncr = gridTopo.incr(GridTopo.Z);
+            final int zIncr = gridTopo.incr(GridTopo.Z)*memTopo.tupleIncr();
             gridTopo = gridTopo.subspace(GridTopo.X, GridTopo.Y);
-            
+            AddrOp op = new AddrOp(gridTopo, memTopo);
+            Stencil iter = new Stencil(gridTopo.extent());
                     
             TIFFEncodeParam params = new TIFFEncodeParam();
             ImageEncoder encoder = ImageCodec.createImageEncoder("tiff", out, params);
             List<RenderedImage> imageList = new ArrayList<RenderedImage>();
-            final TiledImage cover = writeImage(gridTopo, memTopo, buffer);
+            final TiledImage cover = writeImage(iter, op, buffer);
             for(int i = 1; i < depth; i++)
             {
-                gridTopo = gridTopo.shift(zIncr);
-                imageList.add(writeImage(gridTopo, memTopo, buffer)); 
+                op.shift(zIncr);
+                imageList.add(writeImage(iter, op, buffer)); 
             }
             params.setExtraImages(imageList.iterator()); 
             
@@ -146,15 +145,14 @@ class TiffCODEC implements CODEC
         }
         
         
-        private static TiledImage writeImage(final GridTopo gridTopo, final MemTopo memTopo, final Object data)
+        private static TiledImage writeImage(final Stencil iter, final AddrOp op, final Object data)
         {
             
-            final int width = gridTopo.extent(GridTopo.X);
-            final int height = gridTopo.extent(GridTopo.Y);
-            final int samples = memTopo.nrElements();
+            final int width =  iter.extent(GridTopo.X);
+            final int height = iter.extent(GridTopo.Y);
+            final int samples = op.nrElements();
             
             final int[] pos = new int[2];
-            final Stencil iter = new Stencil(gridTopo.extent());
             
             if(data instanceof byte[])
             {
@@ -165,10 +163,10 @@ class TiffCODEC implements CODEC
                 final byte[] buff = (byte[])data;
                 while(iter.hasNext(pos))
                 {
-                    for(int i = 0; i < memTopo.nrElements(); i++)
+                    for(int i = 0; i < op.nrElements(); i++)
                     {
                         tiledImage.setSample(pos[GridTopo.X], pos[GridTopo.Y], i,
-                                (int)buff[gridTopo.addr(pos)*memTopo.tupleIncr() + memTopo.elementIncr(i)]);
+                                (int)buff[op.addr(pos, i)]);
                     }
                     
                     iter.next(pos);
@@ -185,10 +183,10 @@ class TiffCODEC implements CODEC
                 final ByteBuffer buff = (ByteBuffer)data;
                 while(iter.hasNext(pos))
                 {
-                    for(int i = 0; i < memTopo.nrElements(); i++)
+                    for(int i = 0; i < op.nrElements(); i++)
                     {
                         tiledImage.setSample(pos[GridTopo.X], pos[GridTopo.Y], i,
-                                (int)buff.get(gridTopo.addr(pos)*memTopo.tupleIncr() + memTopo.elementIncr(i)));
+                                (int)buff.get(op.addr(pos, i)));
                     }
                     
                     iter.next(pos);
@@ -206,10 +204,10 @@ class TiffCODEC implements CODEC
                 final short[] buff = (short[])data;
                 while(iter.hasNext(pos))
                 {
-                    for(int i = 0; i < memTopo.nrElements(); i++)
+                    for(int i = 0; i < op.nrElements(); i++)
                     {
                         tiledImage.setSample(pos[GridTopo.X], pos[GridTopo.Y], i,
-                                (int)buff[gridTopo.addr(pos)*memTopo.tupleIncr() + memTopo.elementIncr(i)]);
+                                (int)buff[op.addr(pos, i)]);
                     }
                     
                     iter.next(pos);
@@ -226,10 +224,10 @@ class TiffCODEC implements CODEC
                 final ShortBuffer buff = (ShortBuffer)data;
                 while(iter.hasNext(pos))
                 {
-                    for(int i = 0; i < memTopo.nrElements(); i++)
+                    for(int i = 0; i < op.nrElements(); i++)
                     {
                         tiledImage.setSample(pos[GridTopo.X], pos[GridTopo.Y], i,
-                                (int)buff.get(gridTopo.addr(pos)*memTopo.tupleIncr() + memTopo.elementIncr(i)));
+                                (int)buff.get(op.addr(pos, i)));
                     }
                     
                     iter.next(pos);
@@ -245,10 +243,10 @@ class TiffCODEC implements CODEC
                 final int[] buff = (int[])data;
                 while(iter.hasNext(pos))
                 {
-                    for(int i = 0; i < memTopo.nrElements(); i++)
+                    for(int i = 0; i < op.nrElements(); i++)
                     {
                         tiledImage.setSample(pos[GridTopo.X], pos[GridTopo.Y], i,
-                                (int)buff[gridTopo.addr(pos)*memTopo.tupleIncr() + memTopo.elementIncr(i)]);
+                                (int)buff[op.addr(pos, i)]);
                     }
                     
                     iter.next(pos);
@@ -265,10 +263,10 @@ class TiffCODEC implements CODEC
                 final IntBuffer buff = (IntBuffer)data;
                 while(iter.hasNext(pos))
                 {
-                    for(int i = 0; i < memTopo.nrElements(); i++)
+                    for(int i = 0; i < op.nrElements(); i++)
                     {
                         tiledImage.setSample(pos[GridTopo.X], pos[GridTopo.Y], i,
-                                (int)buff.get(gridTopo.addr(pos)*memTopo.tupleIncr() + memTopo.elementIncr(i)));
+                                (int)buff.get(op.addr(pos, i)));
                     }
                     
                     iter.next(pos);
@@ -291,10 +289,10 @@ class TiffCODEC implements CODEC
                 final float[] buff = (float[])data;
                 while(iter.hasNext(pos))
                 {
-                    for(int i = 0; i < memTopo.nrElements(); i++)
+                    for(int i = 0; i < op.nrElements(); i++)
                     {
                         tiledImage.setSample(pos[GridTopo.X], pos[GridTopo.Y], i,
-                                (float)buff[gridTopo.addr(pos)*memTopo.tupleIncr() + memTopo.elementIncr(i)]);
+                                (float)buff[op.addr(pos, i)]);
                     }
                     
                     iter.next(pos);
@@ -311,10 +309,10 @@ class TiffCODEC implements CODEC
                 final FloatBuffer buff = (FloatBuffer)data;
                 while(iter.hasNext(pos))
                 {
-                    for(int i = 0; i < memTopo.nrElements(); i++)
+                    for(int i = 0; i < op.nrElements(); i++)
                     {
                         tiledImage.setSample(pos[GridTopo.X], pos[GridTopo.Y], i,
-                                (float)buff.get(gridTopo.addr(pos)*memTopo.tupleIncr() + memTopo.elementIncr(i)));
+                                (float)buff.get(op.addr(pos, i)));
                     }
                     
                     iter.next(pos);
@@ -330,10 +328,10 @@ class TiffCODEC implements CODEC
                 final double[] buff = (double[])data;
                 while(iter.hasNext(pos))
                 {
-                    for(int i = 0; i < memTopo.nrElements(); i++)
+                    for(int i = 0; i < op.nrElements(); i++)
                     {
                         tiledImage.setSample(pos[GridTopo.X], pos[GridTopo.Y], i,
-                                (double)buff[gridTopo.addr(pos)*memTopo.tupleIncr() + memTopo.elementIncr(i)]);
+                                (double)buff[op.addr(pos, i)]);
                     }
                     
                     iter.next(pos);
@@ -350,10 +348,10 @@ class TiffCODEC implements CODEC
                 final DoubleBuffer buff = (DoubleBuffer)data;
                 while(iter.hasNext(pos))
                 {
-                    for(int i = 0; i < memTopo.nrElements(); i++)
+                    for(int i = 0; i < op.nrElements(); i++)
                     {
                         tiledImage.setSample(pos[GridTopo.X], pos[GridTopo.Y], i,
-                                (double)buff.get(gridTopo.addr(pos)*memTopo.tupleIncr() + memTopo.elementIncr(i)));
+                                (double)buff.get(op.addr(pos, i)));
                     }
                     
                     iter.next(pos);

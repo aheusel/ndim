@@ -90,13 +90,12 @@ public final class GridTopo extends Grid
      *
      * @param args The extent of the grid.
      */
-
     public GridTopo(final int... extent)
     {
-        this(extent, Vec.products(new int[extent.length], extent), Vec.products(new int[extent.length], extent), 0);
+        this(extent, 0, Vec.products(new int[extent.length], extent), Vec.products(new int[extent.length], extent));
     }
 
-    private GridTopo(final int[] extent, final int[] pageSize, final int[] incr, final int offset)
+    private GridTopo(final int[] extent, final int offset, final int[] incr, final int[] pageSize)
     {
         super(extent);
         this.pageSize = pageSize;
@@ -148,17 +147,6 @@ public final class GridTopo extends Grid
     {
         System.arraycopy(this.incr, 0, incr, 0, this.incr.length);
     }
-
-    /**
-     * Returns the address of the entity at the position pos
-     * 
-     * @param pos The coordinate.
-     * @return The address of the entitiy at the position.
-     */
-    public final int addr(final int... pos)
-    {
-        return offset + (int)Vec.dot(incr, pos);
-    }
     
     /**
      * Clones this GridTopo
@@ -168,20 +156,9 @@ public final class GridTopo extends Grid
     @Override
     public GridTopo clone()
     {
-        return new GridTopo(extent.clone(), pageSize.clone(), incr.clone(), offset);
+        return new GridTopo(extent.clone(), offset, incr.clone(), pageSize.clone());
     }
-    
-    /**
-     * Adds to the offset of a GridTopo
-     * 
-     * @param offs The offs to add
-     * @return The new GridTopo
-     */
-    public final GridTopo shift(final int offs)
-    {
-        return new GridTopo(extent, pageSize, incr, offset + offs);
-    }
-    
+        
     /**
      * Selects a subspace of a grid.
      * 
@@ -197,7 +174,7 @@ public final class GridTopo extends Grid
         final int[] newExtent = Arr.coalesce(extent, dimIdx);
         final int[] newPageSize = Vec.products(new int[newExtent.length], newExtent);
         final int[] newIncr = Arr.coalesce(incr, dimIdx);
-        return new GridTopo(newExtent, newPageSize, newIncr, offset);
+        return new GridTopo(newExtent, offset, newIncr, newPageSize);
     }
 
     /**
@@ -223,7 +200,7 @@ public final class GridTopo extends Grid
         }
 
         final int[] newPageSize = Vec.products(new int[newExtent.length], newExtent);
-        return new GridTopo(newExtent, newPageSize, newIncr, newOffset);
+        return new GridTopo(newExtent, newOffset, newIncr, newPageSize);
     }
 
     /**
@@ -237,7 +214,13 @@ public final class GridTopo extends Grid
         final int[] endPos = new int[extent.length];
         final int[] newIncr = new int[extent.length];
         final int[] cleanArgs = args.clone();
-        Arrays.sort(args);
+       
+        Arrays.sort(cleanArgs);
+        final int uniqueLength = Arr.unique(cleanArgs);
+        if(uniqueLength > nrDims() || cleanArgs[uniqueLength - 1] > nrDims())
+        {
+            throw new java.lang.IllegalArgumentException("Argument contains invalid dimension-indices.");
+        }
         
         int argIter = 0;
         for(int i = 0; i < endPos.length; i++)
@@ -255,7 +238,9 @@ public final class GridTopo extends Grid
             }
         }
 
-        return new GridTopo(extent.clone(), pageSize.clone(), newIncr, addr(endPos));
+        return new GridTopo(extent.clone(),
+                            addr(offset, incr, endPos),
+                            newIncr, pageSize.clone());
     }
 
     /**
@@ -273,7 +258,10 @@ public final class GridTopo extends Grid
             newExtent[i] = ((start[i] + extent[i] - 1) < newExtent[i]) ? extent[i] : newExtent[i] - start[i];
         }
 
-        return new GridTopo(newExtent, Vec.products(new int[extent.length], extent), incr.clone(), addr(start));
+        return new GridTopo(newExtent,
+                            addr(offset, incr, start),
+                            incr.clone(),
+                            Vec.products(new int[extent.length], extent));
     }
 
     /**
@@ -351,7 +339,22 @@ public final class GridTopo extends Grid
         return cropBorders(Arr.fill(new int[extent.length], size));
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Private section
+    ///////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Returns the address of the entity at the position pos
+     * 
+     * @param offset The offset of the grid
+     * @param incr The increment-array of the grid
+     * @param pos The coordinate.
+     * @return The address of the entitiy at the position.
+     */
+    private static int addr(final int offset, final int[] incr, final int[] pos)
+    {
+        return offset + (int)Vec.dot(incr, pos);
+    }
     
     /**
      * Calculates the extent for a resampled field.

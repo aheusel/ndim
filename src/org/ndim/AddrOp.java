@@ -37,38 +37,48 @@ import org.ndim.math.Vec;
  *
  * @author Alexander Heusel
  */
-public class AddrOp
+public final class AddrOp
 {
 
     private int _offset;
-    private final int[] _incr;
-    private final int[] _elementIncr;
+    private int[] _incr;
+    private int[] _elementIncr;
     
     public AddrOp(final GridTopo gridTopo, final MemTopo memTopo)
+    {
+        set(gridTopo, memTopo);
+    }
+    
+    public AddrOp(final GridTopo gridTopo)
+    {
+        set(gridTopo);
+    }
+    
+    public final void set(final GridTopo gridTopo, final MemTopo memTopo)
     {
         _offset = gridTopo.offset()*memTopo.tupleIncr();
 	_incr = Vec.mul(gridTopo.incr(), memTopo.tupleIncr());
 	_elementIncr = memTopo.elementIncr();
     }
     
-    public AddrOp(final GridTopo gridTopo)
+    public final void set(final GridTopo gridTopo)
     {
         _offset = gridTopo.offset();
 	_incr = gridTopo.incr();
-	_elementIncr = new int[]{0};
+	_elementIncr = new int[]{0};        
     }
     
-    final void shift(final int incr)
+    public final void shift(final int incr)
     {
         _offset += incr;
     }
     
-    final int addr(final int[] pos)
+    public final int addr(final int[] pos)
     {
         return _offset +  (int)Vec.dot(_incr, pos);
     }
 
-    final int addr(final int[] pos, final int elemIdx)
+    public final int addr(final int[] pos, final int elemIdx)
     {
         return _offset + (int)Vec.dot(_incr, pos) + _elementIncr[elemIdx];
     }
@@ -79,20 +89,26 @@ public class AddrOp
     }
     
     
-    final int incr(final int idx)
+    public final int incr(final int idx)
     {
             return _incr[idx];
     }
 
+    public final int nrElements()
+    {
+        return _elementIncr.length;
+    }
+    
     public final void elementIncr(int[] elementIncr)
     {
         System.arraycopy(_elementIncr, 0, elementIncr, 0, _elementIncr.length);
     }
 
     
-    final int elementIncr(final int idx)
+    public final int elementIncr(final int idx)
     {
             return _elementIncr[idx];
-    }    
+    } 
+    
     
 }
