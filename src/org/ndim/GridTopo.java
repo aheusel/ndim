@@ -352,5 +352,31 @@ public final class GridTopo extends Grid
     }
 
 
+    
+    /**
+     * Calculates the extent for a resampled field.
+     *
+     * @param start The start-position for the resampling process
+     * @param stride The stride-width for the resampling
+     * @param extent The extent of the field before the resampling
+     * @return The extent of the field after the resampling
+     */
+    private static int normalizedExtent(int start, int stride, int extent)
+    {
+        return (int) Math.floor((double) (extent - 1 - start) / (double) (stride)) + 1;
+    }
+
+    /**
+     * Calculates the lowest possible start-position.
+     *
+     * @param start The start-position for a resampling process
+     * @param stride The stride for the resampling
+     * @return The lowest possible start-position
+     */
+    private static int normalizedStartPos(int start, int stride)
+    {
+        return stride * (int) Math.ceil((double) (-start) / (double) (stride)) + start;
+    }
+    
 
 }
