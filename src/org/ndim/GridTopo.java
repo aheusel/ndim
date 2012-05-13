@@ -231,6 +231,7 @@ public final class GridTopo extends Grid
     {
         final int[] endPos = new int[extent.length];
         final int[] newIncr = new int[extent.length];
+        
         int argIter = 0;
         for(int i = 0; i < endPos.length; i++)
         {
@@ -238,6 +239,7 @@ public final class GridTopo extends Grid
             {
                 endPos[i] = extent[i] - 1;
                 newIncr[i] = -incr[i];
+                argIter++;
             }
             else
             {
@@ -258,7 +260,7 @@ public final class GridTopo extends Grid
      */
     public final GridTopo crop(int[] start, int[] extent)
     {
-        final int[] newExtent = extent.clone();
+        final int[] newExtent = this.extent.clone();
         for(int i = 0; i < extent.length; i++)
         {
             newExtent[i] = ((start[i] + extent[i] - 1) < newExtent[i]) ? extent[i] : newExtent[i] - start[i];

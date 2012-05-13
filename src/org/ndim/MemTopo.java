@@ -84,11 +84,11 @@ public final class MemTopo
     /**
      * Creates a <em>MemTopo</em>.
      * 
-     * @param size The number of tuples in the linear storage.
+     * @param nrTuples The number of entities in the linear storage.
      * @param nrElements The number of elements per tuple.
      * @param interleaved The storage-format of the elements.
      */
-    public MemTopo(final int size, final int nrElements, final boolean interleaved)
+    public MemTopo(final int nrTuples, final int nrElements, final boolean interleaved)
     {
         if(interleaved)
         {
@@ -98,7 +98,7 @@ public final class MemTopo
         else
         {
             tupleIncr = 1;
-            elementIncr = Arr.fillWithScaledIndex(new int[nrElements], size);
+            elementIncr = Arr.fillWithScaledIndex(new int[nrElements], nrTuples);
         }
     }
 
