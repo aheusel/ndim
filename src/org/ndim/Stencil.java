@@ -108,49 +108,36 @@ public class Stencil extends Grid
         
     }
 
-    
     /**
-     * Forces the given coordinate inside the range of the grid.
+     * Determines whether the given position is located at the last valid element in
+     * a dimension.
      * 
-     * @param pos The coordinate which will be forced to the range of the grid.
+     * @param pos The position
+     * @return <code>true</code>, if at the end of the grid, <code>false</code> otherwise
      */
-    public final void forceToRange(final int[] pos)
+    public final boolean isAtEnd(final int... pos)
     {
-        for(int i = 0; i < nrDims(); i++)
+        for(int i = 0; i < extent.length; i++)
         {
-            pos[i] = forceToRange(i, pos[i]);
+            if(pos[i] == (extent[i] - 1))
+            {
+                return true;
+            }
         }
+        return false;
+        
     }
 
-    /**
-     * Forces the given coordinate inside the range of the grid
-     * 
-     * @param idx The dimension-index of the coordinate
-     * @param pos The coodinate.
-     * @return The new coordinate.
-     */
-    public final int forceToRange(int idx, int pos)
-    {
-        if(pos < 0)
-        {
-            return 0;
-        }
-        if(pos > extent[idx])
-        {
-            return extent[idx];
-        }
-        return pos;
-    }
-    
     /**
      * Determines whether the given position is at the last valid element of the
      * dimension denoted with idx or not.
      *
+     * @param idx The dimension-index
      * @param pos The coordinate.
      * @return <code>true</code> if the coordinate is at the end,
      * <code>false</code> if not.
      */
-    public final boolean isAtEnd(int idx, int pos)
+    public final boolean isAtEnd(final int idx, final int pos)
     {
         return pos == (extent[idx] - 1);
     }
@@ -159,7 +146,8 @@ public class Stencil extends Grid
      * Determines whether the given position is in the extent or not.
      *
      * @param pos The coordinate.
-     * @return <code>true</code> if the coordinate is inside, <code>false</code> if it is outside the extent.
+     * @return <code>true</code> if the coordinate is inside, <code>false</code>
+     * if it is outside the extent.
      */
     public final boolean isIn(final int... pos)
     {
@@ -177,10 +165,12 @@ public class Stencil extends Grid
      * Determines whether the given position is in the extent of the dimension
      * denoted with idx or not.
      *
+     * @param idx The dimension-index
      * @param pos The coordinate.
-     * @return <code>true</code> if the coordinate is inside, <code>false</code> if it is outside the extent.
+     * @return <code>true</code> if the coordinate is inside, <code>false</code>
+     * if it is outside the extent.
      */
-    public final boolean isIn(int idx, int pos)
+    public final boolean isIn(final int idx, final int pos)
     {
         return inRange(pos, extent[idx]);
     }
@@ -189,7 +179,8 @@ public class Stencil extends Grid
      * Determines whether the given position is on the border of a field or not.
      *
      * @param pos The coordinate.
-     * @return <code>true</code> if the coordinate is on the border, <code>false</code> if not.
+     * @return <code>true</code> if the coordinate is on the border,
+     * <code>false</code> if not.
      */
     public final boolean isOnBorder(final int... pos)
     {
@@ -205,6 +196,96 @@ public class Stencil extends Grid
         return false;
     }
     
+    
+    /**
+     * Forces the given coordinate inside the range of the grid.
+     * 
+     * @param pos The coordinate which will be forced to the range of the grid.
+     */
+    public final void forceToRange(final int[] pos)
+    {
+        for(int i = 0; i < nrDims(); i++)
+        {
+            pos[i] = forceToRng(pos[i], extent[i]);
+        }
+    }
+
+    /**
+     * Forces the given coordinate inside the range of the grid
+     * 
+     * @param idx The dimension-index of the coordinate
+     * @param pos The coodinate.
+     * @return The new coordinate.
+     */
+    public final int forceToRange(final int idx, final int pos)
+    {
+        return forceToRng(pos, extent[idx]);
+    }
+    
+    
+    /**
+     * Forces a coordinate-value inside the grid. If the grid
+     * is left the coordinate-value is mirrored back in.
+     *
+     * @param x The coordinate-value.
+     */    
+    public final void mirrorCoordinate(final int[] pos)
+    {
+        for(int i = 0; i < pos.length; i++)
+        {
+            pos[i] = mirrorCoor(pos[i], extent[i]);
+        }
+    }
+
+    
+    /**
+     * Forces a coordinate-value inside the grid. If the grid
+     * is left the coordinate-value is mirrored back in.
+     *
+     * @param idx The dimension-index
+     * @param pos The coordinate-value.
+     * @return  The mirrored coordinate
+     */    
+    public final int mirrorCoordinate(final int idx, final int pos)
+    {
+        return mirrorCoor(pos, extent[idx]);
+    }
+    
+
+    /**
+     * Forces a coordinate-value inside the grid. If the grid
+     * is left on one border the coordinate-value reenters the grid
+     * on the opposite border.
+     *
+     * @param pos The coordinate-value.
+     */    
+    public final void tileCoordinate(final int[] pos)
+    {
+        for(int i = 0; i < pos.length; i++)
+        {
+            pos[i] = tileCoor(pos[i], extent[i]);
+        }        
+    }
+    
+    /**
+     * Forces a coordinate-value inside the grid. If the grid
+     * is left on one border the coordinate-value reenters the grid
+     * on the opposite border.
+     *
+     * @param idx The dimension-index
+     * @param pos The coordinate-value.
+     * @return The tiled coordinate-value
+     */    
+    public final int tileCoordinate(final int idx, final int pos)
+    {
+        return tileCoor(pos, extent[idx]);
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    // Private section
+    ///////////////////////////////////////////////////////////////////////////
+    
+    
     /**
      * Determines if a coordinate is in range.
      *
@@ -212,11 +293,33 @@ public class Stencil extends Grid
      * @param extent The extent of the coordinate-dimension.
      * @return <code>true</code> if <code>x > -1</code> and <code>x < extent</code>
      */
-    private static boolean inRange(int x, int extent)
+    private static boolean inRange(final int x, final int extent)
     {
         return x > -1 && x < extent;
     }
 
+    
+    /**
+     * Forces a coordinate to a given extent
+     * 
+     * @param x The coordinate-value.
+     * @param extent The extent of the coordinate-dimension
+     * @return The corrected coordinate
+     */
+    private static int forceToRng(final int x, final int extent)
+    {
+        if(x < 0)
+        {
+            return 0;
+        }
+        if(x >= extent)
+        {
+            return extent - 1;
+        }
+        return x;
+    }
+    
+    
     /**
      * Forces a coordinate-value to the given extent. If the extent
      * is left the coordinate-value is mirrored back in.
@@ -225,7 +328,7 @@ public class Stencil extends Grid
      * @param extent The extent of the coordinate-dimension.
      * @return The mirrored coordinate-value
      */
-    private static int mirrorCoor(int x, int extent)
+    private static int mirrorCoor(final int x, final int extent)
     {
         if(inRange(x, extent))
         {
@@ -244,7 +347,7 @@ public class Stencil extends Grid
      * @param extent The extent of the coordinate-dimension.
      * @return The tiled coordinate-value
      */
-    private static int tileCoor(int x, int extent)
+    private static int tileCoor(final int x, final int extent)
     {
         int nx = x % extent;
         return nx < 0 ? nx + extent : nx;
