@@ -171,9 +171,9 @@ public final class GridTopo extends Grid
             throw new java.lang.IllegalArgumentException("Number of selected subspace-dimensions exceeds current dimensions.");
         }
         
-        final int[] newExtent = Arr.coalesce(extent, dimIdx);
+        final int[] newExtent = Arr.coalesce(new int[dimIdx.length], extent, dimIdx);
         final int[] newPageSize = Vec.products(new int[newExtent.length], newExtent);
-        final int[] newIncr = Arr.coalesce(incr, dimIdx);
+        final int[] newIncr = Arr.coalesce(new int[dimIdx.length], incr, dimIdx);
         return new GridTopo(newExtent, offset, newIncr, newPageSize);
     }
 

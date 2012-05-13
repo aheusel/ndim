@@ -106,6 +106,24 @@ public class Arr
         return a;
     }
 
+    public static boolean[] coalesce(final int offset, final boolean[] a, final boolean[] b, final int[] idx)
+    {
+        for(int i = 0; i < idx.length; i++)
+        {
+            a[offset + i] = b[idx[i]];
+        }
+        return a;
+    }
+
+    public static char[] coalesce(final int offset, final char[] a, final char[] b, final int[] idx)
+    {
+        for(int i = 0; i < idx.length; i++)
+        {
+            a[offset + i] = b[idx[i]];
+        }
+        return a;
+    }
+
     /**
      * Collects specified elements from an array.
      * 
@@ -144,47 +162,22 @@ public class Arr
         return coalesce(0, a, b, idx);
     }
 
-    /**
-     * Collects specified elements from an array.
-     * 
-     * @param b The source array.
-     * @param idx The indices of the elements to be copied into the target-array.
-     * @return Returns A new array containing the elements.
-     */    
-    public static byte[] coalesce(final byte[] b, final int[] idx)
-    {   
-        return coalesce(0, new byte[idx.length], b, idx);
+    public static boolean[] coalesce(final boolean[] a, final boolean[] b, final int[] idx)
+    {
+        return coalesce(0, a, b, idx);
     }
 
-    public static short[] coalesce(final short[] b, final int[] idx)
-    {   
-        return coalesce(0, new short[idx.length], b, idx);
+    public static char[] coalesce(final char[] a, final char[] b, final int[] idx)
+    {
+        return coalesce(0, a, b, idx);
     }
-    
-    public static int[] coalesce(final int[] b, final int[] idx)
-    {   
-        return coalesce(0, new int[idx.length], b, idx);
-    }
-    
-    public static long[] coalesce(final long[] b, final int[] idx)
-    {   
-        return coalesce(0, new long[idx.length], b, idx);
-    }
-    
-    public static float[] coalesce(final float[] b, final int[] idx)
-    {   
-        return coalesce(0, new float[idx.length], b, idx);
-    }
-    
-    public static double[] coalesce(final double[] b, final int[] idx)
-    {   
-        return coalesce(0, new double[idx.length], b, idx);
-    }
+
     
     
     /**
      * Distributes the elements of the source array to the specified positions
-     * in the target array.
+     * in the target array. <code>shuffle</code> does not check the integrity
+     * of the index array!
      * 
      * @param offset The offset to the first element of the source array.
      * @param a The target array.
@@ -246,10 +239,29 @@ public class Arr
         return a;
     }
 
+    public static boolean[] shuffle(final int offset, final boolean[] a, final boolean[] b, final int[] idx)
+    {
+        for(int i = 0; i < idx.length; i++)
+        {
+            a[idx[i]] = b[offset + i];
+        }
+        return a;
+    }
+
+    public static char[] shuffle(final int offset, final char[] a, final char[] b, final int[] idx)
+    {
+        for(int i = 0; i < idx.length; i++)
+        {
+            a[idx[i]] = b[offset + i];
+        }
+        return a;
+    }
+
 
     /**
      * Distributes the elements of the source array to the specified positions
-     * in the target array.
+     * in the target array. <code>shuffle</code> does not check the integrity
+     * of the index array!
      * 
      * @param a The target array.
      * @param b The source array.
@@ -286,6 +298,16 @@ public class Arr
         return shuffle(0, a, b, idx);
     }
 
+    public static boolean[] shuffle(final boolean[] a, final boolean[] b, final int[] idx)
+    {
+        return shuffle(0, a, b, idx);
+    }
+
+    public static char[] shuffle(final char[] a, final char[] b, final int[] idx)
+    {
+        return shuffle(0, a, b, idx);
+    }
+
     /**
      * Shifts all elements of an array one position to the left. The first
      * array-element is appended to the end<br>
@@ -300,7 +322,7 @@ public class Arr
      * @param b The source array
      * @return The target array
      */
-    public static byte[] shiftLeft(final int offa, final int offb, final int length, final byte[] a, final byte[] b)
+    public static byte[] rotateLeft(final int offa, final int offb, final int length, final byte[] a, final byte[] b)
     {
         final byte buff = b[offb];
         for(int i = 1; i < length; i++)
@@ -311,7 +333,7 @@ public class Arr
         return a;
     }
 
-    public static short[] shiftLeft(final int offa, final int offb, final int length, final short[] a, final short[] b)
+    public static short[] rotateLeft(final int offa, final int offb, final int length, final short[] a, final short[] b)
     {
         final short buff = b[offb];
         for(int i = 1; i < length; i++)
@@ -322,7 +344,7 @@ public class Arr
         return a;
     }
 
-    public static int[] shiftLeft(final int offa, final int offb, final int length, final int[] a, final int[] b)
+    public static int[] rotateLeft(final int offa, final int offb, final int length, final int[] a, final int[] b)
     {
         final int buff = b[offb];
         for(int i = 1; i < length; i++)
@@ -333,7 +355,7 @@ public class Arr
         return a;
     }
 
-    public static long[] shiftLeft(final int offa, final int offb, final int length, final long[] a, final long[] b)
+    public static long[] rotateLeft(final int offa, final int offb, final int length, final long[] a, final long[] b)
     {
         final long buff = b[offb];
         for(int i = 1; i < length; i++)
@@ -344,7 +366,7 @@ public class Arr
         return a;
     }
 
-    public static float[] shiftLeft(final int offa, final int offb, final int length, final float[] a, final float[] b)
+    public static float[] rotateLeft(final int offa, final int offb, final int length, final float[] a, final float[] b)
     {
         final float buff = b[offb];
         for(int i = 1; i < length; i++)
@@ -355,9 +377,31 @@ public class Arr
         return a;
     }
 
-    public static double[] shiftLeft(final int offa, final int offb, final int length, final double[] a, final double[] b)
+    public static double[] rotateLeft(final int offa, final int offb, final int length, final double[] a, final double[] b)
     {
         final double buff = b[offb];
+        for(int i = 1; i < length; i++)
+        {
+            a[offa + i - 1] = b[offb + i];
+        }
+        a[offa + length - 1] = (b == a) ? buff : b[offb];
+        return a;
+    }
+
+    public static boolean[] rotateLeft(final int offa, final int offb, final int length, final boolean[] a, final boolean[] b)
+    {
+        final boolean buff = b[offb];
+        for(int i = 1; i < length; i++)
+        {
+            a[offa + i - 1] = b[offb + i];
+        }
+        a[offa + length - 1] = (b == a) ? buff : b[offb];
+        return a;
+    }
+
+    public static char[] rotateLeft(final int offa, final int offb, final int length, final char[] a, final char[] b)
+    {
+        final char buff = b[offb];
         for(int i = 1; i < length; i++)
         {
             a[offa + i - 1] = b[offb + i];
@@ -378,34 +422,44 @@ public class Arr
      * @param b The source array
      * @return The target array
      */
-    public static byte[] shiftLeft(final byte[] a, final byte[] b)
+    public static byte[] rotateLeft(final byte[] a, final byte[] b)
     {
-        return shiftLeft(0, 0, a.length, a, b);
+        return rotateLeft(0, 0, a.length, a, b);
     }
 
-    public static short[] shiftLeft(final short[] a, final short[] b)
+    public static short[] rotateLeft(final short[] a, final short[] b)
     {
-        return shiftLeft(0, 0, a.length, a, b);
+        return rotateLeft(0, 0, a.length, a, b);
     }
 
-    public static int[] shiftLeft(final int[] a, final int[] b)
+    public static int[] rotateLeft(final int[] a, final int[] b)
     {
-        return shiftLeft(0, 0, a.length, a, b);
+        return rotateLeft(0, 0, a.length, a, b);
     }
 
-    public static long[] shiftLeft(final long[] a, final long[] b)
+    public static long[] rotateLeft(final long[] a, final long[] b)
     {
-        return shiftLeft(0, 0, a.length, a, b);
+        return rotateLeft(0, 0, a.length, a, b);
     }
 
-    public static float[] shiftLeft(final float[] a, final float[] b)
+    public static float[] rotateLeft(final float[] a, final float[] b)
     {
-        return shiftLeft(0, 0, a.length, a, b);
+        return rotateLeft(0, 0, a.length, a, b);
     }
 
-    public static double[] shiftLeft(final double[] a, final double[] b)
+    public static double[] rotateLeft(final double[] a, final double[] b)
     {
-        return shiftLeft(0, 0, a.length, a, b);
+        return rotateLeft(0, 0, a.length, a, b);
+    }
+
+    public static boolean[] rotateLeft(final boolean[] a, final boolean[] b)
+    {
+        return rotateLeft(0, 0, a.length, a, b);
+    }
+
+    public static char[] rotateLeft(final char[] a, final char[] b)
+    {
+        return rotateLeft(0, 0, a.length, a, b);
     }
 
     /**
@@ -422,7 +476,7 @@ public class Arr
      * @param b The source array
      * @return  The target array
      */
-    public static byte[] shiftRight(final int offa, final int offb, final int length, final byte[] a, final byte[] b)
+    public static byte[] rotateRight(final int offa, final int offb, final int length, final byte[] a, final byte[] b)
     {
         final byte buff = b[offb + length - 1];
         for(int i = length - 1; i > 0; i--)
@@ -433,7 +487,7 @@ public class Arr
         return a;
     }
 
-    public static short[] shiftRight(final int offa, final int offb, final int length, final short[] a, final short[] b)
+    public static short[] rotateRight(final int offa, final int offb, final int length, final short[] a, final short[] b)
     {
         final short buff = b[offb + length - 1];
         for(int i = length - 1; i > 0; i--)
@@ -444,7 +498,7 @@ public class Arr
         return a;
     }
 
-    public static int[] shiftRight(final int offa, final int offb, final int length, final int[] a, final int[] b)
+    public static int[] rotateRight(final int offa, final int offb, final int length, final int[] a, final int[] b)
     {
         final int buff = b[offb + length - 1];
         for(int i = length - 1; i > 0; i--)
@@ -455,7 +509,7 @@ public class Arr
         return a;
     }
 
-    public static long[] shiftRight(final int offa, final int offb, final int length, final long[] a, final long[] b)
+    public static long[] rotateRight(final int offa, final int offb, final int length, final long[] a, final long[] b)
     {
         final long buff = b[offb + length - 1];
         for(int i = length - 1; i > 0; i--)
@@ -466,7 +520,7 @@ public class Arr
         return a;
     }
 
-    public static float[] shiftRight(final int offa, final int offb, final int length, final float[] a, final float[] b)
+    public static float[] rotateRight(final int offa, final int offb, final int length, final float[] a, final float[] b)
     {
         final float buff = b[offb + length - 1];
         for(int i = length - 1; i > 0; i--)
@@ -477,9 +531,31 @@ public class Arr
         return a;
     }
 
-    public static double[] shiftRight(final int offa, final int offb, final int length, final double[] a, final double[] b)
+    public static double[] rotateRight(final int offa, final int offb, final int length, final double[] a, final double[] b)
     {
         final double buff = b[offb + length - 1];
+        for(int i = length - 1; i > 0; i--)
+        {
+            a[offa + i] = b[offb + i - 1];
+        }
+        a[offa] = (b == a) ? buff : b[offb + length - 1];
+        return a;
+    }
+
+    public static boolean[] rotateRight(final int offa, final int offb, final int length, final boolean[] a, final boolean[] b)
+    {
+        final boolean buff = b[offb + length - 1];
+        for(int i = length - 1; i > 0; i--)
+        {
+            a[offa + i] = b[offb + i - 1];
+        }
+        a[offa] = (b == a) ? buff : b[offb + length - 1];
+        return a;
+    }
+
+    public static char[] rotateRight(final int offa, final int offb, final int length, final char[] a, final char[] b)
+    {
+        final char buff = b[offb + length - 1];
         for(int i = length - 1; i > 0; i--)
         {
             a[offa + i] = b[offb + i - 1];
@@ -500,34 +576,44 @@ public class Arr
      * @param b The source array
      * @return  The target array
      */
-    public static byte[] shiftRight(final byte[] a, final byte[] b)
+    public static byte[] rotateRight(final byte[] a, final byte[] b)
     {
-        return shiftRight(0, 0, a.length, a, b);
+        return rotateRight(0, 0, a.length, a, b);
     }
 
-    public static short[] shiftRight(final short[] a, final short[] b)
+    public static short[] rotateRight(final short[] a, final short[] b)
     {
-        return shiftRight(0, 0, a.length, a, b);
+        return rotateRight(0, 0, a.length, a, b);
     }
 
-    public static int[] shiftRight(final int[] a, final int[] b)
+    public static int[] rotateRight(final int[] a, final int[] b)
     {
-        return shiftRight(0, 0, a.length, a, b);
+        return rotateRight(0, 0, a.length, a, b);
     }
 
-    public static long[] shiftRight(final long[] a, final long[] b)
+    public static long[] rotateRight(final long[] a, final long[] b)
     {
-        return shiftRight(0, 0, a.length, a, b);
+        return rotateRight(0, 0, a.length, a, b);
     }
 
-    public static float[] shiftRight(final float[] a, final float[] b)
+    public static float[] rotateRight(final float[] a, final float[] b)
     {
-        return shiftRight(0, 0, a.length, a, b);
+        return rotateRight(0, 0, a.length, a, b);
     }
 
-    public static double[] shiftRight(final double[] a, final double[] b)
+    public static double[] rotateRight(final double[] a, final double[] b)
     {
-        return shiftRight(0, 0, a.length, a, b);
+        return rotateRight(0, 0, a.length, a, b);
+    }
+
+    public static boolean[] rotateRight(final boolean[] a, final boolean[] b)
+    {
+        return rotateRight(0, 0, a.length, a, b);
+    }
+
+    public static char[] rotateRight(final char[] a, final char[] b)
+    {
+        return rotateRight(0, 0, a.length, a, b);
     }
 
 
@@ -548,7 +634,7 @@ public class Arr
         {   
             while(a[i - 1] == a[i])
             {
-                shiftLeft(i, i, offset + length - i, a, a);
+                rotateLeft(i, i, offset + length - i, a, a);
                 last--;
                 if(i == last)
                 {
@@ -568,7 +654,7 @@ public class Arr
         {   
             while(a[i - 1] == a[i])
             {
-                shiftLeft(i, i, offset + length - i, a, a);
+                rotateLeft(i, i, offset + length - i, a, a);
                 last--;
                 if(i == last)
                 {
@@ -588,7 +674,7 @@ public class Arr
         {   
             while(a[i - 1] == a[i])
             {
-                shiftLeft(i, i, offset + length - i, a, a);
+                rotateLeft(i, i, offset + length - i, a, a);
                 last--;
                 if(i == last)
                 {
@@ -608,7 +694,7 @@ public class Arr
         {   
             while(a[i - 1] == a[i])
             {
-                shiftLeft(i, i, offset + length - i, a, a);
+                rotateLeft(i, i, offset + length - i, a, a);
                 last--;
                 if(i == last)
                 {
@@ -628,7 +714,7 @@ public class Arr
         {   
             while(Math.abs(a[i - 1] - a[i]) < eps)
             {
-                shiftLeft(i, i, offset + length - i, a, a);
+                rotateLeft(i, i, offset + length - i, a, a);
                 last--;
                 if(i == last)
                 {
@@ -648,7 +734,47 @@ public class Arr
         {   
             while(Math.abs(a[i - 1] - a[i]) < eps)
             {
-                shiftLeft(i, i, offset + length - i, a, a);
+                rotateLeft(i, i, offset + length - i, a, a);
+                last--;
+                if(i == last)
+                {
+                    return last - offset;
+                }
+            }
+            i++;
+        }
+        return length;
+    }
+
+    public static int unique(final int offset, final int length, final boolean[] a)
+    {
+        int last = offset + length;
+        int i = offset + 1;
+        while(i < last)
+        {   
+            while(a[i - 1] == a[i])
+            {
+                rotateLeft(i, i, offset + length - i, a, a);
+                last--;
+                if(i == last)
+                {
+                    return last - offset;
+                }
+            }
+            i++;
+        }
+        return length;
+    }
+        
+    public static int unique(final int offset, final int length, final char[] a)
+    {
+        int last = offset + length;
+        int i = offset + 1;
+        while(i < last)
+        {   
+            while(a[i - 1] == a[i])
+            {
+                rotateLeft(i, i, offset + length - i, a, a);
                 last--;
                 if(i == last)
                 {
@@ -695,6 +821,16 @@ public class Arr
     public static int unique(final double[] a, final double eps)
     {
         return unique(0, a.length, a, eps);
+    }
+    
+    public static int unique(final boolean[] a)
+    {
+        return unique(0, a.length, a);
+    }
+    
+    public static int unique(final char[] a)
+    {
+        return unique(0, a.length, a);
     }
     
     
@@ -745,6 +881,19 @@ public class Arr
         return unique(offa, length, a, eps);
     }
 
+    public static int unique(final int offa, final int offb, final int length, final boolean[] a, final boolean[] b)
+    {
+        System.arraycopy(b, offb, a, offa, length);
+        return unique(offa, length, a);
+    }
+    
+    public static int unique(final int offa, final int offb, final int length, final char[] a, final char[] b)
+    {
+        System.arraycopy(b, offb, a, offa, length);
+        return unique(offa, length, a);
+    }
+    
+    
     /**
      * Moves duplicate values to the end of an array and returns the length
      * of the duplicate-free segment.
@@ -781,6 +930,16 @@ public class Arr
     public static int unique(final double[] a, final double[] b, final double eps)
     {
         return unique(0, 0, a.length, a, b, eps);
+    }
+    
+    public static int unique(final boolean[] a, final boolean[] b)
+    {
+        return unique(0, 0, a.length, a, b);
+    }
+    
+    public static int unique(final char[] a, final char[] b)
+    {
+        return unique(0, 0, a.length, a, b);
     }
     
     
@@ -840,6 +999,22 @@ public class Arr
         return array;
     }
 
+
+    public static boolean[] swap(final boolean[] array, final int i, final int j)
+    {
+        final boolean s = array[i];
+        array[i] = array[j];
+        array[j] = s;
+        return array;
+    }
+
+    public static char[] swap(final char[] array, final int i, final int j)
+    {
+        final char s = array[i];
+        array[i] = array[j];
+        array[j] = s;
+        return array;
+    }
 
     
     /**
@@ -924,6 +1099,30 @@ public class Arr
         return -1;
     }
 
+    public static int find(final int offset, final int length, final boolean[] a, final boolean v)
+    {
+        for(int i = offset; i < offset + length; i++)
+        {
+            if(a[i] == v)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int find(final int offset, final int length, final char[] a, final char v)
+    {
+        for(int i = offset; i < offset + length; i++)
+        {
+            if(a[i] == v)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     
     
     /**
@@ -962,6 +1161,16 @@ public class Arr
     public static int find(final double[] a, final double v, final double eps)
     {
         return find(0, a.length, a, v, eps);
+    }
+
+    public static int find(final boolean[] a, final boolean v)
+    {
+        return find(0, a.length, a, v);
+    }
+
+    public static int find(final char[] a, final char v)
+    {
+        return find(0, a.length, a, v);
     }
 
 
@@ -1012,6 +1221,18 @@ public class Arr
         return a;
     }
 
+    public static boolean[] fill(final int offset, final int length, final boolean[] a, final boolean value)
+    {
+        Arrays.fill(a, offset, offset + length, value);
+        return a;
+    }
+
+    public static char[] fill(final int offset, final int length, final char[] a, final char value)
+    {
+        Arrays.fill(a, offset, offset + length, value);
+        return a;
+    }
+
     
     /**
      * Fills a segment of an array with a given value
@@ -1056,6 +1277,18 @@ public class Arr
         return a;
     }
     
+    public static boolean[] fill(final boolean[] a, final boolean value)
+    {
+        Arrays.fill(a, value);
+        return a;
+    }
+    
+    public static char[] fill(final char[] a, final char value)
+    {
+        Arrays.fill(a, value);
+        return a;
+    }
+    
     
     
     /**
@@ -1070,7 +1303,7 @@ public class Arr
      * @param  value The start-value.
      * @return The array
      */
-    public  static byte[] iota(final int offset, final int length, final byte[] a, final byte value)
+    public static byte[] iota(final int offset, final int length, final byte[] a, final byte value)
     {
         for(int i = 0; i < length; i++)
         {
@@ -1079,7 +1312,7 @@ public class Arr
         return a;
     }
     
-    public  static short[] iota(final int offset, final int length, final short[] a, final short value)
+    public static short[] iota(final int offset, final int length, final short[] a, final short value)
     {
         for(int i = 0; i < length; i++)
         {
@@ -1088,7 +1321,7 @@ public class Arr
         return a;
     }
     
-    public  static int[] iota(final int offset, final int length, final int[] a, final int value)
+    public static int[] iota(final int offset, final int length, final int[] a, final int value)
     {
         for(int i = 0; i < length; i++)
         {
@@ -1097,7 +1330,7 @@ public class Arr
         return a;
     }
     
-    public  static long[] iota(final int offset, final int length, final long[] a, final long value)
+    public static long[] iota(final int offset, final int length, final long[] a, final long value)
     {
         for(int i = 0; i < length; i++)
         {
@@ -1106,7 +1339,7 @@ public class Arr
         return a;
     }
     
-    public  static float[] iota(final int offset, final int length, final float[] a, final float value)
+    public static float[] iota(final int offset, final int length, final float[] a, final float value)
     {
         for(int i = 0; i < length; i++)
         {
@@ -1115,11 +1348,20 @@ public class Arr
         return a;
     }
     
-    public  static double[] iota(final int offset, final int length, final double[] a, final double value)
+    public static double[] iota(final int offset, final int length, final double[] a, final double value)
     {
         for(int i = 0; i < length; i++)
         {
             a[i + offset] = i + value;
+        }
+        return a;
+    }
+    
+    public static char[] iota(final int offset, final int length, final char[] a, final char value)
+    {
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = (char)(i + (int)value);
         }
         return a;
     }
@@ -1164,6 +1406,11 @@ public class Arr
         return iota(0, a.length, a, value);
     }
 
+    public static char[] iota(final char[] a, final char value)
+    {
+        return iota(0, a.length, a, value);
+    }
+
     /**
      * Fills the segment with sequentially increasing values, starting with
      * value and repetitively evaluating value += incr.
@@ -1176,7 +1423,7 @@ public class Arr
      * @param  value The start-value.
      * @return The array
      */
-    public  static byte[] iota(final int offset, final int length, final byte[] a, final byte value, final byte incr)
+    public static byte[] iota(final int offset, final int length, final byte[] a, final byte value, final byte incr)
     {
         int iter = value;
         for(int i = 0; i < length; i++)
@@ -1187,7 +1434,7 @@ public class Arr
         return a;
     }
     
-    public  static short[] iota(final int offset, final int length, final short[] a, final short value, final short incr)
+    public static short[] iota(final int offset, final int length, final short[] a, final short value, final short incr)
     {
         int iter = value;
         for(int i = 0; i < length; i++)
@@ -1198,7 +1445,7 @@ public class Arr
         return a;
     }
     
-    public  static int[] iota(final int offset, final int length, final int[] a, final int value, final int incr)
+    public static int[] iota(final int offset, final int length, final int[] a, final int value, final int incr)
     {
         int iter = value;
         for(int i = 0; i < length; i++)
@@ -1209,7 +1456,7 @@ public class Arr
         return a;
     }
     
-    public  static long[] iota(final int offset, final int length, final long[] a, final long value, final long incr)
+    public static long[] iota(final int offset, final int length, final long[] a, final long value, final long incr)
     {
         long iter = value;
         for(int i = 0; i < length; i++)
@@ -1220,7 +1467,7 @@ public class Arr
         return a;
     }
     
-    public  static float[] iota(final int offset, final int length, final float[] a, final float value, final float incr)
+    public static float[] iota(final int offset, final int length, final float[] a, final float value, final float incr)
     {
         float iter = value;
         for(int i = 0; i < length; i++)
@@ -1231,12 +1478,23 @@ public class Arr
         return a;
     }
     
-    public  static double[] iota(final int offset, final int length, final double[] a, final double value, final double incr)
+    public static double[] iota(final int offset, final int length, final double[] a, final double value, final double incr)
     {
         double iter = value;
         for(int i = 0; i < length; i++)
         {
             a[i + offset] = iter;
+            iter += incr;
+        }
+        return a;
+    }
+    
+    public static char[] iota(final int offset, final int length, final char[] a, final char value, final char incr)
+    {
+        int iter = value;
+        for(int i = 0; i < length; i++)
+        {
+            a[i + offset] = (char)iter;
             iter += incr;
         }
         return a;
@@ -1280,6 +1538,11 @@ public class Arr
     }
 
     public static double[] iota(final double[] a, final double value, final double incr)
+    {
+        return iota(0, a.length, a, value, incr);
+    }
+
+    public static char[] iota(final char[] a, final char value, final char incr)
     {
         return iota(0, a.length, a, value, incr);
     }
@@ -1370,6 +1633,32 @@ public class Arr
         return a;
     }
     
+    public static boolean[] reverse(final int offset, final int length, final boolean[] a)
+    {
+        boolean buff;
+        int backwIter =  offset + length - 1;
+        for(int i = offset; i < offset + (length >> 1); i++)
+        {
+            buff = a[i];
+            a[i] = a[backwIter];
+            a[backwIter--] = buff;
+        }
+        return a;
+    }
+    
+    public static char[] reverse(final int offset, final int length, final char[] a)
+    {
+        char buff;
+        int backwIter =  offset + length - 1;
+        for(int i = offset; i < offset + (length >> 1); i++)
+        {
+            buff = a[i];
+            a[i] = a[backwIter];
+            a[backwIter--] = buff;
+        }
+        return a;
+    }
+    
     /**
      * Reverses the order of the elements in the segment
      * 
@@ -1402,6 +1691,16 @@ public class Arr
     }
 
     public static double[] reverse(final double[] a)
+    {
+        return reverse(0, a.length, a);
+    }
+
+    public static boolean[] reverse(final boolean[] a)
+    {
+        return reverse(0, a.length, a);
+    }
+
+    public static char[] reverse(final char[] a)
     {
         return reverse(0, a.length, a);
     }
@@ -1478,6 +1777,26 @@ public class Arr
         return a;
     }
 
+    public static boolean[] reverse(final int offa, final int offb, final int length, final boolean[] a, final boolean[] b)
+    {
+        int backwIter = length - 1;
+        for(int i = 0; i < (length >> 1); i++)
+        {
+            a[i + offa] = b[backwIter-- + offb];
+        }
+        return a;
+    }
+    
+    public static char[] reverse(final int offa, final int offb, final int length, final char[] a, final char[] b)
+    {
+        int backwIter = length - 1;
+        for(int i = 0; i < (length >> 1); i++)
+        {
+            a[i + offa] = b[backwIter-- + offb];
+        }
+        return a;
+    }
+
     
     /**
      * Reverses the order of the elements in the segment. a and b must be
@@ -1513,6 +1832,16 @@ public class Arr
     }
     
     public static double[] reverse(final double[] a, final double[] b)
+    {
+        return reverse(0, 0, a.length, a, b);
+    }
+    
+    public static boolean[] reverse(final boolean[] a, final boolean[] b)
+    {
+        return reverse(0, 0, a.length, a, b);
+    }
+    
+    public static char[] reverse(final char[] a, final char[] b)
     {
         return reverse(0, 0, a.length, a, b);
     }
