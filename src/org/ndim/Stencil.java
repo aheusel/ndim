@@ -55,11 +55,11 @@ public class Stencil extends Grid
     public Stencil(final int nrDims)
     {
         super(new int[nrDims]);
-        last = extent.length - 1;
+        last = _extent.length - 1;
     }
 
     /**
-     * Create a Stencil which will start at <code>0</code> and will iterate <code>extent[i]</code>
+     * Create a Stencil which will start at <code>0</code> and will iterate <code>_extent[i]</code>
      * strides in each dimension.
      */
     public Stencil(final int... extent)
@@ -72,7 +72,7 @@ public class Stencil extends Grid
     @Override
     public final Stencil clone()
     {
-        return new Stencil(extent);
+        return new Stencil(_extent);
     }
 
 
@@ -83,7 +83,7 @@ public class Stencil extends Grid
      */
     public final boolean hasNext(final int[] pos)
     {
-        return pos[last] != extent[last];
+        return pos[last] != _extent[last];
     }
 
     /**
@@ -95,7 +95,7 @@ public class Stencil extends Grid
         for(int i = 0; i < last; i++)
         {
             pos[i]++;
-            if(pos[i] < extent[i])
+            if(pos[i] < _extent[i])
             {
                 return;
             }
@@ -117,15 +117,32 @@ public class Stencil extends Grid
      */
     public final boolean isAtEnd(final int... pos)
     {
-        for(int i = 0; i < extent.length; i++)
+        for(int i = 0; i < _extent.length; i++)
         {
-            if(pos[i] == (extent[i] - 1))
+            if(pos[i] == (_extent[i] - 1))
             {
                 return true;
             }
         }
-        return false;
-        
+        return false;   
+    }
+    
+    /**
+     * 
+     * @param pos
+     * @return 
+     */
+    public final int atEnd(final int... pos)
+    {
+        int res = 0;
+        for(int i = 0; i < pos.length; i++)
+        {
+            if(pos[i] == (_extent[i] - 1))
+            {
+                res |= (1 << i);
+            }
+        }
+        return res;
     }
 
     /**
@@ -139,21 +156,21 @@ public class Stencil extends Grid
      */
     public final boolean isAtEnd(final int idx, final int pos)
     {
-        return pos == (extent[idx] - 1);
+        return pos == (_extent[idx] - 1);
     }
 
     /**
-     * Determines whether the given position is in the extent or not.
+     * Determines whether the given position is in the _extent or not.
      *
      * @param pos The coordinate.
      * @return <code>true</code> if the coordinate is inside, <code>false</code>
-     * if it is outside the extent.
+     * if it is outside the _extent.
      */
     public final boolean isIn(final int... pos)
     {
-        for(int i = 0; i < extent.length; i++)
+        for(int i = 0; i < _extent.length; i++)
         {
-            if(!inRange(pos[i], extent[i]))
+            if(!inRange(pos[i], _extent[i]))
             {
                 return false;
             }
@@ -162,17 +179,17 @@ public class Stencil extends Grid
     }
 
     /**
-     * Determines whether the given position is in the extent of the dimension
+     * Determines whether the given position is in the _extent of the dimension
      * denoted with idx or not.
      *
      * @param idx The dimension-index
      * @param pos The coordinate.
      * @return <code>true</code> if the coordinate is inside, <code>false</code>
-     * if it is outside the extent.
+     * if it is outside the _extent.
      */
     public final boolean isIn(final int idx, final int pos)
     {
-        return inRange(pos, extent[idx]);
+        return inRange(pos, _extent[idx]);
     }
 
     /**
@@ -185,10 +202,10 @@ public class Stencil extends Grid
     public final boolean isOnBorder(final int... pos)
     {
         int currentDim;
-        for (int i = 0; i < extent.length; i++)
+        for (int i = 0; i < _extent.length; i++)
         {
             currentDim = pos[i];
-            if (currentDim == 0 || currentDim == extent[i] - 1)
+            if (currentDim == 0 || currentDim == _extent[i] - 1)
             {
                 return true;
             }
@@ -206,7 +223,7 @@ public class Stencil extends Grid
     {
         for(int i = 0; i < nrDims(); i++)
         {
-            pos[i] = forceToRng(pos[i], extent[i]);
+            pos[i] = forceToRng(pos[i], _extent[i]);
         }
     }
 
@@ -219,7 +236,7 @@ public class Stencil extends Grid
      */
     public final int forceToRange(final int idx, final int pos)
     {
-        return forceToRng(pos, extent[idx]);
+        return forceToRng(pos, _extent[idx]);
     }
     
     
@@ -233,7 +250,7 @@ public class Stencil extends Grid
     {
         for(int i = 0; i < pos.length; i++)
         {
-            pos[i] = mirrorCoor(pos[i], extent[i]);
+            pos[i] = mirrorCoor(pos[i], _extent[i]);
         }
     }
 
@@ -248,7 +265,7 @@ public class Stencil extends Grid
      */    
     public final int mirrorCoordinate(final int idx, final int pos)
     {
-        return mirrorCoor(pos, extent[idx]);
+        return mirrorCoor(pos, _extent[idx]);
     }
     
 
@@ -263,7 +280,7 @@ public class Stencil extends Grid
     {
         for(int i = 0; i < pos.length; i++)
         {
-            pos[i] = tileCoor(pos[i], extent[i]);
+            pos[i] = tileCoor(pos[i], _extent[i]);
         }        
     }
     
@@ -278,7 +295,7 @@ public class Stencil extends Grid
      */    
     public final int tileCoordinate(final int idx, final int pos)
     {
-        return tileCoor(pos, extent[idx]);
+        return tileCoor(pos, _extent[idx]);
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -290,8 +307,8 @@ public class Stencil extends Grid
      * Determines if a coordinate is in range.
      *
      * @param x The coordinate-value to check.
-     * @param extent The extent of the coordinate-dimension.
-     * @return <code>true</code> if <code>x > -1</code> and <code>x < extent</code>
+     * @param _extent The _extent of the coordinate-dimension.
+     * @return <code>true</code> if <code>x > -1</code> and <code>x < _extent</code>
      */
     private static boolean inRange(final int x, final int extent)
     {
@@ -300,10 +317,10 @@ public class Stencil extends Grid
 
     
     /**
-     * Forces a coordinate to a given extent
+     * Forces a coordinate to a given _extent
      * 
      * @param x The coordinate-value.
-     * @param extent The extent of the coordinate-dimension
+     * @param _extent The _extent of the coordinate-dimension
      * @return The corrected coordinate
      */
     private static int forceToRng(final int x, final int extent)
@@ -321,11 +338,11 @@ public class Stencil extends Grid
     
     
     /**
-     * Forces a coordinate-value to the given extent. If the extent
+     * Forces a coordinate-value to the given _extent. If the _extent
      * is left the coordinate-value is mirrored back in.
      *
      * @param x The coordinate-value.
-     * @param extent The extent of the coordinate-dimension.
+     * @param _extent The _extent of the coordinate-dimension.
      * @return The mirrored coordinate-value
      */
     private static int mirrorCoor(final int x, final int extent)
@@ -339,12 +356,12 @@ public class Stencil extends Grid
     }
 
     /**
-     * Forces a coordinate-value to the given extent. If the extent
-     * is left on one border the coordinate-value reenters the extent
+     * Forces a coordinate-value to the given _extent. If the _extent
+     * is left on one border the coordinate-value reenters the _extent
      * on the opposite border.
      *
      * @param x The coordinate-value.
-     * @param extent The extent of the coordinate-dimension.
+     * @param _extent The _extent of the coordinate-dimension.
      * @return The tiled coordinate-value
      */
     private static int tileCoor(final int x, final int extent)

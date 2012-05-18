@@ -43,46 +43,46 @@ import org.ndim.math.Vec;
 public class Grid
 {
 
-    protected final int[] extent;
-    protected int nrEntities;
+    protected final int[] _extent;
+    protected int _nrEntities;
 
     /**
      */
     protected Grid(final int[] extent)
     {
-        this.extent = extent.clone();
-        nrEntities = (int) Vec.productOperator(extent);
+        _extent = extent.clone();
+        _nrEntities = (int) Vec.productOperator(extent);
     }
 
     /**
-     * Returns a copy of the extent of the grid
+     * Returns a copy of the _extent of the grid
      * 
-     * @return A copy of the extent of the grid.
+     * @return A copy of the _extent of the grid.
      */
     public final int[] extent()
     {
-        return extent.clone();
+        return _extent.clone();
     }
 
     /**
-     * Copies the extent of the grid to the given array
+     * Copies the _extent of the grid to the given array
      * 
-     * @param extent The array which contains the grid-extent after the call.
+     * @param _extent The array which contains the grid-_extent after the call.
      */
     public final void extent(final int[] extent)
     {
-        System.arraycopy(this.extent, 0, extent, 0, Math.min(extent.length, this.extent.length));
+        System.arraycopy(_extent, 0, extent, 0, Math.min(extent.length, _extent.length));
     }
 
     /**
-     * Returns the extent of the <code>idx</code>-th dimension.
+     * Returns the _extent of the <code>idx</code>-th dimension.
      *
      * @param idx The index of the dimension
-     * @return The extent of this dimension
+     * @return The _extent of this dimension
      */
     public final int extent(int idx)
     {
-        return extent[idx];
+        return _extent[idx];
     }
 
     /**
@@ -92,7 +92,7 @@ public class Grid
      */
     public final int nrDims()
     {
-        return extent.length;
+        return _extent.length;
     }
 
     /**
@@ -102,7 +102,7 @@ public class Grid
      */
     public final int nrEntities()
     {
-        return nrEntities;
+        return _nrEntities;
     }
     
 }

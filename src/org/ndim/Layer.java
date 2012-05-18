@@ -29,43 +29,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.ndim;
-
-import java.util.HashMap;
 
 /**
  *
  * @author Alexander Heusel
  */
-public class CODECRegistry extends HashMap<String, CODEC>
-{    
-    private static final CODECRegistry _instance;
+public class Layer
+{
     
-    static
-    {
-        _instance = new CODECRegistry();
-        
-        TiffCODEC.init();
-    }
-    
-    public static CODEC getCODEC(final String key)
-    {
-        return _instance.get(key);
-    }
-    
-    public static void registerCODEC(final String key, final CODEC codec)
-    {
-        _instance.put(key, codec);
-    }
-    
-    public static void removeCODEC(final String key)
-    {
-        _instance.remove(key);
-    }
-        
-    private CODECRegistry()
-    {
-        super();
-    }
 }

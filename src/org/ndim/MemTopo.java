@@ -77,8 +77,8 @@ import org.ndim.util.Arr;
 public final class MemTopo
 {
 
-    private final int tupleIncr;
-    private final int[] elementIncr;
+    private final int _tupleIncr;
+    private final int[] _elementIncr;
 
 
     /**
@@ -92,20 +92,20 @@ public final class MemTopo
     {
         if(interleaved)
         {
-            tupleIncr = nrElements;
-            elementIncr = Arr.iota(new int[nrElements], 0);
+            _tupleIncr = nrElements;
+            _elementIncr = Arr.iota(new int[nrElements], 0);
         }
         else
         {
-            tupleIncr = 1;
-            elementIncr = Arr.iota(new int[nrElements], 0, nrTuples);
+            _tupleIncr = 1;
+            _elementIncr = Arr.iota(new int[nrElements], 0, nrTuples);
         }
     }
 
     private MemTopo(final int tupleIncr, final int[] elementIncr)
     {
-        this.tupleIncr = tupleIncr;
-        this.elementIncr = elementIncr;
+        this._tupleIncr = tupleIncr;
+        this._elementIncr = elementIncr;
     }
 
 
@@ -116,7 +116,7 @@ public final class MemTopo
      */
     public final int tupleIncr()
     {
-        return tupleIncr;
+        return _tupleIncr;
     }
 
     /**
@@ -127,7 +127,7 @@ public final class MemTopo
      */
     public final int elementIncr(int idx)
     {
-        return elementIncr[idx];
+        return _elementIncr[idx];
     }
 
     /**
@@ -137,7 +137,7 @@ public final class MemTopo
      */    
     public final int[] elementIncr()
     {
-        return elementIncr.clone();
+        return _elementIncr.clone();
     }
 
     /**
@@ -147,7 +147,7 @@ public final class MemTopo
      */    
     public final void elementIncr(final int[] elementIncr)
     {
-        System.arraycopy(this.elementIncr, 0, elementIncr, 0, this.elementIncr.length);
+        System.arraycopy(this._elementIncr, 0, elementIncr, 0, this._elementIncr.length);
     }
     
     /**
@@ -157,7 +157,7 @@ public final class MemTopo
      */
     public final int nrElements()
     {
-        return elementIncr.length;
+        return _elementIncr.length;
     }
 
     /**
@@ -169,8 +169,8 @@ public final class MemTopo
     public final MemTopo subset(final int... tupleIdx)
     {
         final int[] newElementIncr = new int[tupleIdx.length];
-        Arr.coalesce(newElementIncr, elementIncr, tupleIdx);
-        return new MemTopo(tupleIncr, newElementIncr);
+        Arr.coalesce(newElementIncr, _elementIncr, tupleIdx);
+        return new MemTopo(_tupleIncr, newElementIncr);
     }
 
 

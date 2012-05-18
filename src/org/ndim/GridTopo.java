@@ -79,16 +79,16 @@ public final class GridTopo extends Grid
      */
     public static final int Z = 2;
 
-    private final int offset;
-    private final int[] incr;
-    private final int[] pageSize;
+    private final int _offset;
+    private final int[] _incr;
+    private final int[] _pageSize;
         
     /**
      * This constructor takes an arbitrary number of Integer objects. These
-     * integers are interpreted as the extent of the grid. The number of
+     * integers are interpreted as the _extent of the grid. The number of
      * dimensions of the grid is implicitly given by the <em>number of arguments</em>.
      *
-     * @param args The extent of the grid.
+     * @param args The _extent of the grid.
      */
     public GridTopo(final int... extent)
     {
@@ -98,9 +98,9 @@ public final class GridTopo extends Grid
     private GridTopo(final int[] extent, final int offset, final int[] incr, final int[] pageSize)
     {
         super(extent);
-        this.pageSize = pageSize;
-        this.offset = offset;
-        this.incr = incr;
+        _pageSize = pageSize;
+        _offset = offset;
+        _incr = incr;
         if(Vec.lessThan(incr, 1))
         {
             throw new java.lang.IllegalArgumentException("Illegal arguments in constructor!");
@@ -114,7 +114,7 @@ public final class GridTopo extends Grid
      */
     public final int offset()
     {
-        return offset;
+        return _offset;
     }
 
     /**
@@ -125,7 +125,7 @@ public final class GridTopo extends Grid
      */
     public final int incr(int idx)
     {
-        return incr[idx];
+        return _incr[idx];
     }
 
     /**
@@ -135,7 +135,7 @@ public final class GridTopo extends Grid
      */
     public final int[] incr()
     {
-        return incr.clone();
+        return _incr.clone();
     }
 
     /**
@@ -145,7 +145,7 @@ public final class GridTopo extends Grid
      */
     public final void incr(int[] incr)
     {
-        System.arraycopy(this.incr, 0, incr, 0, this.incr.length);
+        System.arraycopy(_incr, 0, incr, 0, _incr.length);
     }
     
     /**
@@ -156,7 +156,7 @@ public final class GridTopo extends Grid
     @Override
     public GridTopo clone()
     {
-        return new GridTopo(extent.clone(), offset, incr.clone(), pageSize.clone());
+        return new GridTopo(_extent.clone(), _offset, _incr.clone(), _pageSize.clone());
     }
         
     /**
@@ -166,15 +166,19 @@ public final class GridTopo extends Grid
      */
     public final GridTopo subspace(final int... dimIdx)
     {
-        if(dimIdx.length > nrDims())
+        final int[] cleanDimIdx = dimIdx.clone();
+        Arrays.sort(cleanDimIdx);
+        final int uniqueLength = Arr.unique(cleanDimIdx);
+        
+        if(uniqueLength > nrDims() || cleanDimIdx[uniqueLength - 1] > nrDims())
         {
-            throw new java.lang.IllegalArgumentException("Number of selected subspace-dimensions exceeds current dimensions.");
+            throw new java.lang.IllegalArgumentException("Argument contains to many or invalid dimension-indices.");
         }
         
-        final int[] newExtent = Arr.coalesce(new int[dimIdx.length], extent, dimIdx);
+        final int[] newExtent = Arr.coalesce(new int[dimIdx.length], _extent, dimIdx);
         final int[] newPageSize = Vec.products(new int[newExtent.length], newExtent);
-        final int[] newIncr = Arr.coalesce(new int[dimIdx.length], incr, dimIdx);
-        return new GridTopo(newExtent, offset, newIncr, newPageSize);
+        final int[] newIncr = Arr.coalesce(new int[dimIdx.length], _incr, dimIdx);
+        return new GridTopo(newExtent, _offset, newIncr, newPageSize);
     }
 
     /**
@@ -187,9 +191,9 @@ public final class GridTopo extends Grid
      */
     public final GridTopo resample(int[] start, int[] strides)
     {
-        final int[] newExtent = extent.clone();
-        final int[] newIncr = incr.clone();
-        int newOffset = offset;
+        final int[] newExtent = _extent.clone();
+        final int[] newIncr = _incr.clone();
+        int newOffset = _offset;
 
         for (int i = 0; i < start.length; i++)
         {
@@ -211,15 +215,15 @@ public final class GridTopo extends Grid
      */
     public final GridTopo invert(final int... args)
     {
-        final int[] endPos = new int[extent.length];
-        final int[] newIncr = new int[extent.length];
+        final int[] endPos = new int[_extent.length];
+        final int[] newIncr = new int[_extent.length];
         final int[] cleanArgs = args.clone();
        
         Arrays.sort(cleanArgs);
         final int uniqueLength = Arr.unique(cleanArgs);
         if(uniqueLength > nrDims() || cleanArgs[uniqueLength - 1] > nrDims())
         {
-            throw new java.lang.IllegalArgumentException("Argument contains invalid dimension-indices.");
+            throw new java.lang.IllegalArgumentException("Argument contains to many or invalid dimension-indices.");
         }
         
         int argIter = 0;
@@ -227,40 +231,40 @@ public final class GridTopo extends Grid
         {
             if (i == args[argIter])
             {
-                endPos[i] = extent[i] - 1;
-                newIncr[i] = -incr[i];
+                endPos[i] = _extent[i] - 1;
+                newIncr[i] = -_incr[i];
                 argIter++;
             }
             else
             {
                 endPos[i] = 0;
-                newIncr[i] = incr[i];
+                newIncr[i] = _incr[i];
             }
         }
 
-        return new GridTopo(extent.clone(),
-                            addr(offset, incr, endPos),
-                            newIncr, pageSize.clone());
+        return new GridTopo(_extent.clone(),
+                            addr(_offset, _incr, endPos),
+                            newIncr, _pageSize.clone());
     }
 
     /**
      * Calculates the new offset and the new extents required to crop a field.
      * 
      * @param start The start-position of the crop-area
-     * @param extent The extent of the field after cropping.
+     * @param _extent The _extent of the field after cropping.
      * @return Reference to this GridTopo.
      */
     public final GridTopo crop(int[] start, int[] extent)
     {
-        final int[] newExtent = this.extent.clone();
+        final int[] newExtent = _extent.clone();
         for(int i = 0; i < extent.length; i++)
         {
             newExtent[i] = ((start[i] + extent[i] - 1) < newExtent[i]) ? extent[i] : newExtent[i] - start[i];
         }
 
         return new GridTopo(newExtent,
-                            addr(offset, incr, start),
-                            incr.clone(),
+                            addr(_offset, _incr, start),
+                            _incr.clone(),
                             Vec.products(new int[extent.length], extent));
     }
 
@@ -276,13 +280,13 @@ public final class GridTopo extends Grid
         {
             throw new java.lang.ArithmeticException("Negative border-values given!");
         }
-        return crop(borders, Vec.addMul(new int[extent.length], extent, borders, -2));
+        return crop(borders, Vec.addMul(new int[_extent.length], _extent, borders, -2));
     }
 
 
     public final GridTopo cropBorders(int size)
     {
-        return cropBorders(Arr.fill(new int[extent.length], size));
+        return cropBorders(Arr.fill(new int[_extent.length], size));
     }
 
     /**
@@ -297,12 +301,12 @@ public final class GridTopo extends Grid
         {
             throw new java.lang.ArithmeticException("Negative border-values given!");
         }
-        return crop(borders, Vec.sub(new int[extent.length], extent, borders));
+        return crop(borders, Vec.sub(new int[_extent.length], _extent, borders));
     }
 
     public final GridTopo trimBegin(int size)
     {
-        return trimBegin(Arr.fill(new int[extent.length], size));
+        return trimBegin(Arr.fill(new int[_extent.length], size));
     }
 
     /**
@@ -317,7 +321,7 @@ public final class GridTopo extends Grid
         {
             throw new java.lang.ArithmeticException("Negative border-values given!");
         }
-        int[] nExtent = Vec.sub(new int[extent.length], extent, borders);
+        int[] nExtent = Vec.sub(new int[_extent.length], _extent, borders);
         Arrays.fill(borders, 0);
         return crop(borders, nExtent);
     }
@@ -325,7 +329,7 @@ public final class GridTopo extends Grid
 
     public final GridTopo trimEnd(int size)
     {
-        return trimEnd(Arr.fill(new int[extent.length], size));
+        return trimEnd(Arr.fill(new int[_extent.length], size));
     }
 
     /**
@@ -336,7 +340,7 @@ public final class GridTopo extends Grid
      */
     public final GridTopo shrink(int size)
     {
-        return cropBorders(Arr.fill(new int[extent.length], size));
+        return cropBorders(Arr.fill(new int[_extent.length], size));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -357,12 +361,12 @@ public final class GridTopo extends Grid
     }
     
     /**
-     * Calculates the extent for a resampled field.
+     * Calculates the _extent for a resampled field.
      *
      * @param start The start-position for the resampling process
      * @param stride The stride-width for the resampling
-     * @param extent The extent of the field before the resampling
-     * @return The extent of the field after the resampling
+     * @param _extent The _extent of the field before the resampling
+     * @return The _extent of the field after the resampling
      */
     private static int normalizedExtent(int start, int stride, int extent)
     {

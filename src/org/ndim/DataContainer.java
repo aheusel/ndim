@@ -95,50 +95,50 @@ public class DataContainer extends Observable
     }
     
     
-    private final DataContainer.Allocator allocator;
-    private final ArrayList<Pair<MemTopo, Object>> layers = new ArrayList<Pair<MemTopo, Object>>(); 
-    private final GridTopo gridTopo;
+    private final DataContainer.Allocator _allocator;
+    private final ArrayList<Pair<MemTopo, Object>> _layers = new ArrayList<Pair<MemTopo, Object>>(); 
+    private final GridTopo _gridTopo;
     
     public DataContainer(final int... extent)
     {
-        gridTopo = new GridTopo(extent);
-        allocator = new DataContainer.StdAllocator();
+        _gridTopo = new GridTopo(extent);
+        _allocator = new DataContainer.StdAllocator();
     }
     
     public DataContainer(final GridTopo gridTopo)
     {
-        this.gridTopo = gridTopo.clone();
-        allocator = new DataContainer.StdAllocator();
+        this._gridTopo = gridTopo.clone();
+        _allocator = new DataContainer.StdAllocator();
     }
     
     public GridTopo gridTopo()
     {
-        return gridTopo;
+        return _gridTopo;
     }
     
     public Pair<MemTopo, Object> createLayer(Class cls, MemTopo memTopo)
     {
-        Pair<MemTopo, Object> p = new Pair<MemTopo, Object>(memTopo, allocator.alloc(gridTopo.nrEntities()*memTopo.nrElements(), cls));
-        layers.add(p);
+        Pair<MemTopo, Object> p = new Pair<MemTopo, Object>(memTopo, _allocator.alloc(_gridTopo.nrEntities()*memTopo.nrElements(), cls));
+        _layers.add(p);
         this.notifyObservers(p);
         return p;
     }
     
     public Pair<MemTopo, Object> removeLayer(final int idx)
     {
-        Pair<MemTopo, Object> p = layers.remove(idx);
+        Pair<MemTopo, Object> p = _layers.remove(idx);
         this.notifyObservers(p);
         return p;
     }
     
     public final int nrLayers()
     {
-        return layers.size();
+        return _layers.size();
     }
     
     public Pair<MemTopo, Object> layer(final int idx)
     {
-        return layers.get(idx);
+        return _layers.get(idx);
     }
     
     
