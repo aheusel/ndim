@@ -81,6 +81,9 @@ public class Vector3f extends Tuple3f
      */
     public void cross(Vector3f v1, Vector3f v2)
     {
+        this.x = v1.y*v2.z-v1.z*v2.y;
+        this.y = v1.z*v2.x-v1.x*v2.z;
+        this.z = v1.x*v2.y-v1.y*v2.x;
     }
 
     /**
@@ -119,7 +122,10 @@ public class Vector3f extends Tuple3f
      */
     public void normalize()
     {
-        throw new java.lang.UnsupportedOperationException("Unsupported operation.");
+        float norm = (float)Math.sqrt(x*x + y*y + z*z);
+        x /= norm;
+        y /= norm;
+        z /= norm;
     }
 
     /**
@@ -129,6 +135,9 @@ public class Vector3f extends Tuple3f
      */
     public void normalize(Vector3f v1)
     {
-        throw new java.lang.UnsupportedOperationException("Unsupported operation.");
+        float norm = (float)Math.sqrt(v1.x*v1.x + v1.y*v1.y + v1.z*v1.z);
+        x = v1.x / norm;
+        y = v1.y / norm;
+        z = v1.z / norm;
     }
 }

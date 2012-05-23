@@ -401,7 +401,9 @@ public class Tuple3f
      */
     public void sub(Tuple3f t1)
     {
-        throw new java.lang.UnsupportedOperationException("Unsupported operation.");
+        this.x -= t1.x;
+        this.y -= t1.y;
+        this.z -= t1.z;
     }
 
     /**
@@ -413,7 +415,9 @@ public class Tuple3f
      */
     public void sub(Tuple3f t1, Tuple3f t2)
     {
-        throw new java.lang.UnsupportedOperationException("Unsupported operation.");
+        this.x = t1.x - t2.x;
+        this.y = t1.y - t2.y;
+        this.z = t1.z - t2.z;
     }
 
     /**

@@ -89,9 +89,9 @@ public class MarchingCubes
         }
     }
     // Cell length in x, y, and z directions.
-    protected float[] h;
+    protected final float[] h = new float[3];
     // Offset to add to the generated Mesh
-    protected float[] offs;
+    protected final float[] offs = new float[3];
     // The threshold for the isosurface.
     protected float threshold;
     // Indicates whether a valid surface is present.
@@ -110,7 +110,8 @@ public class MarchingCubes
 
     public MarchingCubes()
     {
-        clear();
+        setGridSpacing(1.0f, 1.0f, 1.0f);
+        setOffset(0f, 0f, 0f);       
     }
 
     public MarchingCubes(float threshold, float h0, float h1, float h2)
@@ -154,7 +155,6 @@ public class MarchingCubes
 
     public final void setGridSpacing(float h0, float h1, float h2)
     {
-        h = new float[3];
         h[0] = h0;
         h[1] = h1;
         h[2] = h2;
@@ -162,12 +162,11 @@ public class MarchingCubes
 
     public final void setGridSpacing(float[] h)
     {
-        this.h = h.clone();
+        System.arraycopy(h, 0, this.h, 0, this.h.length);
     }
 
     public final void setOffset(float d0, float d1, float d2)
     {
-        offs = new float[3];
         offs[0] = d0;
         offs[1] = d1;
         offs[2] = d2;
@@ -175,7 +174,7 @@ public class MarchingCubes
     
     public final void setOffset(float[] offs)
     {
-        this.offs = offs.clone();
+        System.arraycopy(offs, 0, this.offs, 0, this.offs.length);
     }
 
     public final void setSubsampling(int samples)
