@@ -42,7 +42,7 @@ import org.ndim.GridTopo;
 import org.ndim.MemTopo;
 import org.ndim.Stencil;
 import org.ndim.math.Vec;
-import org.ndim.util.Arr;
+import org.ndim.Arrays.Algo;
 
 /**
  *
@@ -230,8 +230,8 @@ public class MarchingCubes
         final int incrY = op.incr(GridTopo.Y);
         final int incrZ = op.incr(GridTopo.Z);
         int addr;
-        final float[] posf = Arr.fill(new float[cropTopo.nrDims()], 0.0f);
-        final int[] pos = Arr.fill(new int[cropTopo.nrDims()], 0);
+        final float[] posf = Algo.fill(new float[cropTopo.nrDims()], 0.0f);
+        final int[] pos = Algo.fill(new int[cropTopo.nrDims()], 0);
         while(stencil.hasNext(pos))
         {
             addr =  op.addr(pos, 0);

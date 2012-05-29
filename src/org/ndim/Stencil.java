@@ -33,6 +33,8 @@
  */
 package org.ndim;
 
+import java.util.BitSet;
+
 /**
  * A class that performs a lexicographic iteration with given
  * start-coordinate.
@@ -145,6 +147,20 @@ public class Stencil extends Grid
         return res;
     }
 
+    /**
+     * 
+     * @param bs
+     * @param pos 
+     */
+    public final void atEnd(final BitSet bs, final int... pos)
+    {
+        for(int i = 0; i < pos.length; i++)
+        {
+            bs.set(i, pos[i] == (_extent[i] - 1));
+        } 
+    }
+    
+    
     /**
      * Determines whether the given position is at the last valid element of the
      * dimension denoted with idx or not.

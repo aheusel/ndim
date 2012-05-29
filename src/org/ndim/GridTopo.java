@@ -35,7 +35,7 @@ package org.ndim;
 
 import java.util.Arrays;
 import org.ndim.math.Vec;
-import org.ndim.util.Arr;
+import org.ndim.Arrays.Algo;
 
 /**
  * This <em>immutable</em> class is a describes how entities which are stored in an arbitrary linear
@@ -168,16 +168,16 @@ public final class GridTopo extends Grid
     {
         final int[] cleanDimIdx = dimIdx.clone();
         Arrays.sort(cleanDimIdx);
-        final int uniqueLength = Arr.unique(cleanDimIdx);
+        final int uniqueLength = Algo.unique(cleanDimIdx);
         
         if(uniqueLength > nrDims() || cleanDimIdx[uniqueLength - 1] > nrDims())
         {
             throw new java.lang.IllegalArgumentException("Argument contains to many or invalid dimension-indices.");
         }
         
-        final int[] newExtent = Arr.coalesce(new int[dimIdx.length], _extent, dimIdx);
+        final int[] newExtent = Algo.coalesce(new int[dimIdx.length], _extent, dimIdx);
         final int[] newPageSize = Vec.products(new int[newExtent.length], newExtent);
-        final int[] newIncr = Arr.coalesce(new int[dimIdx.length], _incr, dimIdx);
+        final int[] newIncr = Algo.coalesce(new int[dimIdx.length], _incr, dimIdx);
         return new GridTopo(newExtent, _offset, newIncr, newPageSize);
     }
 
@@ -220,7 +220,7 @@ public final class GridTopo extends Grid
         final int[] cleanArgs = args.clone();
        
         Arrays.sort(cleanArgs);
-        final int uniqueLength = Arr.unique(cleanArgs);
+        final int uniqueLength = Algo.unique(cleanArgs);
         if(uniqueLength > nrDims() || cleanArgs[uniqueLength - 1] > nrDims())
         {
             throw new java.lang.IllegalArgumentException("Argument contains to many or invalid dimension-indices.");
@@ -286,7 +286,7 @@ public final class GridTopo extends Grid
 
     public final GridTopo cropBorders(int size)
     {
-        return cropBorders(Arr.fill(new int[_extent.length], size));
+        return cropBorders(Algo.fill(new int[_extent.length], size));
     }
 
     /**
@@ -306,7 +306,7 @@ public final class GridTopo extends Grid
 
     public final GridTopo trimBegin(int size)
     {
-        return trimBegin(Arr.fill(new int[_extent.length], size));
+        return trimBegin(Algo.fill(new int[_extent.length], size));
     }
 
     /**
@@ -329,7 +329,7 @@ public final class GridTopo extends Grid
 
     public final GridTopo trimEnd(int size)
     {
-        return trimEnd(Arr.fill(new int[_extent.length], size));
+        return trimEnd(Algo.fill(new int[_extent.length], size));
     }
 
     /**
@@ -340,7 +340,7 @@ public final class GridTopo extends Grid
      */
     public final GridTopo shrink(int size)
     {
-        return cropBorders(Arr.fill(new int[_extent.length], size));
+        return cropBorders(Algo.fill(new int[_extent.length], size));
     }
 
     ///////////////////////////////////////////////////////////////////////////

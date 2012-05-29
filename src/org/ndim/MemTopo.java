@@ -33,7 +33,7 @@
  */
 package org.ndim;
 
-import org.ndim.util.Arr;
+import org.ndim.Arrays.Algo;
 
 /**
  * The <em>immutable</em> class <em>MemTopo</em> is a description of an arbitrary linear
@@ -93,12 +93,12 @@ public final class MemTopo
         if(interleaved)
         {
             _tupleIncr = nrElements;
-            _elementIncr = Arr.iota(new int[nrElements], 0);
+            _elementIncr = Algo.iota(new int[nrElements], 0);
         }
         else
         {
             _tupleIncr = 1;
-            _elementIncr = Arr.iota(new int[nrElements], 0, nrTuples);
+            _elementIncr = Algo.iota(new int[nrElements], 0, nrTuples);
         }
     }
 
@@ -169,7 +169,7 @@ public final class MemTopo
     public final MemTopo subset(final int... tupleIdx)
     {
         final int[] newElementIncr = new int[tupleIdx.length];
-        Arr.coalesce(newElementIncr, _elementIncr, tupleIdx);
+        Algo.coalesce(newElementIncr, _elementIncr, tupleIdx);
         return new MemTopo(_tupleIncr, newElementIncr);
     }
 
